@@ -9,7 +9,7 @@ class ArduinoConnection
     int actualBufferInBit, actualBufferOutBit;
 
 public:
-    ArduinoConnection();
+    ArduinoConnection(int pinCLK,int pinOut,int pinIn);
     void wait();
 
 }
