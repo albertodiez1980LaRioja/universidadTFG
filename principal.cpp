@@ -38,10 +38,10 @@ void ArduinoConnection :: wait()
     if(this->pinCLK != -1){
         this->state++;
         if(this->state == 1){
-            digitalWrite (this->pinCLK, HIGH);
+            digitalWrite (this->pinCLK, LOW);
         }
         else if(this->state == 3){
-            digitalWrite (this->pinCLK, LOW);
+            digitalWrite (this->pinCLK, HIGH);
         }
         else if(this->state == 4){
             this->state=0;
