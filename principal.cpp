@@ -38,7 +38,7 @@ void ArduinoConnection :: wait()
 {
     if(this->pinCLK != -1){
         this->state++;
-        println("%d\n",this->state);
+        printf("%d\n",this->state);
         if(this->state == 1){
             digitalWrite (this->pinCLK, LOW);
         }
