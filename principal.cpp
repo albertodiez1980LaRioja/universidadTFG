@@ -41,5 +41,7 @@ int main(void)
     {
       digitalWrite (0, HIGH) ; delay (500) ;
       digitalWrite (0,  LOW) ; delay (500) ;
-    }*/ gcc - Wall - o blink blink.c - lwiringPi return 0;
+    }*/ 
+    //gcc - Wall - o blink blink.c - lwiringPi 
+    return 0;
 }
