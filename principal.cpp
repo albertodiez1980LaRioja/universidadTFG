@@ -8,7 +8,7 @@ class ArduinoConnection
     int lenghtBufferIn, lenghtBufferOut;
     int actualBufferIn, actualBufferOut;
     int actualBufferInBit, actualBufferOutBit;
-
+    int bitOUT,bitIN;
 public:
     ArduinoConnection(int pinCLK,int pinOut,int pinIn);
     void wait();
@@ -32,6 +32,7 @@ ArduinoConnection::ArduinoConnection(int pinCLK,int pinOut,int pinIn)
     }
     pinMode(this->pinOut, OUTPUT);
     pinMode(this->pinIn, INPUT);
+    this->bitOUT = 0;
 }
 
 void ArduinoConnection :: wait()
@@ -40,15 +41,24 @@ void ArduinoConnection :: wait()
         this->state++;
         printf("%d\n",this->state);
         if(this->state == 1){
+            if(this->bitOUT){
+                digitalWrite (this->pinOut, HIGH);
+                this->bitOUT = 0;
+            }
+            else{
+                digitalWrite (this->pinOut, LOW);
+                this->bitOUT = 1;
+            }
             digitalWrite (this->pinCLK, LOW);
         }
         else if(this->state == 3){
+            printf("entrada %d\n", digitalRead (this->pinIn));
             digitalWrite (this->pinCLK, HIGH);
         }
         else if(this->state == 4){
             this->state=0;
         }
-        delay(1000);
+        delay(20);
     }
 }
 
