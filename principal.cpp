@@ -3,7 +3,7 @@
 class ArduinoConnection
 {
     int state, pinCLK, pinOut, pinIn;
-    byte bufferOut[500], bufferIn[500];
+    unsigned char bufferOut[500], bufferIn[500];
     int lenghtBufferIn, lenghtBufferOut;
     int actualBufferIn, actualBufferOut;
     int actualBufferInBit, actualBufferOutBit;
@@ -14,7 +14,7 @@ public:
 
 }
 
-ArduinoConnection::ArduinoConnection(int pinCLK, pinOut, pinIn)
+ArduinoConnection::ArduinoConnection(int pinCLK,int pinOut,int pinIn)
 {
     this->state = 0;
     this->pinCLK = pinCLK;
