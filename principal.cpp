@@ -12,7 +12,7 @@ public:
     ArduinoConnection(int pinCLK,int pinOut,int pinIn);
     void wait();
 
-}
+};
 
 ArduinoConnection::ArduinoConnection(int pinCLK,int pinOut,int pinIn)
 {
@@ -28,14 +28,14 @@ ArduinoConnection::ArduinoConnection(int pinCLK,int pinOut,int pinIn)
     this->actualBufferOutBit = 0;
 }
 
-void ArduinoConnection : wait()
+void ArduinoConnection :: wait()
 {
 }
 
 int main(void)
 {
     wiringPiSetup();
-    ArduinoConnection *arduinoConnection = new ArduinoConnection(22, 23, 24);
+    ArduinoConnection arduinoConnection(22, 23, 24);
     /*pinMode (0, OUTPUT) ;
     for (;;)
     {
