@@ -1,4 +1,5 @@
 #include <wiringPi.h>
+#include <stdio.h>
 
 class ArduinoConnection
 {
