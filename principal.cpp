@@ -26,16 +26,38 @@ ArduinoConnection::ArduinoConnection(int pinCLK,int pinOut,int pinIn)
     this->actualBufferOut = 0;
     this->actualBufferInBit = 0;
     this->actualBufferOutBit = 0;
+    if(pinCLK != -1){
+        pinMode (this->pinCLK , OUTPUT) ;
+    }
+    pinMode(this->pinOut, OUTPUT);
+    pinMode(this->pinIn, INPUT);
 }
 
 void ArduinoConnection :: wait()
 {
+    if(this->pinCLK != -1){
+        this->state++;
+        if(this->state == 1){
+            digitalWrite (this->pinCLK, HIGH);
+        }
+        else if(this->state == 3){
+            digitalWrite (this->pinCLK, LOW);
+        }
+        else if(this->state == 4){
+            this->state=0;
+        }
+        delay(1);
+    }
 }
 
 int main(void)
 {
     wiringPiSetup();
     ArduinoConnection arduinoConnection(22, 23, 24);
+
+    while(true){
+        arduinoConnection.wait();
+    }
     /*pinMode (0, OUTPUT) ;
     for (;;)
     {
