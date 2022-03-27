@@ -48,7 +48,7 @@ void ArduinoConnection :: wait()
         else if(this->state == 4){
             this->state=0;
         }
-        delay(1);
+        delay(1000);
     }
 }
 
