@@ -36,7 +36,7 @@ ArduinoConnection::ArduinoConnection(int pinCLK,int pinOut,int pinIn)
 }
 
 void ArduinoConnection :: wait()
-{
+{ 
     if(this->pinCLK != -1){
         this->state++;
         //printf("%d\n",this->state);
@@ -58,8 +58,8 @@ void ArduinoConnection :: wait()
         else if(this->state == 4){
             this->state=0;
         }
-        delay(1);
-    }
+        delay(5); 
+    }  
 }
 
 int main(void)
