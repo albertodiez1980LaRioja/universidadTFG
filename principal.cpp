@@ -52,7 +52,7 @@ void ArduinoConnection :: wait()
             digitalWrite (this->pinCLK, LOW);
         }
         else if(this->state == 3){
-            int aux = digitalRead (this->pinIn)
+            int aux = digitalRead (this->pinIn);
             //printf("entrada %d\n", aux);
             if (aux == this->lastRead)
                 printf("Fallo de sincronismo");
