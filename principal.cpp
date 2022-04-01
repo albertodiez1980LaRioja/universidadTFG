@@ -3,7 +3,7 @@
 
 class ArduinoConnection
 {
-    int state, pinCLK, pinOut, pinIn;
+    int state, pinCLK, pinOut, pinIn,lastRead;
     unsigned char bufferOut[500], bufferIn[500];
     int lenghtBufferIn, lenghtBufferOut;
     int actualBufferIn, actualBufferOut;
@@ -52,7 +52,11 @@ void ArduinoConnection :: wait()
             digitalWrite (this->pinCLK, LOW);
         }
         else if(this->state == 3){
-            printf("entrada %d\n", digitalRead (this->pinIn));
+            int aux = digitalRead (this->pinIn)
+            //printf("entrada %d\n", aux);
+            if (aux == this->lastRead)
+                printf("Fallo de sincronismo");
+            aux = this->lastRead;
             digitalWrite (this->pinCLK, HIGH);
         }
         else if(this->state == 4){
