@@ -67,7 +67,7 @@ void ArduinoConnection :: wait()
             this->lastRead = aux;
             this->state=0;
         }
-        delay(1);  
+        delay(5);  
     }  
 }
 
