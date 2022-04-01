@@ -41,6 +41,7 @@ void ArduinoConnection :: wait()
         this->state++;
         //printf("%d\n",this->state);
         if(this->state == 1){
+            digitalWrite (this->pinCLK, HIGH);
             if(this->bitOUT){
                 digitalWrite (this->pinOut, HIGH);
                 this->bitOUT = 0;
@@ -51,15 +52,12 @@ void ArduinoConnection :: wait()
             }
             digitalWrite (this->pinCLK, LOW);
         }
-        else if(this->state == 3){
+        else if(this->state == 2){
             int aux = digitalRead (this->pinIn);
             //printf("entrada %d\n", aux);
             if (aux == this->lastRead)
                 printf("Fallo de sincronismo");
             this->lastRead = aux;
-            digitalWrite (this->pinCLK, HIGH);
-        }
-        else if(this->state == 4){
             this->state=0;
         }
         delay(1);  
