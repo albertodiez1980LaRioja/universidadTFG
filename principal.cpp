@@ -57,11 +57,11 @@ void ArduinoConnection :: wait()
             else{
                 digitalWrite (this->pinOut, LOW);
                 this->bitOUT = 1;
-            }
-        }
+            }  
+        } 
         else if(this->state == 2){
             int aux = digitalRead (this->pinIn);
-            //printf("entrada %d\n", aux);
+            printf("entrada %d\n", aux);
             if (aux == this->lastRead)
                 printf("Fallo de sincronismo");
             this->lastRead = aux;
@@ -70,7 +70,7 @@ void ArduinoConnection :: wait()
         delay(5);  
     }  
 }
-
+  
 int main(void)
 {
     wiringPiSetup();
