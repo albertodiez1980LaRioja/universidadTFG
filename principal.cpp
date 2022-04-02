@@ -61,7 +61,7 @@ void ArduinoConnection ::wait()
                 digitalWrite(this->pinCLK, LOW);
                 this->bitCLK = 1;
             }
-            if (this->actualBufferOut < this->lenghtBufferOut)
+            if (this->actualBufferOut < (this->lenghtBufferOut*8))
             {
                 int numByte = this->actualBufferOut / 8;
                 int numBit = this->actualBufferOut % 8;
@@ -93,7 +93,7 @@ void ArduinoConnection ::wait()
         if (this->counter == 1000)
         {
             this->counter = 0;
-            //this->actualBufferOut = 0;
+            this->actualBufferOut = 0;
             this->lenghtBufferOut = 5;
 
         } 
