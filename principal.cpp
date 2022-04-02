@@ -25,8 +25,6 @@ ArduinoConnection::ArduinoConnection(int pinCLK, int pinOut, int pinIn)
     this->lenghtBufferOut = 0;
     this->actualBufferIn = 0;
     this->actualBufferOut = 0;
-    this->actualBufferInBit = 0;
-    this->actualBufferOutBit = 0;
     if (pinCLK != -1)
     {
         pinMode(this->pinCLK, OUTPUT);
@@ -40,7 +38,7 @@ ArduinoConnection::ArduinoConnection(int pinCLK, int pinOut, int pinIn)
     this->bufferOut[3] = 0;
     this->bufferOut[4] = 175;
     this->maskBit[0] = 1;
-    for(i=1;i<8;i++)
+    for(int i=1;i<8;i++)
         this->maskBit[i] = this->maskBit[i-1]*2;
     this->counter = 0;
 }
