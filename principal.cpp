@@ -66,6 +66,7 @@ void ArduinoConnection ::wait()
                 int numByte = this->actualBufferOut / 8;
                 int numBit = this->actualBufferOut % 8;
                 printf("byte: %d,bit %d valor: %d\n",numByte,numBit,this->bufferOut[numByte] & this->maskBit[numBit]);
+                printf("%d\n",this->actualBufferOut);
                 //this->bitOUT = 
                 if (/*this->bitOUT*/ this->bufferOut[numByte] & this->maskBit[numBit])
                 {
@@ -94,7 +95,8 @@ void ArduinoConnection ::wait()
             this->counter = 0;
             this->actualBufferOut = 0;
             this->lenghtBufferOut = 5;
-        }
+            this->actualBufferOut = 0;
+        } 
     }
 }
 
