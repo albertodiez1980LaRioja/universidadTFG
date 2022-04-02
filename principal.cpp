@@ -37,9 +37,9 @@ ArduinoConnection::ArduinoConnection(int pinCLK, int pinOut, int pinIn)
     this->bufferOut[2] = 0;
     this->bufferOut[3] = 0;
     this->bufferOut[4] = 175;
-    this->maskBit[0] = 1;
+    this->maskBit[0] = 128;
     for(int i=1;i<8;i++)
-        this->maskBit[i] = this->maskBit[i-1]*2;
+        this->maskBit[i] = this->maskBit[i-1]/2;
     this->counter = 0;
 }
 
