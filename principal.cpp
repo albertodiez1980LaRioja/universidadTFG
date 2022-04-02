@@ -93,9 +93,9 @@ void ArduinoConnection ::wait()
         if (this->counter == 1000)
         {
             this->counter = 0;
-            this->actualBufferOut = 0;
+            //this->actualBufferOut = 0;
             this->lenghtBufferOut = 5;
-            this->actualBufferOut = 0;
+
         } 
     }
 }
