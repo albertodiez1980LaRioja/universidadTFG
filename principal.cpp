@@ -65,6 +65,7 @@ void ArduinoConnection ::wait()
             {
                 int numByte = this->actualBufferOut / 8;
                 int numBit = this->actualBufferOut % 8;
+                printf("byte: %d,bit %d valor: %d\n",numByte,numBit,this->bufferOut[numByte] & this->maskBit[numBit]);
                 //this->bitOUT = 
                 if (/*this->bitOUT*/ this->bufferOut[numByte] & this->maskBit[numBit])
                 {
@@ -80,9 +81,9 @@ void ArduinoConnection ::wait()
         else if (this->state == 2)
         {
             int aux = digitalRead(this->pinIn);
-            printf("entrada %d\n", aux);
-            if (aux == this->lastRead)
-                printf("Fallo de sincronismo");
+            //printf("entrada %d\n", aux);
+            //if (aux == this->lastRead)
+              //  printf("Fallo de sincronismo");
             this->lastRead = aux;
             this->state = 0;
         }
