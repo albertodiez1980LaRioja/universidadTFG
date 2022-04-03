@@ -91,7 +91,7 @@ void ArduinoConnection ::wait()
             this->lastRead = aux;
             this->state = 0;
         }
-        delay(2);
+        delay(5);
         this->counter++;
         if (this->counter == 3000)
         {
