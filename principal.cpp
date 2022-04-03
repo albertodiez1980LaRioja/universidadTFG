@@ -60,8 +60,8 @@ void ArduinoConnection ::wait()
             {
                 int numByte = this->actualBufferOut / 8;
                 int numBit = this->actualBufferOut % 8;
-                printf("byte: %d,bit %d valor: %d\n", numByte, numBit, this->bufferOut[numByte] & this->maskBit[numBit]);
-                printf("%d\n", this->actualBufferOut);
+                //printf("byte: %d,bit %d valor: %d\n", numByte, numBit, this->bufferOut[numByte] & this->maskBit[numBit]);
+                //printf("%d\n", this->actualBufferOut);
                 // this->bitOUT =
                 if (/*this->bitOUT*/ this->bufferOut[numByte] & this->maskBit[numBit])
                 {
@@ -103,7 +103,7 @@ void ArduinoConnection ::wait()
                     nowBufferIn = 0;
                     this->lenghtBufferOut = 2;
                 }
-                printf("Detectado nivel alto\n");
+                printf("Detectado nivel alto %d\n",read);
                 isIn = 1;
             }
             if (isIn)
