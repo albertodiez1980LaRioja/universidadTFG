@@ -92,7 +92,7 @@ void ArduinoConnection ::wait()
         else if (this->state == 2)
         {
             delay(msToDelay);
-            int aux = digitalRead(this->pinIn);
+            int read = digitalRead(this->pinIn);
 
             if (read){
                 if (!isIn){
@@ -104,8 +104,6 @@ void ArduinoConnection ::wait()
                 isIn = 1;
             }
             if (isIn){
-                int numByte = 0;
-                int numBit = 0;
                 if (this->nowBufferIn < (this->lenghtBufferOut * 8)){
                     int numByte = this->nowBufferIn / 8;
                     int numBit = this->nowBufferIn % 8;
@@ -124,12 +122,12 @@ void ArduinoConnection ::wait()
                             sum += bufferIn[i];
                         printf("byte ");
                         printf("%d ",i);
-                        printf("%d\n"bufferIn[i]);
+                        printf("%d\n",bufferIn[i]);
                     }
                     if (sum == (bufferIn[lenghtBufferOut - 2] * 256 + bufferIn[lenghtBufferOut - 1]))
-                        Serial.println("Paquete con checksum correcto\n");
+                        printf("Paquete con checksum correcto\n");
                     else
-                        Serial.println("Paquete con checksum incorrecto\n");
+                        printf("Paquete con checksum incorrecto\n");
                     isIn = 0;
                 }
                 nowBufferIn++;
