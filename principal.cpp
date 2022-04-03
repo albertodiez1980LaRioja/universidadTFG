@@ -119,7 +119,7 @@ void ArduinoConnection ::wait()
                         {
                             // esto funciona por que no se inicia hasta hacer un nuevo paquete, esto ocurre pasado 1 segundo de vuelta
                             // se podría mejorar bastante poniendo los bits en serie
-                            Serial.println("Fallo en el primer byte");
+                            printf("Fallo en el primer byte\n");
                             // nowBufferIn = 6;
                             // Serial.println(bufferIn[0]);
                             // bufferIn[0] = (bufferIn[0] % 128) * 2;
