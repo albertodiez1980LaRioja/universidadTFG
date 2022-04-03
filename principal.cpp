@@ -135,7 +135,7 @@ void ArduinoConnection ::wait()
             // printf("entrada %d\n", aux);
             // if (aux == this->lastRead)
             //   printf("Fallo de sincronismo");
-            this->lastRead = aux;
+            this->lastRead = read;
             this->state = 0;
         }
         delay(msToDelay);
