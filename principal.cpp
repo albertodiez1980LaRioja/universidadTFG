@@ -93,7 +93,7 @@ void ArduinoConnection ::wait()
         }
         delay(20);
         this->counter++;
-        if (this->counter == 3000)
+        if (this->counter == 200)
         {
             this->counter = 0;
             this->actualBufferOut = 0;
