@@ -19,7 +19,7 @@ public:
 
 ArduinoConnection::ArduinoConnection(int pinCLK, int pinOut, int pinIn)
 {
-    this->isIn=0;
+    this->isIn = 0;
     this->state = 0;
     this->pinCLK = pinCLK;
     this->pinOut = pinOut;
@@ -94,8 +94,10 @@ void ArduinoConnection ::wait()
             delay(msToDelay);
             int read = digitalRead(this->pinIn);
 
-            if (read){
-                if (!isIn){
+            if (read)
+            {
+                if (!isIn)
+                {
                     for (int i = 0; i < 50; i++)
                         bufferIn[i] = 0;
                     nowBufferIn = 0;
@@ -103,26 +105,46 @@ void ArduinoConnection ::wait()
                 }
                 isIn = 1;
             }
-            if (isIn){
-                if (this->nowBufferIn < (this->lenghtBufferOut * 8)){
+            if (isIn)
+            {
+                if (this->nowBufferIn < (this->lenghtBufferOut * 8))
+                {
                     int numByte = this->nowBufferIn / 8;
                     int numBit = this->nowBufferIn % 8;
                     if (read == HIGH)
                         bufferIn[numByte] = bufferIn[numByte] | maskBit[numBit];
-                    if (this->nowBufferIn == 15){
-                        this->lenghtBufferOut = bufferIn[1];
+                    if (this->nowBufferIn == 15)
+                    {
+                        if (bufferIn[0] != 170)
+                        {
+                            // esto funciona por que no se inicia hasta hacer un nuevo paquete, esto ocurre pasado 1 segundo de vuelta
+                            // se podría mejorar bastante poniendo los bits en serie
+                            Serial.println("Fallo en el primer byte");
+                            // nowBufferIn = 6;
+                            // Serial.println(bufferIn[0]);
+                            // bufferIn[0] = (bufferIn[0] % 128) * 2;
+                            // Serial.println(bufferIn[0]);
+                            nowBufferIn = 0;
+                            isIn = 0;
+                            // damos por hecho que entre paquete y paquete recibido habrá por lo menos 1 byte a ceros, de esta forma funcionará
+                            // también conviene que no haya ningún otro byte a 170
+                        }
+                        else
+                            this->lenghtBufferOut = bufferIn[1];
                     }
                 }
 
-                if (this->nowBufferIn == this->lenghtBufferOut * 8){
+                if (this->nowBufferIn == this->lenghtBufferOut * 8)
+                {
                     printf("Paquete recibido: \n");
                     int sum = 0;
-                    for (int i = 0; i < this->lenghtBufferOut; i++){
+                    for (int i = 0; i < this->lenghtBufferOut; i++)
+                    {
                         if (i < this->lenghtBufferOut - 1)
                             sum += bufferIn[i];
                         printf("byte ");
-                        printf("%d ",i);
-                        printf("%d\n",bufferIn[i]);
+                        printf("%d ", i);
+                        printf("%d\n", bufferIn[i]);
                     }
                     if (sum == (bufferIn[lenghtBufferOut - 2] * 256 + bufferIn[lenghtBufferOut - 1]))
                         printf("Paquete con checksum correcto\n");
