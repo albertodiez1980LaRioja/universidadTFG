@@ -10,6 +10,7 @@ class ArduinoConnection
     int counter;
     int bitOUT, bitIN, bitCLK;
     int maskBit[8];
+
 public:
     ArduinoConnection(int pinCLK, int pinOut, int pinIn);
     void wait();
@@ -38,36 +39,28 @@ ArduinoConnection::ArduinoConnection(int pinCLK, int pinOut, int pinIn)
     this->bufferOut[3] = 0;
     this->bufferOut[4] = 175;
     this->maskBit[0] = 128;
-    for(int i=1;i<8;i++)
-        this->maskBit[i] = this->maskBit[i-1]/2;
+    for (int i = 1; i < 8; i++)
+        this->maskBit[i] = this->maskBit[i - 1] / 2;
     this->counter = 0;
 }
 
 void ArduinoConnection ::wait()
 {
+    int msToDelay=1;
     if (this->pinCLK != -1)
     {
         this->state++;
         // printf("%d\n",this->state);
         if (this->state == 1)
         {
-            if (this->bitCLK)
-            {
-                digitalWrite(this->pinCLK, HIGH);
-                this->bitCLK = 0;
-            }
-            else
-            {
-                digitalWrite(this->pinCLK, LOW);
-                this->bitCLK = 1;
-            }
-            if (this->actualBufferOut < (this->lenghtBufferOut*8))
+
+            if (this->actualBufferOut < (this->lenghtBufferOut * 8))
             {
                 int numByte = this->actualBufferOut / 8;
                 int numBit = this->actualBufferOut % 8;
-                printf("byte: %d,bit %d valor: %d\n",numByte,numBit,this->bufferOut[numByte] & this->maskBit[numBit]);
-                printf("%d\n",this->actualBufferOut);
-                //this->bitOUT = 
+                printf("byte: %d,bit %d valor: %d\n", numByte, numBit, this->bufferOut[numByte] & this->maskBit[numBit]);
+                printf("%d\n", this->actualBufferOut);
+                // this->bitOUT =
                 if (/*this->bitOUT*/ this->bufferOut[numByte] & this->maskBit[numBit])
                 {
                     digitalWrite(this->pinOut, HIGH);
@@ -78,28 +71,40 @@ void ArduinoConnection ::wait()
                 }
                 this->actualBufferOut++;
             }
-            else{
+            else
+            {
                 digitalWrite(this->pinOut, LOW);
             }
+            if (this->bitCLK)
+            {
+                digitalWrite(this->pinCLK, HIGH);
+                this->bitCLK = 0;
+            }
+            else
+            {
+                digitalWrite(this->pinCLK, LOW);
+                this->bitCLK = 1;
+            }
+            delay(msToDelay);
         }
         else if (this->state == 2)
         {
+            delay(msToDelay);
             int aux = digitalRead(this->pinIn);
-            //printf("entrada %d\n", aux);
-            //if (aux == this->lastRead)
-              //  printf("Fallo de sincronismo");
+            // printf("entrada %d\n", aux);
+            // if (aux == this->lastRead)
+            //   printf("Fallo de sincronismo");
             this->lastRead = aux;
             this->state = 0;
         }
-        delay(2);
+        delay(msToDelay);
         this->counter++;
-        if (this->counter == 200)
+        if (this->counter == 250)
         {
             this->counter = 0;
             this->actualBufferOut = 0;
             this->lenghtBufferOut = 5;
-
-        } 
+        }
     }
 }
 
