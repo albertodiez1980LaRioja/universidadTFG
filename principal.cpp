@@ -6,10 +6,11 @@ class ArduinoConnection
     int state, pinCLK, pinOut, pinIn, lastRead;
     unsigned char bufferOut[500], bufferIn[500];
     int lenghtBufferIn, lenghtBufferOut;
-    int actualBufferIn, actualBufferOut;
+    int nowBufferIn, actualBufferOut;
     int counter;
     int bitOUT, bitIN, bitCLK;
     int maskBit[8];
+    int isIn;
 
 public:
     ArduinoConnection(int pinCLK, int pinOut, int pinIn);
@@ -18,13 +19,14 @@ public:
 
 ArduinoConnection::ArduinoConnection(int pinCLK, int pinOut, int pinIn)
 {
+    this->isIn=0;
     this->state = 0;
     this->pinCLK = pinCLK;
     this->pinOut = pinOut;
     this->pinIn = pinIn;
     this->lenghtBufferIn = 0;
     this->lenghtBufferOut = 0;
-    this->actualBufferIn = 0;
+    this->nowBufferIn = 0;
     this->actualBufferOut = 0;
     if (pinCLK != -1)
     {
@@ -46,7 +48,7 @@ ArduinoConnection::ArduinoConnection(int pinCLK, int pinOut, int pinIn)
 
 void ArduinoConnection ::wait()
 {
-    int msToDelay=1;
+    int msToDelay = 1;
     if (this->pinCLK != -1)
     {
         this->state++;
@@ -91,6 +93,47 @@ void ArduinoConnection ::wait()
         {
             delay(msToDelay);
             int aux = digitalRead(this->pinIn);
+
+            if (read){
+                if (!isIn){
+                    for (int i = 0; i < 50; i++)
+                        bufferIn[i] = 0;
+                    nowBufferIn = 0;
+                    this->lenghtBufferOut = 2;
+                }
+                isIn = 1;
+            }
+            if (isIn){
+                int numByte = 0;
+                int numBit = 0;
+                if (this->nowBufferIn < (this->lenghtBufferOut * 8)){
+                    int numByte = this->nowBufferIn / 8;
+                    int numBit = this->nowBufferIn % 8;
+                    if (read == HIGH)
+                        bufferIn[numByte] = bufferIn[numByte] | maskBit[numBit];
+                    if (this->nowBufferIn == 15){
+                        this->lenghtBufferOut = bufferIn[1];
+                    }
+                }
+
+                if (this->nowBufferIn == this->lenghtBufferOut * 8){
+                    printf("Paquete recibido: \n");
+                    int sum = 0;
+                    for (int i = 0; i < this->lenghtBufferOut; i++){
+                        if (i < this->lenghtBufferOut - 1)
+                            sum += bufferIn[i];
+                        printf("byte ");
+                        printf("%d ",i);
+                        printf("%d\n"bufferIn[i]);
+                    }
+                    if (sum == (bufferIn[lenghtBufferOut - 2] * 256 + bufferIn[lenghtBufferOut - 1]))
+                        Serial.println("Paquete con checksum correcto\n");
+                    else
+                        Serial.println("Paquete con checksum incorrecto\n");
+                    isIn = 0;
+                }
+                nowBufferIn++;
+            }
             // printf("entrada %d\n", aux);
             // if (aux == this->lastRead)
             //   printf("Fallo de sincronismo");
