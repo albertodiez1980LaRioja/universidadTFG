@@ -78,6 +78,9 @@ void ArduinoConnection ::wait()
                 }
                 this->actualBufferOut++;
             }
+            else{
+                digitalWrite(this->pinOut, LOW);
+            }
         }
         else if (this->state == 2)
         {
@@ -88,9 +91,9 @@ void ArduinoConnection ::wait()
             this->lastRead = aux;
             this->state = 0;
         }
-        delay(1);
+        delay(2);
         this->counter++;
-        if (this->counter == 1000)
+        if (this->counter == 3000)
         {
             this->counter = 0;
             this->actualBufferOut = 0;
