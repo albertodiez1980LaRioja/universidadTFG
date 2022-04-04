@@ -49,7 +49,7 @@ ArduinoConnection::ArduinoConnection(int pinCLK, int pinOut, int pinIn)
 void ArduinoConnection ::wait()
 {
     int msToDelay = 1;
-    printf("aqui");
+    //printf("aqui");
     if (this->pinCLK != -1)
     {
         this->state++;
@@ -107,6 +107,9 @@ void ArduinoConnection ::wait()
                 printf("Detectado nivel alto %d\n",read);
                 isIn = 1;
             } 
+            else{
+                printf("Detectado nivel bajo %d\n",read);
+            }
             if (isIn)
             {
                 if (this->nowBufferIn < (this->lenghtBufferOut * 8))
