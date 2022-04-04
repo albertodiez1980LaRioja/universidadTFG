@@ -94,7 +94,7 @@ void ArduinoConnection ::wait()
             delay(msToDelay);
             int read = digitalRead(this->pinIn);
 
-            if (read)
+            if (read == HIGH)
             {
                 if (!isIn)
                 {
