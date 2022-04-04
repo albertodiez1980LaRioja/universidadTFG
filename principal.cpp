@@ -105,7 +105,7 @@ void ArduinoConnection ::wait()
                 }
                 printf("Detectado nivel alto %d\n",read);
                 isIn = 1;
-            }
+            } 
             if (isIn)
             {
                 if (this->nowBufferIn < (this->lenghtBufferOut * 8))
