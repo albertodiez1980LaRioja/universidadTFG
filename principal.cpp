@@ -104,11 +104,11 @@ void ArduinoConnection ::wait()
                     nowBufferIn = 0;
                     this->lenghtBufferIn = 2;
                 }
-                printf("Detectado nivel alto %d\n",read);
+                //printf("Detectado nivel alto %d\n",read);
                 isIn = 1;
             } 
             else{
-                printf("Detectado nivel bajo %d\n",read);
+                //printf("Detectado nivel bajo %d\n",read);
             }
             if (isIn)
             {
