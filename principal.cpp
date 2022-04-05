@@ -149,9 +149,9 @@ void ArduinoConnection ::wait()
                         printf("%d\n", bufferIn[i]);
                     }
                     if (sum == (bufferIn[lenghtBufferIn - 2] * 256 + bufferIn[lenghtBufferIn - 1]))
-                        printf("Paquete con checksum correcto\n");
+                        printf("Paquete con checksum correcto\n\n");
                     else
-                        printf("Paquete con checksum incorrecto\n");
+                        printf("Paquete con checksum incorrecto\n\n");
                     isIn = 0;
                 }
                 nowBufferIn++;
