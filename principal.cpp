@@ -61,10 +61,7 @@ void ArduinoConnection ::wait()
             {
                 int numByte = this->actualBufferOut / 8;
                 int numBit = this->actualBufferOut % 8;
-                //printf("byte: %d,bit %d valor: %d\n", numByte, numBit, this->bufferOut[numByte] & this->maskBit[numBit]);
-                //printf("%d\n", this->actualBufferOut);
-                // this->bitOUT =
-                if (/*this->bitOUT*/ this->bufferOut[numByte] & this->maskBit[numBit])
+                if ( this->bufferOut[numByte] & this->maskBit[numBit])
                 {
                     digitalWrite(this->pinOut, HIGH);
                 }
@@ -167,7 +164,7 @@ void ArduinoConnection ::wait()
         }
         delay(msToDelay);
         this->counter++;
-        if (this->counter == 250)
+        if (this->counter == 500)
         {
             this->counter = 0;
             this->actualBufferOut = 0;
