@@ -102,7 +102,7 @@ void ArduinoConnection ::wait()
                     for (int i = 0; i < 50; i++)
                         bufferIn[i] = 0;
                     nowBufferIn = 0;
-                    this->lenghtBufferOut = 2;
+                    this->lenghtBufferIn = 2;
                 }
                 printf("Detectado nivel alto %d\n",read);
                 isIn = 1;
@@ -112,7 +112,7 @@ void ArduinoConnection ::wait()
             }
             if (isIn)
             {
-                if (this->nowBufferIn < (this->lenghtBufferOut * 8))
+                if (this->nowBufferIn < (this->lenghtBufferIn * 8))
                 {
                     int numByte = this->nowBufferIn / 8;
                     int numBit = this->nowBufferIn % 8;
@@ -135,23 +135,23 @@ void ArduinoConnection ::wait()
                             // también conviene que no haya ningún otro byte a 170
                         }
                         else
-                            this->lenghtBufferOut = bufferIn[1];
+                            this->lenghtBufferIn = bufferIn[1];
                     }
-                }
+                }  
 
-                if (this->nowBufferIn == this->lenghtBufferOut * 8)
+                if (this->nowBufferIn == this->lenghtBufferIn * 8)
                 {
                     printf("Paquete recibido: \n");
                     int sum = 0;
-                    for (int i = 0; i < this->lenghtBufferOut; i++)
+                    for (int i = 0; i < this->lenghtBufferIn; i++)
                     {
-                        if (i < this->lenghtBufferOut - 1)
+                        if (i < this->lenghtBufferIn - 1)
                             sum += bufferIn[i];
                         printf("byte ");
                         printf("%d ", i);
                         printf("%d\n", bufferIn[i]);
                     }
-                    if (sum == (bufferIn[lenghtBufferOut - 2] * 256 + bufferIn[lenghtBufferOut - 1]))
+                    if (sum == (bufferIn[lenghtBufferIn - 2] * 256 + bufferIn[lenghtBufferIn - 1]))
                         printf("Paquete con checksum correcto\n");
                     else
                         printf("Paquete con checksum incorrecto\n");
