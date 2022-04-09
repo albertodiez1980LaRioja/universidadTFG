@@ -15,7 +15,7 @@ class ArduinoConnection
 public:
     ArduinoConnection(int pinCLK, int pinOut, int pinIn);
     void wait();
-    calculateCheckSum(int *hightByte, int *lowByte, int *buffer, int lenght);
+    void calculateCheckSum(int *hightByte, int *lowByte, int *buffer, int lenght);
 };
 
 ArduinoConnection::ArduinoConnection(int pinCLK, int pinOut, int pinIn)
