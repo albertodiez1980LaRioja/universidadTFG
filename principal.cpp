@@ -15,7 +15,7 @@ class ArduinoConnection
 public:
     ArduinoConnection(int pinCLK, int pinOut, int pinIn);
     void wait();
-    calculateCheckSum(byte *hightByte, byte *lowByte, byte *buffer, int lenght);
+    calculateCheckSum(int *hightByte, int *lowByte, int *buffer, int lenght);
 };
 
 ArduinoConnection::ArduinoConnection(int pinCLK, int pinOut, int pinIn)
@@ -48,7 +48,7 @@ ArduinoConnection::ArduinoConnection(int pinCLK, int pinOut, int pinIn)
     this->counter = 0;
 }
 
-void ArduinoConnection::calculateCheckSum(byte *hightByte, byte *lowByte, byte *buffer, int lenght)
+void ArduinoConnection::calculateCheckSum(int *hightByte, int *lowByte, int *buffer, int lenght)
 {
     int sum = 0;
     for (int i = 0; i < lenght - 2; i++)
