@@ -15,6 +15,7 @@ class ArduinoConnection
 public:
     ArduinoConnection(int pinCLK, int pinOut, int pinIn);
     void wait();
+    calculateCheckSum(byte *hightByte, byte *lowByte, byte *buffer, int lenght);
 };
 
 ArduinoConnection::ArduinoConnection(int pinCLK, int pinOut, int pinIn)
@@ -38,18 +39,30 @@ ArduinoConnection::ArduinoConnection(int pinCLK, int pinOut, int pinIn)
     this->bufferOut[0] = 170;
     this->bufferOut[1] = 5;
     this->bufferOut[2] = 0;
-    this->bufferOut[3] = 0;
-    this->bufferOut[4] = 175;
+    this->calculateCheckSum(&this->bufferOut[3],&this->bufferOut[4],this->bufferOut,5);
+    //this->bufferOut[3] = 0;   
+    //this->bufferOut[4] = 175;
     this->maskBit[0] = 128;
     for (int i = 1; i < 8; i++)
         this->maskBit[i] = this->maskBit[i - 1] / 2;
     this->counter = 0;
 }
 
+void ArduinoConnection::calculateCheckSum(byte *hightByte, byte *lowByte, byte *buffer, int lenght)
+{
+    int sum = 0;
+    for (int i = 0; i < lenght - 2; i++)
+    {
+        sum += buffer[i];
+    }
+    *lowByte = sum % 128;
+    *hightByte = sum / 128;
+}
+
 void ArduinoConnection ::wait()
 {
     int msToDelay = 1;
-    //printf("aqui");
+    // printf("aqui");
     if (this->pinCLK != -1)
     {
         this->state++;
@@ -61,7 +74,7 @@ void ArduinoConnection ::wait()
             {
                 int numByte = this->actualBufferOut / 8;
                 int numBit = this->actualBufferOut % 8;
-                if ( this->bufferOut[numByte] & this->maskBit[numBit])
+                if (this->bufferOut[numByte] & this->maskBit[numBit])
                 {
                     digitalWrite(this->pinOut, HIGH);
                 }
@@ -101,11 +114,12 @@ void ArduinoConnection ::wait()
                     nowBufferIn = 0;
                     this->lenghtBufferIn = 2;
                 }
-                //printf("Detectado nivel alto %d\n",read);
+                // printf("Detectado nivel alto %d\n",read);
                 isIn = 1;
-            } 
-            else{
-                //printf("Detectado nivel bajo %d\n",read);
+            }
+            else
+            {
+                // printf("Detectado nivel bajo %d\n",read);
             }
             if (isIn)
             {
@@ -122,10 +136,6 @@ void ArduinoConnection ::wait()
                             // esto funciona por que no se inicia hasta hacer un nuevo paquete, esto ocurre pasado 1 segundo de vuelta
                             // se podría mejorar bastante poniendo los bits en serie
                             printf("Fallo en el primer byte\n");
-                            // nowBufferIn = 6;
-                            // Serial.println(bufferIn[0]);
-                            // bufferIn[0] = (bufferIn[0] % 128) * 2;
-                            // Serial.println(bufferIn[0]);
                             nowBufferIn = 0;
                             isIn = 0;
                             // damos por hecho que entre paquete y paquete recibido habrá por lo menos 1 byte a ceros, de esta forma funcionará
@@ -134,7 +144,7 @@ void ArduinoConnection ::wait()
                         else
                             this->lenghtBufferIn = bufferIn[1];
                     }
-                }  
+                }
 
                 if (this->nowBufferIn == this->lenghtBufferIn * 8)
                 {
