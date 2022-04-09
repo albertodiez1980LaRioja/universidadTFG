@@ -174,10 +174,10 @@ void ArduinoConnection ::wait()
             //   printf("Fallo de sincronismo");
             this->lastRead = read;
             this->state = 0;
-        }
+        } 
         delay(msToDelay);
-        this->counter++;
-        if (this->counter == 500)
+        this->counter++; 
+        if (this->counter == 1000)
         {
             this->counter = 0;
             this->actualBufferOut = 0;
