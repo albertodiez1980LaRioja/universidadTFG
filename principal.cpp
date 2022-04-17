@@ -183,7 +183,7 @@ void ArduinoConnection ::wait()
                         else
                             printf("Hay fuego\n");
 
-                        unsigned int personas=inDigital[3]+inDigital[3]*128;
+                        int personas=bufferIn[3]+bufferIn[3]*128;
                         if(personas>350)
                             printf("Personas detectadas\n");
                         else
