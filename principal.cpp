@@ -171,17 +171,17 @@ void ArduinoConnection ::wait()
                         else
                             printf("No hay vibración\n");
                         if (inDigital & 2)
-                            printf("Hay obtaculo\n");
+                            printf("No hay obtaculo\n");
                         else
-                            printf("No hay obstaculo\n");
+                            printf("Hay obstaculo\n");
                         if((inDigital & 4) )
                             printf("No luz\n");
                         else
                             printf("Hay luz\n");                            
                         if(inDigital & 8)
-                            printf("Hay fuego\n");
+                            printf("No hay fuego\n");
                         else
-                            printf("No hay fuego\n");    
+                            printf("Hay fuego\n");    
                     }
                     else
                         printf("Paquete con checksum incorrecto\n\n");
