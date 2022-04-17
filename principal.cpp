@@ -181,7 +181,13 @@ void ArduinoConnection ::wait()
                         if(inDigital & 8)
                             printf("No hay fuego\n");
                         else
-                            printf("Hay fuego\n");    
+                            printf("Hay fuego\n");
+
+                        int personas=inDigital[3]+inDigital[3]*128;
+                        if(personas>350)
+                            printf("Personas detectadas\n");
+                        else
+                            printf("Personas NO detectadas\n");
                     }
                     else
                         printf("Paquete con checksum incorrecto\n\n");
