@@ -166,19 +166,19 @@ void ArduinoConnection ::wait()
                         printf("Paquete con checksum correcto\n\n");
                         unsigned int inDigital = bufferIn[2];
                         printf("Byte binarios %ud\n",inDigital);
-                        if (inDigital | 0x1)
+                        if (inDigital | 1)
                             printf("Hay vibración\n");
                         else
                             printf("No hay vibración\n");
-                        if (inDigital | 0x2)
+                        if (inDigital | 2)
                             printf("Hay obtaculo\n");
                         else
                             printf("No hay obstaculo\n");
-                        if(inDigital | 0x4)
+                        if(inDigital | 4)
                             printf("Hay luz\n");
                         else
                             printf("No hay lux\n");                            
-                        if(inDigital | 0x8)
+                        if(inDigital | 8)
                             printf("Hay fuego\n");
                         else
                             printf("No hay fuego\n");    
