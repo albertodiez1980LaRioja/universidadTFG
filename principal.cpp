@@ -199,12 +199,12 @@ void ArduinoConnection ::wait()
                         else
                             printf("Gas NO detectado\n");                            
                         int aceite=bufferIn[9]+bufferIn[10]*128;
-                        if(aceite>350)
+                        if(aceite<500)
                             printf("Aceite detectado\n");
                         else
                             printf("Aceite NO detectado\n");        
                         int lluvia=bufferIn[11]+bufferIn[12]*128;
-                        if(lluvia>350)
+                        if(lluvia<500)
                             printf("Lluvia detectado\n");
                         else
                             printf("Lluvia NO detectado\n");        
