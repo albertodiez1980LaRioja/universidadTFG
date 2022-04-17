@@ -59,16 +59,16 @@ void ArduinoConnection::calculateCheckSum(unsigned char *hightByte, unsigned cha
     *hightByte = sum / 128;
 }
 
-void ArduinoConnection ::wait()
+void ArduinoConnection ::wait() 
 {
-    int msToDelay = 1;
+    int msToDelay = 2;
     // printf("aqui");
     if (this->pinCLK != -1)
     {
         this->state++;
         // printf("%d\n",this->state);
         if (this->state == 1)
-        {
+        { 
 
             if (this->actualBufferOut < (this->lenghtBufferOut * 8))
             {
