@@ -39,9 +39,9 @@ ArduinoConnection::ArduinoConnection(int pinCLK, int pinOut, int pinIn)
     this->bufferOut[0] = 170;
     this->bufferOut[1] = 5;
     this->bufferOut[2] = 0;
-    this->calculateCheckSum(&this->bufferOut[3],&this->bufferOut[4],this->bufferOut,5);
-    //this->bufferOut[3] = 0;   
-    //this->bufferOut[4] = 175;
+    this->calculateCheckSum(&this->bufferOut[3], &this->bufferOut[4], this->bufferOut, 5);
+    // this->bufferOut[3] = 0;
+    // this->bufferOut[4] = 175;
     this->maskBit[0] = 128;
     for (int i = 1; i < 8; i++)
         this->maskBit[i] = this->maskBit[i - 1] / 2;
@@ -59,7 +59,7 @@ void ArduinoConnection::calculateCheckSum(unsigned char *hightByte, unsigned cha
     *hightByte = sum / 128;
 }
 
-void ArduinoConnection ::wait() 
+void ArduinoConnection ::wait()
 {
     int msToDelay = 2;
     // printf("aqui");
@@ -68,7 +68,7 @@ void ArduinoConnection ::wait()
         this->state++;
         // printf("%d\n",this->state);
         if (this->state == 1)
-        { 
+        {
 
             if (this->actualBufferOut < (this->lenghtBufferOut * 8))
             {
@@ -157,17 +157,30 @@ void ArduinoConnection ::wait()
                         printf("byte ");
                         printf("%d ", i);
                         printf("%d\n", bufferIn[i]);
-                    }
-                    unsigned char byteHigh,byteLow;
-                    calculateCheckSum(&byteHigh,&byteLow,bufferIn,lenghtBufferIn);   
-                    //if (sum == (bufferIn[lenghtBufferIn - 2] * 256 + bufferIn[lenghtBufferIn - 1]))
-                    if(byteHigh == bufferIn[lenghtBufferIn - 2] && bufferIn[lenghtBufferIn - 1]){
+                    } 
+                    unsigned char byteHigh, byteLow;
+                    calculateCheckSum(&byteHigh, &byteLow, bufferIn, lenghtBufferIn);
+                    // if (sum == (bufferIn[lenghtBufferIn - 2] * 256 + bufferIn[lenghtBufferIn - 1]))
+                    if (byteHigh == bufferIn[lenghtBufferIn - 2] && bufferIn[lenghtBufferIn - 1])
+                    { 
                         printf("Paquete con checksum correcto\n\n");
                         int inDigital = bufferIn[2];
-                        if(inDigital | 1)
+                        if (inDigital | 0x1)
                             printf("Hay vibración\n");
                         else
                             printf("No hay vibración\n");
+                        if (inDigital | 0x2)
+                            printf("Hay obtaculo\n");
+                        else
+                            printf("No hay obstaculo\n");
+                        if(inDigital | 0x4)
+                            printf("Hay luz\n");
+                        else
+                            printf("No hay lux\n");                            
+                        if(inDigital | 0x8)
+                            printf("Hay fuego\n");
+                        else
+                            printf("No hay fuego\n");    
                     }
                     else
                         printf("Paquete con checksum incorrecto\n\n");
@@ -180,9 +193,9 @@ void ArduinoConnection ::wait()
             //   printf("Fallo de sincronismo");
             this->lastRead = read;
             this->state = 0;
-        } 
+        }
         delay(msToDelay);
-        this->counter++; 
+        this->counter++;
         if (this->counter == 500)
         {
             this->counter = 0;
