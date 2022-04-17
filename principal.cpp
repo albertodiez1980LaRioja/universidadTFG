@@ -174,7 +174,7 @@ void ArduinoConnection ::wait()
                             printf("Hay obtaculo\n");
                         else
                             printf("No hay obstaculo\n");
-                        if(inDigital == 4)
+                        if((inDigital | 4) == 4)
                             printf("Hay luz\n");
                         else
                             printf("No hay lux\n");                            
