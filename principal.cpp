@@ -177,7 +177,7 @@ void ArduinoConnection ::wait()
         } 
         delay(msToDelay);
         this->counter++; 
-        if (this->counter == 600)
+        if (this->counter == 1000)
         {
             this->counter = 0;
             this->actualBufferOut = 0;
