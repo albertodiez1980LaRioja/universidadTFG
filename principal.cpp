@@ -188,6 +188,29 @@ void ArduinoConnection ::wait()
                             printf("Personas detectadas\n");
                         else
                             printf("Personas NO detectadas\n");
+                        int sonido=bufferIn[5]+bufferIn[6]*128;
+                        if(sonido>600)
+                            printf("Sonido detectado\n");
+                        else
+                            printf("Sonido NO detectado\n");
+                        int gas=bufferIn[7]+bufferIn[8]*128;
+                        if(gas>350)
+                            printf("Sonido detectado\n");
+                        else
+                            printf("Sonido NO detectado\n");                            
+                        int aceite=bufferIn[9]+bufferIn[10]*128;
+                        if(aceite>350)
+                            printf("Sonido detectado\n");
+                        else
+                            printf("Sonido NO detectado\n");        
+                        int lluvia=bufferIn[11]+bufferIn[12]*128;
+                        if(lluvia>350)
+                            printf("Sonido detectado\n");
+                        else
+                            printf("Sonido NO detectado\n");        
+                        printf("Humedad: %u",bufferIn[13]);
+                        printf("Temperatura: %u",bufferIn[14]);
+                            
                     }
                     else
                         printf("Paquete con checksum incorrecto\n\n");
