@@ -164,8 +164,8 @@ void ArduinoConnection ::wait()
                     if (byteHigh == bufferIn[lenghtBufferIn - 2] && bufferIn[lenghtBufferIn - 1])
                     { 
                         printf("Paquete con checksum correcto\n\n");
-                        int inDigital = bufferIn[2];
-                        printf("Byte binarios %d\n",inDigital);
+                        unsigned int inDigital = bufferIn[2];
+                        printf("Byte binarios %ud\n",inDigital);
                         if (inDigital | 0x1)
                             printf("Hay vibración\n");
                         else
