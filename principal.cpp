@@ -161,8 +161,14 @@ void ArduinoConnection ::wait()
                     unsigned char byteHigh,byteLow;
                     calculateCheckSum(&byteHigh,&byteLow,bufferIn,lenghtBufferIn);   
                     //if (sum == (bufferIn[lenghtBufferIn - 2] * 256 + bufferIn[lenghtBufferIn - 1]))
-                    if(byteHigh == bufferIn[lenghtBufferIn - 2] && bufferIn[lenghtBufferIn - 1])
+                    if(byteHigh == bufferIn[lenghtBufferIn - 2] && bufferIn[lenghtBufferIn - 1]){
                         printf("Paquete con checksum correcto\n\n");
+                        int inDigital = bufferIn[2];
+                        if(inDigital | 1)
+                            printf("Hay vibración\n");
+                        else
+                            printf("No hay vibración\n");
+                    }
                     else
                         printf("Paquete con checksum incorrecto\n\n");
                     isIn = 0;
