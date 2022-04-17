@@ -61,7 +61,7 @@ void ArduinoConnection::calculateCheckSum(unsigned char *hightByte, unsigned cha
 
 void ArduinoConnection ::wait()
 {
-    int msToDelay = 2;
+    int msToDelay = 1;
     // printf("aqui");
     if (this->pinCLK != -1)
     {
