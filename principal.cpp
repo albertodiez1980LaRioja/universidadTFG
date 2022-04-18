@@ -403,7 +403,7 @@ int main(void)
     wiringPiSetup();
     ArduinoConnection arduinoConnection(22, 23, 24);
     BDconnection connection;
-    connection.getConnection(); // connect to bbdd
+//    connection.getConnection(); // connect to bbdd
 
     while (true)
     {
@@ -414,7 +414,7 @@ int main(void)
             arduinoConnection.getHasRain(),arduinoConnection.getTemperature(),arduinoConnection.getHumidity());
             */
     }
-    connection.exitConnection();
+  //  connection.exitConnection();
 
     /*pinMode (0, OUTPUT) ;
     for (;;)
