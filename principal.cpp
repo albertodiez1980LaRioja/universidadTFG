@@ -13,7 +13,7 @@ class ArduinoConnection
     int bitOUT, bitIN, bitCLK;
     int maskBit[8];
     int isIn;
-    boolean vibration, obstacle, light, fire;
+    bool vibration, obstacle, light, fire;
     int binary_values, has_persons, has_sound, has_gas, has_oil, has_rain, temperature, humidity;
 
 public:
