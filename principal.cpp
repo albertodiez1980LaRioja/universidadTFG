@@ -250,47 +250,7 @@ class BDconnection
 
 public:
     BDconnection();
-    PGresult *startTransaction(PGconn *conn, char *sentence)
-    {
-        PGresult *res;
-        /* Start a transaction block */
-        res = PQexec(conn, "BEGIN");
-        if (PQresultStatus(res) != PGRES_COMMAND_OK)
-        {
-            fprintf(stderr, "BEGIN command failed: %s", PQerrorMessage(conn));
-            PQclear(res);
-            this->exit_nicely(conn);
-        }
-
-        /*
-         * Should PQclear PGresult whenever it is no longer needed to avoid memory
-         * leaks
-         */
-        PQclear(res);
-
-        /*
-         * Fetch rows from pg_database, the system catalog of databases
-         */
-        // res = PQexec(conn, "DECLARE myportal CURSOR FOR select * from pg_database");
-        // res = PQexec(conn, "DECLARE myportal CURSOR FOR select * from public.sensors");
-        res = PQexec(conn, sentence);
-        if (PQresultStatus(res) != PGRES_COMMAND_OK)
-        {
-            fprintf(stderr, "DECLARE CURSOR failed: %s", PQerrorMessage(conn));
-            PQclear(res);
-            this->exit_nicely(conn);
-        }
-        PQclear(res);
-
-        res = PQexec(conn, "FETCH ALL in myportal");
-        if (PQresultStatus(res) != PGRES_TUPLES_OK)
-        {
-            fprintf(stderr, "FETCH ALL failed: %s", PQerrorMessage(conn));
-            PQclear(res);
-            this->exit_nicely(conn);
-        }
-        return (res);
-    }
+    PGresult *startTransaction(PGconn *conn, char *sentence);
 
     void endTransaction(PGconn *conn, PGresult *res)
     {
@@ -374,8 +334,50 @@ public:
     }
 };
 
-BDconnection::BDconnection(){
+BDconnection::BDconnection()
+{
+}
 
+PGresult *BDconnection::startTransaction(PGconn *conn, char *sentence)
+{
+    PGresult *res;
+    /* Start a transaction block */
+    res = PQexec(conn, "BEGIN");
+    if (PQresultStatus(res) != PGRES_COMMAND_OK)
+    {
+        fprintf(stderr, "BEGIN command failed: %s", PQerrorMessage(conn));
+        PQclear(res);
+        this->exit_nicely(conn);
+    }
+
+    /*
+     * Should PQclear PGresult whenever it is no longer needed to avoid memory
+     * leaks
+     */
+    PQclear(res);
+
+    /*
+     * Fetch rows from pg_database, the system catalog of databases
+     */
+    // res = PQexec(conn, "DECLARE myportal CURSOR FOR select * from pg_database");
+    // res = PQexec(conn, "DECLARE myportal CURSOR FOR select * from public.sensors");
+    res = PQexec(conn, sentence);
+    if (PQresultStatus(res) != PGRES_COMMAND_OK)
+    {
+        fprintf(stderr, "DECLARE CURSOR failed: %s", PQerrorMessage(conn));
+        PQclear(res);
+        this->exit_nicely(conn);
+    }
+    PQclear(res);
+
+    res = PQexec(conn, "FETCH ALL in myportal");
+    if (PQresultStatus(res) != PGRES_TUPLES_OK)
+    {
+        fprintf(stderr, "FETCH ALL failed: %s", PQerrorMessage(conn));
+        PQclear(res);
+        this->exit_nicely(conn);
+    }
+    return (res);
 }
 
 int main(void)
@@ -383,15 +385,12 @@ int main(void)
     wiringPiSetup();
     ArduinoConnection arduinoConnection(22, 23, 24);
     BDconnection bdConnection();
-    
-    
-    
 
     while (true)
     {
         arduinoConnection.wait();
     }
-    //bdConnection.startTransaction("");
+    // bdConnection.startTransaction("");
     /*pinMode (0, OUTPUT) ;
     for (;;)
     {
