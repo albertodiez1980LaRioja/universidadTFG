@@ -242,7 +242,7 @@ class BDconnection
     PGconn *conn;
     PGresult *res;
 
-    exit_nicely(PGconn *conn)
+    void exit_nicely(PGconn *conn)
     {
         PQfinish(conn);
         exit(1);
