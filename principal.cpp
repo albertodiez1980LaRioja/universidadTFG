@@ -230,7 +230,9 @@ void ArduinoConnection ::wait()
                             printf("Lluvia detectado\n");
                         else
                             printf("Lluvia NO detectado\n");
+                        this->humidity = bufferIn[13];
                         printf("Humedad: %u\n", bufferIn[13]);
+                        this->temperature = bufferIn[14];
                         printf("Temperatura: %u\n", bufferIn[14]);
                     }
                     else
