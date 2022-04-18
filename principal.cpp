@@ -252,72 +252,18 @@ public:
     BDconnection();
     PGresult *startTransaction(PGconn *conn, char *sentence);
 
-    void endTransaction(PGconn *conn, PGresult *res)
-    {
-        PQclear(res);
+    void endTransaction(PGconn *conn, PGresult *res);
 
-        /* close the portal ... we don't bother to check for errors ... */
-        res = PQexec(conn, "CLOSE myportal");
-        PQclear(res);
+    int insertRow(PGconn *conn, PGresult *res, int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity);
 
-        /* end the transaction */
-        res = PQexec(conn, "END");
-        PQclear(res);
-    }
+    PGconn *getConnection(char *conninfo);
+};
 
-    int insertRow(PGconn *conn, PGresult *res, int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity)
-    {
-        /*
-        INSERT INTO public.sensors(
-                    date_time, has_sended, binary_values, has_persons, has_sound,
-                    has_gas, has_oil, has_rain, temperature, humidity)
-            VALUES (?, ?, ?, ?, ?,
-                    ?, ?, ?, ?, ?);
-        */
-        const char *paramValues[10];
-        char stringValue[100][100];
-        int numRows;
-        sprintf(stringValue[0], "%d", binary_values);
-        paramValues[0] = stringValue[0];
-        sprintf(stringValue[1], "%d", has_persons);
-        paramValues[1] = stringValue[1];
-        sprintf(stringValue[2], "%d", has_sound);
-        paramValues[2] = stringValue[2];
-        sprintf(stringValue[3], "%d", has_gas);
-        paramValues[3] = stringValue[3];
-        sprintf(stringValue[4], "%d", has_oil);
-        paramValues[4] = stringValue[4];
-        sprintf(stringValue[5], "%d", has_rain);
-        paramValues[5] = stringValue[5];
-        sprintf(stringValue[6], "%d", temperature);
-        paramValues[6] = stringValue[6];
-        sprintf(stringValue[7], "%d", humidity);
-        paramValues[7] = stringValue[7];
+BDconnection::BDconnection()
+{
+}
 
-        res = PQexecParams(conn,
-                           "INSERT INTO public.sensors( date_time, has_sended, binary_values, has_persons, has_sound, has_gas, has_oil, has_rain, temperature, humidity)  VALUES (NOW(), false, $1, $2, $3, $4, $5, $6, $7,$8);",
-                           8,    /* one param */
-                           NULL, /* let the backend deduce param type */
-                           paramValues,
-                           NULL, /* don't need param lengths since text */
-                           NULL, /* default to all text params */
-                           1);   /* ask for binary results */
-
-        if (PQresultStatus(res) != PGRES_COMMAND_OK)
-        {
-            fprintf(stderr, "INSERT failed: %s", PQerrorMessage(conn));
-            PQclear(res);
-            this->exit_nicely(conn);
-        }
-        numRows = PQcmdTuples(res)[0];
-        printf("Número de filas introducidas: %d\n", numRows);
-        // show_binary_results(res);
-
-        PQclear(res);
-        return 1;
-    }
-
-    PGconn *getConnection(char *conninfo)
+ PGconn *BDconnection::getConnection(char *conninfo)
     {
         PGconn *conn;
         /* Make a connection to the database */
@@ -332,10 +278,70 @@ public:
         }
         return conn;
     }
-};
 
-BDconnection::BDconnection()
+int BDconnection::insertRow(PGconn *conn, PGresult *res, int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity)
 {
+    /*
+    INSERT INTO public.sensors(
+                date_time, has_sended, binary_values, has_persons, has_sound,
+                has_gas, has_oil, has_rain, temperature, humidity)
+        VALUES (?, ?, ?, ?, ?,
+                ?, ?, ?, ?, ?);
+    */
+    const char *paramValues[10];
+    char stringValue[100][100];
+    int numRows;
+    sprintf(stringValue[0], "%d", binary_values);
+    paramValues[0] = stringValue[0];
+    sprintf(stringValue[1], "%d", has_persons);
+    paramValues[1] = stringValue[1];
+    sprintf(stringValue[2], "%d", has_sound);
+    paramValues[2] = stringValue[2];
+    sprintf(stringValue[3], "%d", has_gas);
+    paramValues[3] = stringValue[3];
+    sprintf(stringValue[4], "%d", has_oil);
+    paramValues[4] = stringValue[4];
+    sprintf(stringValue[5], "%d", has_rain);
+    paramValues[5] = stringValue[5];
+    sprintf(stringValue[6], "%d", temperature);
+    paramValues[6] = stringValue[6];
+    sprintf(stringValue[7], "%d", humidity);
+    paramValues[7] = stringValue[7];
+
+    res = PQexecParams(conn,
+                       "INSERT INTO public.sensors( date_time, has_sended, binary_values, has_persons, has_sound, has_gas, has_oil, has_rain, temperature, humidity)  VALUES (NOW(), false, $1, $2, $3, $4, $5, $6, $7,$8);",
+                       8,    /* one param */
+                       NULL, /* let the backend deduce param type */
+                       paramValues,
+                       NULL, /* don't need param lengths since text */
+                       NULL, /* default to all text params */
+                       1);   /* ask for binary results */
+
+    if (PQresultStatus(res) != PGRES_COMMAND_OK)
+    {
+        fprintf(stderr, "INSERT failed: %s", PQerrorMessage(conn));
+        PQclear(res);
+        this->exit_nicely(conn);
+    }
+    numRows = PQcmdTuples(res)[0];
+    printf("Número de filas introducidas: %d\n", numRows);
+    // show_binary_results(res);
+
+    PQclear(res);
+    return 1;
+}
+
+void BDconnection::endTransaction(PGconn *conn, PGresult *res)
+{
+    PQclear(res);
+
+    /* close the portal ... we don't bother to check for errors ... */
+    res = PQexec(conn, "CLOSE myportal");
+    PQclear(res);
+
+    /* end the transaction */
+    res = PQexec(conn, "END");
+    PQclear(res);
 }
 
 PGresult *BDconnection::startTransaction(PGconn *conn, char *sentence)
@@ -390,8 +396,8 @@ int main(void)
     {
         arduinoConnection.wait();
     }
-     connection.startTransaction("");
-     
+    // connection.startTransaction("");
+
     /*pinMode (0, OUTPUT) ;
     for (;;)
     {
