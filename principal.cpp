@@ -181,6 +181,7 @@ void ArduinoConnection ::wait()
                     {
                         printf("Paquete con checksum correcto\n\n");
                         unsigned int inDigital = bufferIn[2];
+                        this->binary_values = inDigital;
                         printf("Byte binarios %u\n", inDigital);
                         if (inDigital & 1)
                             printf("Hay vibración\n");
@@ -200,26 +201,31 @@ void ArduinoConnection ::wait()
                             printf("Hay fuego\n");
 
                         int personas = bufferIn[3] + bufferIn[4] * 128;
+                        this->has_persons = personas;
                         if (personas > 350)
                             printf("Personas detectadas\n");
                         else
                             printf("Personas NO detectadas\n");
                         int sonido = bufferIn[5] + bufferIn[6] * 128;
+                        this->has_sound = sonido;
                         if (sonido > 600)
                             printf("Sonido detectado\n");
                         else
                             printf("Sonido NO detectado\n");
                         int gas = bufferIn[7] + bufferIn[8] * 128;
+                        this->has_gas = gas;
                         if (gas > 350)
                             printf("Gas detectado\n");
                         else
                             printf("Gas NO detectado\n");
                         int aceite = bufferIn[9] + bufferIn[10] * 128;
+                        this->has_oil = aceite;
                         if (aceite < 500)
                             printf("Aceite detectado\n");
                         else
                             printf("Aceite NO detectado\n");
                         int lluvia = bufferIn[11] + bufferIn[12] * 128;
+                        this->has_rain = lluvia;
                         if (lluvia < 500)
                             printf("Lluvia detectado\n");
                         else
