@@ -13,25 +13,28 @@ class ArduinoConnection
     int bitOUT, bitIN, bitCLK;
     int maskBit[8];
     int isIn;
-    bool vibration, obstacle, light, fire;
+    bool vibration, obstacle, light, fire, writeToBBDD;
     int binary_values, has_persons, has_sound, has_gas, has_oil, has_rain, temperature, humidity;
 
 public:
     ArduinoConnection(int pinCLK, int pinOut, int pinIn);
     void wait();
     void calculateCheckSum(unsigned char *hightByte, unsigned char *lowByte, unsigned char *buffer, int lenght);
-    int getBinaryValues(){ return this->binary_values; };
-    int getHasPersons(){ return this->has_persons; };
-    int getHasSound(){ return this->has_sound; };
+    int getBinaryValues() { return this->binary_values; };
+    int getHasPersons() { return this->has_persons; };
+    int getHasSound() { return this->has_sound; };
     int getHasGas() { return this->has_gas; };
     int getHasOil() { return this->has_oil; };
     int getHasRain() { return this->has_rain; };
     int getTemperature() { return this->temperature; };
     int getHumidity() { return this->humidity; };
+    int getWriteToBDD() { return this->writeToBBDD; }
+    void resetWriteToBBDD() { this->writeToBBDD = false; };
 };
 
 ArduinoConnection::ArduinoConnection(int pinCLK, int pinOut, int pinIn)
 {
+    this->writeToBBDD = false;
     this->isIn = 0;
     this->state = 0;
     this->pinCLK = pinCLK;
@@ -160,6 +163,7 @@ void ArduinoConnection ::wait()
 
                 if (this->nowBufferIn == this->lenghtBufferIn * 8)
                 {
+                    this->writeToBBDD = true;
                     printf("Paquete recibido: \n");
                     int sum = 0;
                     for (int i = 0; i < this->lenghtBufferIn; i++)
@@ -271,26 +275,27 @@ BDconnection::BDconnection()
 {
 }
 
-void BDconnection::exitConnection(){
+void BDconnection::exitConnection()
+{
     PQfinish(conn);
 }
 
- PGconn *BDconnection::getConnection()
-    {
-        //PGconn *conn;
-        /* Make a connection to the database */
-        this->conninfo="dbname = postgres";
-        this->conn = PQconnectdb(this->conninfo);
+PGconn *BDconnection::getConnection()
+{
+    // PGconn *conn;
+    /* Make a connection to the database */
+    this->conninfo = "dbname = postgres";
+    this->conn = PQconnectdb(this->conninfo);
 
-        /* Check to see that the backend connection was successfully made */
-        if (PQstatus(conn) != CONNECTION_OK)
-        {
-            fprintf(stderr, "Connection to database failed: %s",
-                    PQerrorMessage(conn));
-            this->exit_nicely(conn);
-        }
-        return conn;
+    /* Check to see that the backend connection was successfully made */
+    if (PQstatus(conn) != CONNECTION_OK)
+    {
+        fprintf(stderr, "Connection to database failed: %s",
+                PQerrorMessage(conn));
+        this->exit_nicely(conn);
     }
+    return conn;
+}
 
 int BDconnection::insertRow(int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity)
 {
@@ -409,13 +414,15 @@ int main(void)
     while (true)
     {
         arduinoConnection.wait();
-        
-        connection.insertRow(arduinoConnection.getBinaryValues(),arduinoConnection.getHasPersons(),
-            arduinoConnection.getHasSound(),arduinoConnection.getHasGas(),arduinoConnection.getHasOil(),
-            arduinoConnection.getHasRain(),arduinoConnection.getTemperature(),arduinoConnection.getHumidity());
-            
+        if (arduinoConnection.getWriteToBDD())
+        {
+            connection.insertRow(arduinoConnection.getBinaryValues(), arduinoConnection.getHasPersons(),
+                                 arduinoConnection.getHasSound(), arduinoConnection.getHasGas(), arduinoConnection.getHasOil(),
+                                 arduinoConnection.getHasRain(), arduinoConnection.getTemperature(), arduinoConnection.getHumidity());
+            arduinoConnection.resetWriteToBBDD();
+        }
     }
-  //  connection.exitConnection();
+    //  connection.exitConnection();
 
     /*pinMode (0, OUTPUT) ;
     for (;;)
