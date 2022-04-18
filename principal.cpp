@@ -158,15 +158,15 @@ void ArduinoConnection ::wait()
                         printf("byte ");
                         printf("%d ", i);
                         printf("%d\n", bufferIn[i]);
-                    } 
+                    }
                     unsigned char byteHigh, byteLow;
                     calculateCheckSum(&byteHigh, &byteLow, bufferIn, lenghtBufferIn);
                     // if (sum == (bufferIn[lenghtBufferIn - 2] * 256 + bufferIn[lenghtBufferIn - 1]))
                     if (byteHigh == bufferIn[lenghtBufferIn - 2] && bufferIn[lenghtBufferIn - 1])
-                    { 
+                    {
                         printf("Paquete con checksum correcto\n\n");
                         unsigned int inDigital = bufferIn[2];
-                        printf("Byte binarios %u\n",inDigital);
+                        printf("Byte binarios %u\n", inDigital);
                         if (inDigital & 1)
                             printf("Hay vibración\n");
                         else
@@ -175,43 +175,42 @@ void ArduinoConnection ::wait()
                             printf("No hay obtaculo\n");
                         else
                             printf("Hay obstaculo\n");
-                        if((inDigital & 4) )
+                        if ((inDigital & 4))
                             printf("No luz\n");
                         else
-                            printf("Hay luz\n");                            
-                        if(inDigital & 8)
+                            printf("Hay luz\n");
+                        if (inDigital & 8)
                             printf("No hay fuego\n");
                         else
                             printf("Hay fuego\n");
 
-                        int personas=bufferIn[3]+bufferIn[4]*128;
-                        if(personas>350)
+                        int personas = bufferIn[3] + bufferIn[4] * 128;
+                        if (personas > 350)
                             printf("Personas detectadas\n");
                         else
                             printf("Personas NO detectadas\n");
-                        int sonido=bufferIn[5]+bufferIn[6]*128;
-                        if(sonido>600)
+                        int sonido = bufferIn[5] + bufferIn[6] * 128;
+                        if (sonido > 600)
                             printf("Sonido detectado\n");
                         else
                             printf("Sonido NO detectado\n");
-                        int gas=bufferIn[7]+bufferIn[8]*128;
-                        if(gas>350)
+                        int gas = bufferIn[7] + bufferIn[8] * 128;
+                        if (gas > 350)
                             printf("Gas detectado\n");
                         else
-                            printf("Gas NO detectado\n");                            
-                        int aceite=bufferIn[9]+bufferIn[10]*128;
-                        if(aceite<500)
+                            printf("Gas NO detectado\n");
+                        int aceite = bufferIn[9] + bufferIn[10] * 128;
+                        if (aceite < 500)
                             printf("Aceite detectado\n");
                         else
-                            printf("Aceite NO detectado\n");        
-                        int lluvia=bufferIn[11]+bufferIn[12]*128;
-                        if(lluvia<500)
+                            printf("Aceite NO detectado\n");
+                        int lluvia = bufferIn[11] + bufferIn[12] * 128;
+                        if (lluvia < 500)
                             printf("Lluvia detectado\n");
                         else
-                            printf("Lluvia NO detectado\n");        
-                        printf("Humedad: %u\n",bufferIn[13]);
-                        printf("Temperatura: %u\n",bufferIn[14]);
-                            
+                            printf("Lluvia NO detectado\n");
+                        printf("Humedad: %u\n", bufferIn[13]);
+                        printf("Temperatura: %u\n", bufferIn[14]);
                     }
                     else
                         printf("Paquete con checksum incorrecto\n\n");
@@ -236,11 +235,141 @@ void ArduinoConnection ::wait()
     }
 }
 
-
-class BDconnection{
+class BDconnection
+{
     char *conninfo;
-    PGconn     *conn;
-    PGresult   *res;
+    PGconn *conn;
+    PGresult *res;
+
+    exit_nicely(PGconn *conn)
+    {
+        PQfinish(conn);
+        exit(1);
+    }
+
+public:
+    PGresult *startTransaction(PGconn *conn, char *sentence)
+    {
+        PGresult *res;
+        /* Start a transaction block */
+        res = PQexec(conn, "BEGIN");
+        if (PQresultStatus(res) != PGRES_COMMAND_OK)
+        {
+            fprintf(stderr, "BEGIN command failed: %s", PQerrorMessage(conn));
+            PQclear(res);
+            exit_nicely(conn);
+        }
+
+        /*
+         * Should PQclear PGresult whenever it is no longer needed to avoid memory
+         * leaks
+         */
+        PQclear(res);
+
+        /*
+         * Fetch rows from pg_database, the system catalog of databases
+         */
+        // res = PQexec(conn, "DECLARE myportal CURSOR FOR select * from pg_database");
+        // res = PQexec(conn, "DECLARE myportal CURSOR FOR select * from public.sensors");
+        res = PQexec(conn, sentence);
+        if (PQresultStatus(res) != PGRES_COMMAND_OK)
+        {
+            fprintf(stderr, "DECLARE CURSOR failed: %s", PQerrorMessage(conn));
+            PQclear(res);
+            exit_nicely(conn);
+        }
+        PQclear(res);
+
+        res = PQexec(conn, "FETCH ALL in myportal");
+        if (PQresultStatus(res) != PGRES_TUPLES_OK)
+        {
+            fprintf(stderr, "FETCH ALL failed: %s", PQerrorMessage(conn));
+            PQclear(res);
+            exit_nicely(conn);
+        }
+        return (res);
+    }
+
+    void endTransaction(PGconn *conn, PGresult *res)
+    {
+        PQclear(res);
+
+        /* close the portal ... we don't bother to check for errors ... */
+        res = PQexec(conn, "CLOSE myportal");
+        PQclear(res);
+
+        /* end the transaction */
+        res = PQexec(conn, "END");
+        PQclear(res);
+    }
+
+    int insertRow(PGconn *conn, PGresult *res, int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity)
+    {
+        /*
+        INSERT INTO public.sensors(
+                    date_time, has_sended, binary_values, has_persons, has_sound,
+                    has_gas, has_oil, has_rain, temperature, humidity)
+            VALUES (?, ?, ?, ?, ?,
+                    ?, ?, ?, ?, ?);
+        */
+        const char *paramValues[10];
+        char stringValue[100][100];
+        int numRows;
+        sprintf(stringValue[0], "%d", binary_values);
+        paramValues[0] = stringValue[0];
+        sprintf(stringValue[1], "%d", has_persons);
+        paramValues[1] = stringValue[1];
+        sprintf(stringValue[2], "%d", has_sound);
+        paramValues[2] = stringValue[2];
+        sprintf(stringValue[3], "%d", has_gas);
+        paramValues[3] = stringValue[3];
+        sprintf(stringValue[4], "%d", has_oil);
+        paramValues[4] = stringValue[4];
+        sprintf(stringValue[5], "%d", has_rain);
+        paramValues[5] = stringValue[5];
+        sprintf(stringValue[6], "%d", temperature);
+        paramValues[6] = stringValue[6];
+        sprintf(stringValue[7], "%d", humidity);
+        paramValues[7] = stringValue[7];
+
+        res = PQexecParams(conn,
+                           "INSERT INTO public.sensors( date_time, has_sended, binary_values, has_persons, has_sound, has_gas, has_oil, has_rain, temperature, humidity)  VALUES (NOW(), false, $1, $2, $3, $4, $5, $6, $7,$8);",
+                           8,    /* one param */
+                           NULL, /* let the backend deduce param type */
+                           paramValues,
+                           NULL, /* don't need param lengths since text */
+                           NULL, /* default to all text params */
+                           1);   /* ask for binary results */
+
+        if (PQresultStatus(res) != PGRES_COMMAND_OK)
+        {
+            fprintf(stderr, "INSERT failed: %s", PQerrorMessage(conn));
+            PQclear(res);
+            exit_nicely(conn);
+        }
+        numRows = PQcmdTuples(res)[0];
+        printf("Número de filas introducidas: %d\n", numRows);
+        // show_binary_results(res);
+
+        PQclear(res);
+        return 1;
+    }
+
+    PGconn *getConnection(char *conninfo)
+    {
+        PGconn *conn;
+        /* Make a connection to the database */
+        conn = PQconnectdb(conninfo);
+
+        /* Check to see that the backend connection was successfully made */
+        if (PQstatus(conn) != CONNECTION_OK)
+        {
+            fprintf(stderr, "Connection to database failed: %s",
+                    PQerrorMessage(conn));
+            exit_nicely(conn);
+        }
+        return conn;
+    }
 };
 
 int main(void)
