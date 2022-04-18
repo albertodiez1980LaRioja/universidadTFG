@@ -248,6 +248,7 @@ class BDconnection
     }
 
 public:
+    BDconnection(){};
     PGresult *startTransaction(PGconn *conn, char *sentence)
     {
         PGresult *res;
@@ -376,11 +377,16 @@ int main(void)
 {
     wiringPiSetup();
     ArduinoConnection arduinoConnection(22, 23, 24);
+    BDconnection bdConnection();
+    
+    
+    
 
     while (true)
     {
         arduinoConnection.wait();
     }
+    bdConnection.startTransaction("");
     /*pinMode (0, OUTPUT) ;
     for (;;)
     {
