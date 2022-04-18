@@ -241,7 +241,7 @@ class BDconnection{
     char *conninfo;
     PGconn     *conn;
     PGresult   *res;
-}
+};
 
 int main(void)
 {
