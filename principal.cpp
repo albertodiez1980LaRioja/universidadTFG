@@ -390,7 +390,7 @@ int main(void)
     {
         arduinoConnection.wait();
     }
-    // bdConnection.startTransaction("");
+     bdConnection.startTransaction("");
     /*pinMode (0, OUTPUT) ;
     for (;;)
     {
