@@ -396,7 +396,7 @@ int main(void)
     {
         arduinoConnection.wait();
     }
-    connection.startTransaction("");
+    connection.startTransaction((char *)"");
 
     /*pinMode (0, OUTPUT) ;
     for (;;)
