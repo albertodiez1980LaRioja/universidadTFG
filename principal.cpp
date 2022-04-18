@@ -248,7 +248,7 @@ class BDconnection
     }
 
 public:
-    BDconnection(){};
+    BDconnection();
     PGresult *startTransaction(PGconn *conn, char *sentence)
     {
         PGresult *res;
@@ -372,6 +372,10 @@ public:
         return conn;
     }
 };
+
+BDconnection::BDconnection(){
+    
+}
 
 int main(void)
 {
