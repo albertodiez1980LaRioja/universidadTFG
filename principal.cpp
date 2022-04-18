@@ -384,13 +384,14 @@ int main(void)
 {
     wiringPiSetup();
     ArduinoConnection arduinoConnection(22, 23, 24);
-    BDconnection bdConnection();
+    BDconnection connection();
 
     while (true)
     {
         arduinoConnection.wait();
     }
-     bdConnection.startTransaction("");
+     connection.startTransaction("");
+     
     /*pinMode (0, OUTPUT) ;
     for (;;)
     {
