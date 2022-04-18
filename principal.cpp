@@ -1,5 +1,6 @@
 #include <wiringPi.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <libpq-fe.h>
 
 class ArduinoConnection
@@ -390,7 +391,7 @@ int main(void)
     {
         arduinoConnection.wait();
     }
-    bdConnection.startTransaction("");
+    //bdConnection.startTransaction("");
     /*pinMode (0, OUTPUT) ;
     for (;;)
     {
