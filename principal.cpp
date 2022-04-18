@@ -390,13 +390,13 @@ int main(void)
 {
     wiringPiSetup();
     ArduinoConnection arduinoConnection(22, 23, 24);
-    BDconnection connection();
+    BDconnection connection;
 
     while (true)
     {
         arduinoConnection.wait();
     }
-    connection.startTransaction("");
+    connection.startTransaction();
 
     /*pinMode (0, OUTPUT) ;
     for (;;)
