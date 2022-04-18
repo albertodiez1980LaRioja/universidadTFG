@@ -291,7 +291,7 @@ void BDconnection::exitConnection(){
         return conn;
     }
 
-int BDconnection::insertRow(PGresult *res, int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity)
+int BDconnection::insertRow(int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity)
 {
     /*
     INSERT INTO public.sensors(
