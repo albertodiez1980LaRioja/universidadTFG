@@ -408,7 +408,9 @@ int main(void)
     while (true)
     {
         arduinoConnection.wait();
- //       connection.insertRow(arduinoConnection.getBinaryValues,arduinoConnection);
+        connection.insertRow(arduinoConnection.getBinaryValues(),arduinoConnection.getHasPersons(),
+            arduinoConnection.getHasSound(),arduinoConnection.getHasGas(),arduinoConnection.getHasOil(),
+            arduinoConnection.getHasRain(),arduinoConnection.getTemperature(),arduinoConnection.getHumidity());
     }
     connection.exitConnection();
 
