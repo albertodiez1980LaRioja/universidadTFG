@@ -1,5 +1,6 @@
 #include <wiringPi.h>
 #include <stdio.h>
+#include <libpq-fe.h>
 
 class ArduinoConnection
 {
