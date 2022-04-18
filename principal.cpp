@@ -258,7 +258,7 @@ public:
         {
             fprintf(stderr, "BEGIN command failed: %s", PQerrorMessage(conn));
             PQclear(res);
-            exit_nicely(conn);
+            this->exit_nicely(conn);
         }
 
         /*
@@ -277,7 +277,7 @@ public:
         {
             fprintf(stderr, "DECLARE CURSOR failed: %s", PQerrorMessage(conn));
             PQclear(res);
-            exit_nicely(conn);
+            this->exit_nicely(conn);
         }
         PQclear(res);
 
@@ -286,7 +286,7 @@ public:
         {
             fprintf(stderr, "FETCH ALL failed: %s", PQerrorMessage(conn));
             PQclear(res);
-            exit_nicely(conn);
+            this->exit_nicely(conn);
         }
         return (res);
     }
@@ -346,7 +346,7 @@ public:
         {
             fprintf(stderr, "INSERT failed: %s", PQerrorMessage(conn));
             PQclear(res);
-            exit_nicely(conn);
+            this->exit_nicely(conn);
         }
         numRows = PQcmdTuples(res)[0];
         printf("Número de filas introducidas: %d\n", numRows);
@@ -367,14 +367,14 @@ public:
         {
             fprintf(stderr, "Connection to database failed: %s",
                     PQerrorMessage(conn));
-            exit_nicely(conn);
+            this->exit_nicely(conn);
         }
         return conn;
     }
 };
 
 BDconnection::BDconnection(){
-    
+
 }
 
 int main(void)
