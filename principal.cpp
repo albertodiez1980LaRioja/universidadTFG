@@ -279,7 +279,8 @@ void BDconnection::exitConnection(){
     {
         //PGconn *conn;
         /* Make a connection to the database */
-        conn = PQconnectdb(conninfo);
+        this->conninfo="dbname = postgres";
+        this->conn = PQconnectdb(this->conninfo);
 
         /* Check to see that the backend connection was successfully made */
         if (PQstatus(conn) != CONNECTION_OK)
