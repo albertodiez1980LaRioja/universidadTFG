@@ -250,7 +250,7 @@ class BDconnection
 
 public:
     BDconnection();
-    PGresult *startTransaction(PGconn *conn, char *sentence);
+    PGresult *startTransaction(char *sentence);
 
     void endTransaction(PGconn *conn, PGresult *res);
 
