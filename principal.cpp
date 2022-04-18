@@ -13,11 +13,21 @@ class ArduinoConnection
     int bitOUT, bitIN, bitCLK;
     int maskBit[8];
     int isIn;
+    boolean vibration, obstacle, light, fire;
+    int binary_values, has_persons, has_sound, has_gas, has_oil, has_rain, temperature, humidity;
 
 public:
     ArduinoConnection(int pinCLK, int pinOut, int pinIn);
     void wait();
     void calculateCheckSum(unsigned char *hightByte, unsigned char *lowByte, unsigned char *buffer, int lenght);
+    int getBinaryValues(){ return this->binary_values; };
+    int getHasPersons(){ return this->has_persons; };
+    int getHasSound(){ return this->has_sound; };
+    int getHasGas() { return this->has_gas; };
+    int getHasOil() { return this->has_oil; };
+    int getHasRain() { return this->has_rain(); };
+    int getTemperature() { return this->temperature; };
+    int getHumidity() { return this->humidity; };
 };
 
 ArduinoConnection::ArduinoConnection(int pinCLK, int pinOut, int pinIn)
@@ -251,16 +261,18 @@ class BDconnection
 public:
     BDconnection();
     PGresult *startTransaction(char *sentence);
-
     void endTransaction(PGconn *conn, PGresult *res);
-
-    int insertRow(PGconn *conn, PGresult *res, int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity);
-
+    int insertRow(int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity);
     PGconn *getConnection();
+    void exitConnection();
 };
 
 BDconnection::BDconnection()
 {
+}
+
+BDconnection::exitConnection(){
+    PQfinish(conn);
 }
 
  PGconn *BDconnection::getConnection()
@@ -279,7 +291,7 @@ BDconnection::BDconnection()
         return conn;
     }
 
-int BDconnection::insertRow(PGconn *conn, PGresult *res, int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity)
+int BDconnection::insertRow(PGresult *res, int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity)
 {
     /*
     INSERT INTO public.sensors(
@@ -391,12 +403,14 @@ int main(void)
     wiringPiSetup();
     ArduinoConnection arduinoConnection(22, 23, 24);
     BDconnection connection;
+    connection.getConnection(); // connect to bbdd
 
     while (true)
     {
         arduinoConnection.wait();
+ //       connection.insertRow(arduinoConnection.getBinaryValues,arduinoConnection);
     }
-    connection.startTransaction((char *)"");
+    connection.exitConnection();
 
     /*pinMode (0, OUTPUT) ;
     for (;;)
