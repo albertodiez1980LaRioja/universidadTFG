@@ -256,16 +256,16 @@ public:
 
     int insertRow(PGconn *conn, PGresult *res, int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity);
 
-    PGconn *getConnection(char *conninfo);
+    PGconn *getConnection();
 };
 
 BDconnection::BDconnection()
 {
 }
 
- PGconn *BDconnection::getConnection(char *conninfo)
+ PGconn *BDconnection::getConnection()
     {
-        PGconn *conn;
+        //PGconn *conn;
         /* Make a connection to the database */
         conn = PQconnectdb(conninfo);
 
@@ -344,7 +344,7 @@ void BDconnection::endTransaction(PGconn *conn, PGresult *res)
     PQclear(res);
 }
 
-PGresult *BDconnection::startTransaction(PGconn *conn, char *sentence)
+PGresult *BDconnection::startTransaction(char *sentence)
 {
     PGresult *res;
     /* Start a transaction block */
@@ -396,7 +396,7 @@ int main(void)
     {
         arduinoConnection.wait();
     }
-    connection.startTransaction();
+    connection.startTransaction("");
 
     /*pinMode (0, OUTPUT) ;
     for (;;)
