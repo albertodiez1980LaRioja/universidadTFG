@@ -1,6 +1,6 @@
 #include <DHT.h>
 
-#define VERVOSE 0
+#define VERBOSE 0
 
 typedef struct
 {
