@@ -77,14 +77,11 @@ void ArduinoConnection::calculateCheckSum(unsigned char *hightByte, unsigned cha
 void ArduinoConnection ::wait()
 {
     int msToDelay = 1;
-    // printf("aqui");
     if (this->pinCLK != -1)
     {
         this->state++;
-        // printf("%d\n",this->state);
         if (this->state == 1)
         {
-
             if (this->actualBufferOut < (this->lenghtBufferOut * 8))
             {
                 int numByte = this->actualBufferOut / 8;
@@ -119,7 +116,6 @@ void ArduinoConnection ::wait()
         {
             delay(msToDelay);
             int read = digitalRead(this->pinIn);
-
             if (read == HIGH)
             {
                 if (!isIn)
@@ -129,7 +125,6 @@ void ArduinoConnection ::wait()
                     nowBufferIn = 0;
                     this->lenghtBufferIn = 2;
                 }
-                // printf("Detectado nivel alto %d\n",read);
                 isIn = 1;
             }
             else
@@ -176,7 +171,6 @@ void ArduinoConnection ::wait()
                     }
                     unsigned char byteHigh, byteLow;
                     calculateCheckSum(&byteHigh, &byteLow, bufferIn, lenghtBufferIn);
-                    // if (sum == (bufferIn[lenghtBufferIn - 2] * 256 + bufferIn[lenghtBufferIn - 1]))
                     if (byteHigh == bufferIn[lenghtBufferIn - 2] && bufferIn[lenghtBufferIn - 1])
                     {
                         printf("Paquete con checksum correcto\n\n");
@@ -199,7 +193,6 @@ void ArduinoConnection ::wait()
                             printf("No hay fuego\n");
                         else
                             printf("Hay fuego\n");
-
                         int personas = bufferIn[3] + bufferIn[4] * 128;
                         this->has_persons = personas;
                         if (personas > 350)
@@ -241,9 +234,6 @@ void ArduinoConnection ::wait()
                 }
                 nowBufferIn++;
             }
-            // printf("entrada %d\n", aux);
-            // if (aux == this->lastRead)
-            //   printf("Fallo de sincronismo");
             this->lastRead = read;
             this->state = 0;
         }
@@ -432,12 +422,6 @@ int main(void)
     }
     //  connection.exitConnection();
 
-    /*pinMode (0, OUTPUT) ;
-    for (;;)
-    {
-      digitalWrite (0, HIGH) ; delay (500) ;
-      digitalWrite (0,  LOW) ; delay (500) ;
-    }*/
     // gcc - Wall - o blink blink.c - lwiringPi
     return 0;
 }
