@@ -1,8 +1,7 @@
 #include <DHT.h>
 
-//
-// sensor_de_movimiento.ino
-//
+#define VERVOSE 0
+
 typedef struct{
   byte code;
   int measurement,measurementMAX,measurementMIN;
@@ -37,10 +36,7 @@ Tsensor globalSensors[]={
   {9,0,0,0,{5,-1,-1}  ,1,{-1,-1,-1},0},
 };
 
-
-
-class RBconnection{
-  
+class RBconnection{ 
     int state, RBclockIn, RBdateIn, RBdateOut;
     byte bufferOut[50], bufferIn[50], maskBit[8];
     int lenghtBufferOut, lenghtBufferIn, nowBufferIn, nowBufferOut, nowBufferInBit, nowBufferOutBit;
@@ -55,12 +51,10 @@ class RBconnection{
     void intToBytes(byte *hightByte,byte *lowByte,int integer);
 };
 
-
 void RBconnection::intToBytes(byte *hightByte,byte *lowByte,int integer){
   *lowByte = integer % 128;
   *hightByte = integer / 128;
 }
-
 
 void RBconnection::begin(){
   RBclockIn = 11;
@@ -73,10 +67,8 @@ void RBconnection::begin(){
   for(int i=1;i<8;i++){
     maskBit[i] = maskBit[i-1]/2;
     Serial.println(maskBit[i]);
-  }
-  
+  } 
   state = 0;
-  
   lenghtBufferOut = 0; lenghtBufferIn = 0; nowBufferIn = 0; nowBufferOut = 0; nowBufferInBit = 0; nowBufferOutBit = 0;
   sendBit = 0;
   isIn = 0;
@@ -266,16 +258,14 @@ RBconnection connection;
 
 void setup()
 {
-  Serial.begin(9600);// conf. velocidad del monitor Serial
+  #if  VERVOSE
+    Serial.begin(9600);// conf. velocidad del monitor Serial
+  #endif
   int i;
   for(i = 0;i < NUM_SENSORS;i++){
     int i2;
-    //Serial.println("sensor");
-    //Serial.println(i,DEC);
     for(int i2=0;i2<globalSensors[i].numPins;i2++){
       pinMode(globalSensors[i].pins[i2], INPUT);
-      //Serial.println("PUESTO EL PIN ");//,globalSensors[i].pins[i2]);
-      //Serial.println(globalSensors[i].pins[i2],DEC);
     }  
     for(int i2=0;i2<globalSensors[i].numPinsAnalog;i2++)
       pinMode(globalSensors[i].pinsAnalog[i2], INPUT);
@@ -296,7 +286,7 @@ void readSensor_ONE_PIN_DIGITAL(Tsensor *sensor){
     sensor->measurementMIN=0;
   } 
 }
-
+  
 void readSensor_ONE_PIN_ANALOG(Tsensor *sensor){
   int read = analogRead( sensor->pinsAnalog[0]);
   if(read > sensor->measurementMAX)
@@ -310,7 +300,7 @@ void readSensor_ONE_PIN_ANALOG(Tsensor *sensor){
 
 
 void readSensor_DHT11(Tsensor *sensor){
-// Leemos la humedad relativa
+  // Leemos la humedad relativa
   float h = dht.readHumidity();
   // Leemos la temperatura en grados centígrados (por defecto)
   float t = dht.readTemperature();
@@ -329,20 +319,21 @@ void readSensor_DHT11(Tsensor *sensor){
   float hic = dht.computeHeatIndex(t, h, false);
   DHT11reads[0]=h;
   DHT11reads[1]=t;
- /*
-  Serial.print("Humedad: ");
-  Serial.print(h);
-  Serial.print(" %\t");
-  Serial.print("Temperatura: ");
-  Serial.print(t);
-  Serial.print(" *C ");
-  Serial.print(f);
-  Serial.print(" *F\t");
-  Serial.print("Índice de calor: ");
-  Serial.print(hic);
-  Serial.print(" *C ");
-  Serial.print(hif);
-  Serial.println(" *F");*/
+  #if  VERVOSE 
+    Serial.print("Humedad: ");
+    Serial.print(h);
+    Serial.print(" %\t");
+    Serial.print("Temperatura: ");
+    Serial.print(t);
+    Serial.print(" *C ");
+    Serial.print(f);
+    Serial.print(" *F\t");
+    Serial.print("Índice de calor: ");
+    Serial.print(hic);
+    Serial.print(" *C ");
+    Serial.print(hif);
+    Serial.println(" *F");
+  #endif
 }
 
 
@@ -363,12 +354,15 @@ void readSensors(int doAll){
   //Serial.print("\n");
   for(int i=0;i<NUM_SENSORS;i++){
     if(i != DHT11_SENSOR){
-      /*  Serial.print(msg[i]); 
-      Serial.print(globalSensors[i].measurement);
-      Serial.print(" Valor máximo: ");
-      Serial.print(globalSensors[i].measurementMAX);
-      Serial.print(" Valor mínimo: ");
-      Serial.print(globalSensors[i].measurementMIN);*/
+      #if  VERVOSE
+        Serial.print(msg[i]); 
+        Serial.print(globalSensors[i].measurement);
+        Serial.print(" Valor máximo: ");
+        Serial.print(globalSensors[i].measurementMAX);
+        Serial.print(" Valor mínimo: ");
+        Serial.print(globalSensors[i].measurementMIN);
+        Serial.print("\n");
+      #endif
       if( i == VIBRATION_SENSOR || i==OBSTACLE_SENSOR || i==PHOTOSENSITIVE_SENSOR || i==FLAME_SENSOR){
         globalSensors[i].measurementMIN=1;
         globalSensors[i].measurementMAX=0;
