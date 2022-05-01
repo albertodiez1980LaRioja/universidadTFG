@@ -423,5 +423,8 @@ int main(void)
     //  connection.exitConnection();
 
     // gcc - Wall - o blink blink.c - lwiringPi
+    // compilation
+    // gcc -Wall -o principal principal.cpp -lwiringPi -I/usr/include/postgresql -lpq
+
     return 0;
 }
