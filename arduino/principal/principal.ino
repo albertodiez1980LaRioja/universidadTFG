@@ -72,7 +72,6 @@ void RBconnection::begin()
   for (int i = 1; i < 8; i++)
   {
     maskBit[i] = maskBit[i - 1] / 2;
-    Serial.println(maskBit[i]);
   }
   state = 0;
   lenghtBufferOut = 0;

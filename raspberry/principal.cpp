@@ -402,13 +402,13 @@ PGresult *BDconnection::startTransaction(char *sentence)
     return (res);
 }
 
-int main(void)
+int main(void) 
 {
     wiringPiSetup();
     ArduinoConnection arduinoConnection(22, 23, 24);
     BDconnection connection;
     connection.getConnection(); // connect to bbdd
-
+  
     while (true)
     {
         arduinoConnection.wait();
@@ -426,5 +426,5 @@ int main(void)
     // compilation
     // gcc -Wall -o principal principal.cpp -lwiringPi -I/usr/include/postgresql -lpq
 
-    return 0;
+    return 0; 
 }
