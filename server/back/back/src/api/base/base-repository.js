@@ -6,7 +6,7 @@ class BaseRepository {
 
     async get(req, res) {
         try {
-            const rows = await model.findAll();
+            const rows = await this.model.findAll();
             res.status(200).json({ data: rows });
         } catch (err) {
             res.status(500).json({
@@ -19,7 +19,7 @@ class BaseRepository {
     async getOneEntity(req, res) {
         const { id } = req.params;
         try {
-            const filas = await model.findOne({
+            const filas = await this.model.findOne({
                 where: { id }
             });
             res.json(filas);
@@ -34,7 +34,7 @@ class BaseRepository {
     async update(req, res) {
         const { id } = req.params;
         let campos = req.body;
-        const filas = await model.findAll({
+        const filas = await this.model.findAll({
             //attributes:camposText,
             attributes: req.params,
             where: { id }
@@ -56,7 +56,7 @@ class BaseRepository {
     async delete(req, res) {
         const { id } = req.params;
         try {
-            const deletedRowCount = await model.destroy({
+            const deletedRowCount = await this.model.destroy({
                 where: { id }
             });
             res.json({ message: 'Deleted sucessfully', deletedRowCount: deletedRowCount });
@@ -71,7 +71,7 @@ class BaseRepository {
     async create(req, res) {
         let campos = req.body;
         try {
-            let newRow = await model.create(campos, {
+            let newRow = await this.model.create(campos, {
                 fields: campos['id_asignatura']
             })
             if (newRow) {

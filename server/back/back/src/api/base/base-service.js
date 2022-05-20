@@ -22,6 +22,10 @@ class BaseService {
     async create(req, res) {
         return await this.repository.create(req, res);
     }
+
+    async getOneEntity(req, res) {
+        return await this.repository.getOneEntity(req, res);
+    }
 }
 
 exports.BaseService = (repository) => new BaseService(repository);

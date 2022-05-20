@@ -1,11 +1,11 @@
+import { PlaceService } from './places-service';
+import { PlaceRepository } from './places-repository';
+import Place from './places-model';
+
 const { BaseController } = require("../base/base-controller");
 
 class PlaceController extends BaseController {
-    constructor(service, options = {}) {
-        super(service, options);
-        this.service = service;
-        this.options = options;
-    }
+
 }
 
-exports.PlaceController = (service) => new PlaceController(service);
+export default new PlaceController(PlaceService(PlaceRepository(Place)));

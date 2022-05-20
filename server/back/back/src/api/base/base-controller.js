@@ -1,26 +1,23 @@
 import { Router } from 'express';
-const router = Router();
-
-export default router;
-
+const RouterPlace = Router();
 
 class BaseController {
     constructor(service, options = {}) {
         this.service = service;
         this.options = options;
-
-        router.post('', this.create); // el endpoint y el manejador
-        router.get('', this.get);
-        router.get('/:id', this.get);
-        router.delete('/:id', this.delete);
-        router.put('/:id', this.update);
+        this.routerPlace = RouterPlace;
+        this.routerPlace.get('', this.get.bind(this));
+        this.routerPlace.get('/:id', this.getOneEntity.bind(this));
+        this.routerPlace.patch('', this.update.bind(this));
+        this.routerPlace.delete('', this.delete.bind(this));
+        this.routerPlace.post('', this.create.bind(this));
     }
 
     async get(req, res) {
-        this.service.get(req, res);
+        return await this.service.get(req, res);
     }
 
-    async get(req, res) {
+    async getOneEntity(req, res) {
         return await this.service.get(req, res);
     }
 
@@ -38,3 +35,4 @@ class BaseController {
 }
 
 exports.BaseController = (service) => new BaseController(service);
+
