@@ -1,5 +1,6 @@
 class BaseRepository {
     constructor(model, options = {}) {
+        console.log(model);
         this.model = model;
         this.options = options;
     }
@@ -32,10 +33,10 @@ class BaseRepository {
     }
 
     async update(req, res) {
+
         const { id } = req.params;
         let campos = req.body;
         const filas = await this.model.findAll({
-            //attributes:camposText,
             attributes: req.params,
             where: { id }
         });

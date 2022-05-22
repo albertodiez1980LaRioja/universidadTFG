@@ -1,14 +1,13 @@
 const { BaseRepository } = require("../base/base-repository");
 
-class PlaceRepository extends BaseRepository {
-
+class OwnerRepository extends BaseRepository {
     constructor(model, options = {}) {
         super(model, options);
         this.getOneEntity = async function (req, res) {
-            const { latitude, longitude } = req.params;
+            const { dni } = req.params;
             try {
                 const filas = await this.model.findOne({
-                    where: { latitude, longitude }
+                    where: { dni }
                 });
                 res.json(filas);
             } catch (err) {
@@ -20,11 +19,11 @@ class PlaceRepository extends BaseRepository {
         }
 
         this.update = async function (req, res) {
-            const { latitude, longitude } = req.params;
+            const { dni } = req.params;
             let campos = req.body;
             const filas = await this.model.findAll({
                 attributes: req.params,
-                where: { latitude, longitude }
+                where: { dni }
             });
             try {
                 if (filas.length > 0) {
@@ -41,10 +40,10 @@ class PlaceRepository extends BaseRepository {
         }
 
         this.delete = async function (req, res) {
-            const { latitude, longitude } = req.params;
+            const { dni } = req.params;
             try {
                 const deletedRowCount = await this.model.destroy({
-                    where: { latitude, longitude }
+                    where: { dni }
                 });
                 res.json({ message: 'Deleted sucessfully', deletedRowCount: deletedRowCount });
             } catch (err) {
@@ -57,10 +56,6 @@ class PlaceRepository extends BaseRepository {
 
 
     }
-
-
-
-
 }
 
-exports.PlaceRepository = (model) => new PlaceRepository(model); 
+exports.OwnerRepository = (model) => new OwnerRepository(model); 
