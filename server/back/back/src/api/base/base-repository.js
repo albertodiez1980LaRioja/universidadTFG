@@ -17,28 +17,11 @@ class BaseRepository {
         }
     }
 
-    async getOneEntity(req, res) {
-        const { id } = req.params;
-        try {
-            const filas = await this.model.findOne({
-                where: { id }
-            });
-            res.json(filas);
-        } catch (err) {
-            res.status(500).json({
-                message: 'Something goes wrong: ' + err,
-                data: {}
-            });
-        }
-    }
-
     async update(req, res) {
-
-        const { id } = req.params;
         let campos = req.body;
         const filas = await this.model.findAll({
             attributes: req.params,
-            where: { id }
+            where: req.params
         });
         try {
             if (filas.length > 0) {
@@ -54,11 +37,25 @@ class BaseRepository {
         }
     }
 
+    async getOneEntity(req, res) {
+        console.log(req.params);
+        try {
+            const filas = await this.model.findOne({
+                where: req.params
+            });
+            res.json(filas);
+        } catch (err) {
+            res.status(500).json({
+                message: 'Something goes wrong: ' + err,
+                data: {}
+            });
+        }
+    }
+
     async delete(req, res) {
-        const { id } = req.params;
         try {
             const deletedRowCount = await this.model.destroy({
-                where: { id }
+                where: req.params
             });
             res.json({ message: 'Deleted sucessfully', deletedRowCount: deletedRowCount });
         } catch (err) {

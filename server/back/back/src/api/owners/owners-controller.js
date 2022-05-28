@@ -9,10 +9,9 @@ let { BaseController } = require("../base/base-controller");
 class OwnerController extends BaseController {
     constructor(service, options = {}) {
         super(service, options);
-        //this.routerPlace.get('/:id', this.getOneEntity.bind(this));
+
         this.routerPlace = RouterPlace;
         this.routerPlace.get('/:dni', this.getOneEntity.bind(this));
-        //console.log(this.routerPlace);
         this.routerPlace.get('', this.get.bind(this));
 
         this.routerPlace.patch('/:dni', this.update.bind(this));
