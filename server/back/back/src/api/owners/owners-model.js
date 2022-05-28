@@ -7,11 +7,11 @@ const Owner = sequelize.define('owners', {
         type: Sequelize.STRING,
         primaryKey: true,
     },
-    name: { type: Sequelize.STRING },
-    telephone: { type: Sequelize.STRING },
-    celular: { type: Sequelize.STRING },
-    address: { type: Sequelize.STRING },
-    email: { type: Sequelize.STRING },
+    name: { type: Sequelize.STRING, allowNull: false, },
+    telephone: { type: Sequelize.STRING, allowNull: false, },
+    celular: { type: Sequelize.STRING, allowNull: false, },
+    address: { type: Sequelize.STRING, allowNull: false, },
+    email: { type: Sequelize.STRING, allowNull: false, },
 }, {
     timestamps: false
 });

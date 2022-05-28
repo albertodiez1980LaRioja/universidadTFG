@@ -3,6 +3,8 @@ import morgan from 'morgan';
 
 import RouterOwner from './api/owners/owners-controller';
 import RouterPlace from './api/places/places-controller';
+import RouterO_P from './api/o_p/o_p-controller';
+import RouterMeasurement from './api/measurements/measurements-controller';
 
 
 // initialization
@@ -24,7 +26,9 @@ app.use(cors());
 
 
 // routes
-app.use('/api/places', RouterPlace.routerPlace);
-app.use('/api/owners', RouterOwner.routerPlace);
+app.use('/api/places', RouterPlace.router);
+app.use('/api/owners', RouterOwner.router);
+app.use('/api/o_p', RouterO_P.router);
+app.use('/api/measurements', RouterMeasurement.router);
 
 export default app;  

@@ -1,6 +1,5 @@
 class BaseRepository {
     constructor(model, options = {}) {
-        console.log(model);
         this.model = model;
         this.options = options;
     }
@@ -38,7 +37,6 @@ class BaseRepository {
     }
 
     async getOneEntity(req, res) {
-        console.log(req.params);
         try {
             const filas = await this.model.findOne({
                 where: req.params

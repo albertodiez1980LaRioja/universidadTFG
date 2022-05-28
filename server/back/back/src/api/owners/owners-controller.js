@@ -10,13 +10,13 @@ class OwnerController extends BaseController {
     constructor(service, options = {}) {
         super(service, options);
 
-        this.routerPlace = RouterPlace;
-        this.routerPlace.get('/:dni', this.getOneEntity.bind(this));
-        this.routerPlace.get('', this.get.bind(this));
+        this.router = RouterPlace;
+        this.router.get('/:dni', this.getOneEntity.bind(this));
+        this.router.get('', this.get.bind(this));
 
-        this.routerPlace.patch('/:dni', this.update.bind(this));
-        this.routerPlace.delete('/:dni', this.delete.bind(this));
-        this.routerPlace.post('', this.create.bind(this));
+        this.router.patch('/:dni', this.update.bind(this));
+        this.router.delete('/:dni', this.delete.bind(this));
+        this.router.post('', this.create.bind(this));
     }
 }
 
