@@ -2,16 +2,15 @@ const { BaseRepository } = require("../base/base-repository");
 import { Sequelize, DataTypes } from "sequelize";
 
 class MeasurementRepository extends BaseRepository {
-    constructor(model, options = {}) { 
+    constructor(model, options = {}) {
         super(model, options);
         this.getOneEntity = async function (req, res) {
             try {
                 const { latitude, longitude, date_time } = req.params;
-                const params = { latitude, longitude/*,date_time: new Date(date_time)*/ };
-                const date = new Date(date_time);
+                const params = { latitude, longitude, date_time: new Date(date_time) };
                 //console.log(params);
                 const filas = await this.model.findOne({
-                    where: params
+                    where: req.params
                 });
                 res.json(filas);
             } catch (err) {
