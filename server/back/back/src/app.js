@@ -4,7 +4,10 @@ import morgan from 'morgan';
 import RouterOwner from './api/owners/owners-controller';
 import RouterPlace from './api/places/places-controller';
 import RouterO_P from './api/o_p/o_p-controller';
+import RouterS_P from './api/s_p/s_p-controller';
 import RouterMeasurement from './api/measurements/measurements-controller';
+import RouterSensor from './api/sensors/sensors-controller';
+import RouterAlarm from './api/alarms/alarms-controller';
 
 
 // initialization
@@ -29,6 +32,9 @@ app.use(cors());
 app.use('/api/places', RouterPlace.router);
 app.use('/api/owners', RouterOwner.router);
 app.use('/api/o_p', RouterO_P.router);
+app.use('/api/s_p', RouterS_P.router);
 app.use('/api/measurements', RouterMeasurement.router);
+app.use('/api/sensors', RouterSensor.router);
+app.use('/api/alarms', RouterAlarm.router);
 
 export default app;  
