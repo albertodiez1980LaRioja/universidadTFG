@@ -2,7 +2,7 @@ import { Sequelize } from "sequelize";
 import { sequelize } from "../../database/database"; // importamos la cadena de conexion
 
 
-const Owner = sequelize.define('owners', {
+const Operator = sequelize.define('operators', {
     dni: {
         type: Sequelize.STRING,
         primaryKey: true,
@@ -16,4 +16,4 @@ const Owner = sequelize.define('owners', {
     timestamps: false
 });
 
-export default Owner;  
+export default Operator;  
