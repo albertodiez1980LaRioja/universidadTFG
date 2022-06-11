@@ -1,3 +1,5 @@
+import { Sequelize } from "sequelize";
+
 class BaseRepository {
     constructor(model, options = {}) {
         this.model = model;
@@ -8,10 +10,27 @@ class BaseRepository {
         let ret = {};
         let keysParams = Object.keys(params);
         let modelParams = Object.keys(this.model.tableAttributes);
-        console.log(keysParams, modelParams);
         keysParams.forEach(param => {
             if (modelParams.indexOf(param) > -1) {
                 ret[param] = params[param];
+            }
+            else if (param.includes('FINISH')) {
+                let initkey = param.substring(0, param.length - 6);
+                if (keysParams.indexOf(initkey + 'BEGIN') > -1) {
+                    ret[initkey] = {
+                        [Sequelize.Op.lte]: params[param],
+                        [Sequelize.Op.gte]: params[initkey + 'BEGIN']
+                    }
+                }
+                else {
+                    ret[initkey] = { [Sequelize.Op.lte]: params[param] }
+                }
+            }
+            else if (param.includes('BEGIN')) {
+                let initkey = param.substring(0, param.length - 5);
+                if (keysParams.indexOf(initkey + 'FINISH') < 0) {
+                    ret[initkey] = { [Sequelize.Op.gte]: params[param] }
+                }
             }
         }
         );
@@ -20,7 +39,6 @@ class BaseRepository {
 
     async get(req, res) {
         try {
-            console.log(req.query);
             const rows = await this.model.findAll({ where: this.validateParams(req.query) });
             res.status(200).json({ data: rows });
         } catch (err) {
@@ -35,7 +53,7 @@ class BaseRepository {
         let campos = req.body;
         const filas = await this.model.findAll({
             attributes: req.params,
-            where: req.params
+            where: this.validateParams(req.query)
         });
         try {
             if (filas.length > 0) {
@@ -68,7 +86,7 @@ class BaseRepository {
     async delete(req, res) {
         try {
             const deletedRowCount = await this.model.destroy({
-                where: req.params
+                where: this.validateParams(req.query)
             });
             res.json({ message: 'Deleted sucessfully', deletedRowCount: deletedRowCount });
         } catch (err) {
