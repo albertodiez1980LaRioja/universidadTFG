@@ -4,9 +4,24 @@ class BaseRepository {
         this.options = options;
     }
 
+    validateParams(params) {
+        let ret = {};
+        let keysParams = Object.keys(params);
+        let modelParams = Object.keys(this.model.tableAttributes);
+        console.log(keysParams, modelParams);
+        keysParams.forEach(param => {
+            if (modelParams.indexOf(param) > -1) {
+                ret[param] = params[param];
+            }
+        }
+        );
+        return ret;
+    }
+
     async get(req, res) {
         try {
-            const rows = await this.model.findAll();
+            console.log(req.query);
+            const rows = await this.model.findAll({ where: this.validateParams(req.query) });
             res.status(200).json({ data: rows });
         } catch (err) {
             res.status(500).json({
@@ -39,7 +54,7 @@ class BaseRepository {
     async getOneEntity(req, res) {
         try {
             const filas = await this.model.findOne({
-                where: req.params
+                where: this.validateParams(req.query)
             });
             res.json(filas);
         } catch (err) {
