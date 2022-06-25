@@ -37,9 +37,16 @@ class BaseRepository {
         return ret;
     }
 
-    async get(req, res) {
+    async getTransaction() {
+        return await Sequelize.transaction();
+    }
+
+    async get(req, res, transaction = undefined) {
         try {
-            const rows = await this.model.findAll({ where: this.validateParams(req.query) });
+            let params = { where: this.validateParams(req.query) };
+            if (transaction != undefined)
+                params.transaction = transaction;
+            const rows = await this.model.findAll(params);
             res.status(200).json({ data: rows });
         } catch (err) {
             res.status(500).json({
@@ -49,13 +56,16 @@ class BaseRepository {
         }
     }
 
-    async update(req, res) {
-        let campos = req.body;
-        const filas = await this.model.findAll({
-            attributes: req.params,
-            where: this.validateParams(req.query)
-        });
+    async update(req, res, transaction = undefined) {
         try {
+            let campos = req.body;
+            let objeto = {
+                attributes: req.params,
+                where: this.validateParams(req.query)
+            }
+            if (transaction != undefined)
+                objeto.transaction = transaction;
+            const filas = await this.model.findAll(objeto);
             if (filas.length > 0) {
                 filas.forEach(async row => {
                     await row.update(campos);
@@ -65,15 +75,19 @@ class BaseRepository {
                 message: 'Update sucess', data: filas
             });
         } catch (err) {
-            res.status(500).json({ message: 'Something goes wrong: ' + err });
+            if (transaction == undefined)
+                res.status(500).json({ message: 'Something goes wrong: ' + err });
+            else
+                throw err; // propagate the err
         }
     }
 
-    async getOneEntity(req, res) {
+    async getOneEntity(req, res, transaction = undefined) {
         try {
-            const filas = await this.model.findOne({
-                where: this.validateParams(req.query)
-            });
+            let params = { where: this.validateParams(req.query) };
+            if (transaction != undefined)
+                params.transaction = transaction;
+            const filas = await this.model.findOne(params);
             res.json(filas);
         } catch (err) {
             res.status(500).json({
@@ -83,26 +97,33 @@ class BaseRepository {
         }
     }
 
-    async delete(req, res) {
+    async delete(req, res, transaction = undefined) {
         try {
-            const deletedRowCount = await this.model.destroy({
-                where: this.validateParams(req.query)
-            });
+            let objeto = { where: this.validateParams(req.query) };
+            if (transaction != undefined)
+                objeto.transaction = transaction;
+            const deletedRowCount = await this.model.destroy(objeto);
             res.json({ message: 'Deleted sucessfully', deletedRowCount: deletedRowCount });
         } catch (err) {
-            res.status(500).json({
-                message: 'Something goes wrong: ' + err,
-                data: {}
-            });
+            if (transaction == undefined)
+                res.status(500).json({
+                    message: 'Something goes wrong: ' + err,
+                    data: {}
+                });
+            else
+                throw err; // propagate the err
         }
     }
 
-    async create(req, res) {
+    async create(req, res, transaction = undefined) {
         let campos = req.body;
         try {
-            let newRow = await this.model.create(campos, {
+            let params = {
                 fields: campos['id_asignatura']
-            })
+            };
+            if (transaction != undefined)
+                params.transaction = transaction;
+            let newRow = await this.model.create(campos, params)
             if (newRow) {
                 res.json({
                     message: 'Created succefully',
@@ -110,10 +131,13 @@ class BaseRepository {
                 });
             }
         } catch (err) {
-            res.status(500).json({
-                message: 'Something goes wrong: ' + err,
-                data: {}
-            });
+            if (transaction == undefined)
+                res.status(500).json({
+                    message: 'Something goes wrong: ' + err,
+                    data: {}
+                });
+            else
+                throw err; // propagate the err
         }
 
     }
