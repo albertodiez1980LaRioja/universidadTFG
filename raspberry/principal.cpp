@@ -229,7 +229,10 @@ void ArduinoConnection ::wait()
                         printf("Temperatura: %u\n", bufferIn[14]);
                     }
                     else
+                    {
                         printf("Paquete con checksum incorrecto\n\n");
+                        this->writeToBBDD = false;
+                    }
                     isIn = 0;
                 }
                 nowBufferIn++;
