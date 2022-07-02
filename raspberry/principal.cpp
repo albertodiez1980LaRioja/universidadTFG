@@ -80,9 +80,9 @@ void ArduinoConnection ::wait()
     if (this->pinCLK != -1)
     {
         this->state++;
-        if (this->state == 1)
+        if (this->state == 1) // first send the packet to arduino
         {
-            if (this->actualBufferOut < (this->lenghtBufferOut * 8))
+            if (this->actualBufferOut < (this->lenghtBufferOut * 8)) // send the bit data
             {
                 int numByte = this->actualBufferOut / 8;
                 int numBit = this->actualBufferOut % 8;
@@ -100,7 +100,7 @@ void ArduinoConnection ::wait()
             {
                 digitalWrite(this->pinOut, LOW);
             }
-            if (this->bitCLK)
+            if (this->bitCLK) // send the clock signal
             {
                 digitalWrite(this->pinCLK, HIGH);
                 this->bitCLK = 0;
@@ -112,7 +112,7 @@ void ArduinoConnection ::wait()
             }
             delay(msToDelay);
         }
-        else if (this->state == 2)
+        else if (this->state == 2) // receibe the data
         {
             delay(msToDelay);
             int read = digitalRead(this->pinIn);
@@ -120,7 +120,7 @@ void ArduinoConnection ::wait()
             {
                 if (!isIn)
                 {
-                    for (int i = 0; i < 50; i++)
+                    for (int i = 0; i < 50; i++) // reset the buffer
                         bufferIn[i] = 0;
                     nowBufferIn = 0;
                     this->lenghtBufferIn = 2;
@@ -156,7 +156,7 @@ void ArduinoConnection ::wait()
                     }
                 }
 
-                if (this->nowBufferIn == this->lenghtBufferIn * 8)
+                if (this->nowBufferIn == this->lenghtBufferIn * 8 && bufferIn[2] != 0)
                 {
                     this->writeToBBDD = true;
                     printf("Paquete recibido: \n");
