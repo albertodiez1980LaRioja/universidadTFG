@@ -343,8 +343,8 @@ int BDconnection::insertRow(int binary_values, int has_persons, int has_sound, i
         this->exit_nicely(conn);
     }
     numRows = PQcmdTuples(res)[0];
-    printf("Número de filas introducidas: %d\n", numRows);
-    // show_binary_results(res);
+    // printf("Número de filas introducidas: %d\n", numRows);
+    //  show_binary_results(res);
 
     PQclear(res);
     return 1;
@@ -407,6 +407,7 @@ PGresult *BDconnection::startTransaction(char *sentence)
 
 int main(void)
 {
+    int numRows = 0;
     wiringPiSetup();
     ArduinoConnection arduinoConnection(22, 23, 24);
     BDconnection connection;
@@ -421,6 +422,8 @@ int main(void)
                                  arduinoConnection.getHasSound(), arduinoConnection.getHasGas(), arduinoConnection.getHasOil(),
                                  arduinoConnection.getHasRain(), arduinoConnection.getTemperature(), arduinoConnection.getHumidity());
             arduinoConnection.resetWriteToBBDD();
+            numRows++;
+            printf("Número de filas introducidas: %d\n", numRows);
         }
     }
     //  connection.exitConnection();
