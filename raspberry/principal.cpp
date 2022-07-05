@@ -309,7 +309,7 @@ int BDconnection::insertRow(int binary_values, int has_persons, int has_sound, i
     */
     const char *paramValues[10];
     char stringValue[100][100];
-    int numRows;
+    // int numRows;
     sprintf(stringValue[0], "%d", binary_values);
     paramValues[0] = stringValue[0];
     sprintf(stringValue[1], "%d", has_persons);
@@ -342,9 +342,9 @@ int BDconnection::insertRow(int binary_values, int has_persons, int has_sound, i
         PQclear(res);
         this->exit_nicely(conn);
     }
-    numRows = PQcmdTuples(res)[0];
-    // printf("Número de filas introducidas: %d\n", numRows);
-    //  show_binary_results(res);
+    // numRows = PQcmdTuples(res)[0];
+    //  printf("Número de filas introducidas: %d\n", numRows);
+    //   show_binary_results(res);
 
     PQclear(res);
     return 1;
