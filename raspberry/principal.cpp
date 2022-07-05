@@ -156,7 +156,7 @@ void ArduinoConnection ::wait()
                     }
                 }
 
-                if (this->nowBufferIn == this->lenghtBufferIn * 8 && bufferIn[2] != 0)
+                if (this->nowBufferIn == this->lenghtBufferIn * 8 /*&& bufferIn[2] != 0*/)
                 {
                     this->writeToBBDD = true;
                     printf("Paquete recibido: \n");
