@@ -5,7 +5,7 @@ import { Sequelize } from "sequelize";
 export const sequelize = new Sequelize(
     //'node1',
     'postgres',
-    'postgres',
+    'pi',
     'password', {
     host: 'localhost',
     dialect: 'postgres',

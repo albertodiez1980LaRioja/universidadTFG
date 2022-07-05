@@ -281,9 +281,9 @@ RBconnection connection;
 
 void setup()
 {
-#if VERVOSE
+//#if VERVOSE
   Serial.begin(9600); // conf. velocidad del monitor Serial
-#endif
+//#endif
   int i;
   for (i = 0; i < NUM_SENSORS; i++)
   {
