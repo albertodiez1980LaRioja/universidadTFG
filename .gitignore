@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+
+
+# node directorys
+
+raspberry/back/node_modules/
+server/bac/back/node_modules/
+server/front/TFGscada-app/node_modules/

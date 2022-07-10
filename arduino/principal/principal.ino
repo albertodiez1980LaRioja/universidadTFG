@@ -12,6 +12,14 @@ typedef struct
   int numPinsAnalog;
 } Tsensor;
 
+typedef struct
+{
+  byte code;
+  int value;
+  int isAnalog;
+  int pin;  
+}Toutput;
+
 #define HC_SR501 0
 #define VIBRATION_SENSOR 1
 #define SOUND_SENSOR 2
@@ -35,6 +43,15 @@ Tsensor globalSensors[] = {
     {7, 0, 0, 0, {3, -1, -1}, 1, {-1, -1, -1}, 0},
     {8, 0, 0, 0, {4, -1, -1}, 1, {-1, -1, -1}, 0},
     {9, 0, 0, 0, {5, -1, -1}, 1, {-1, -1, -1}, 0},
+};
+
+
+#define NUM_OUTPUTS 4
+Toutput globalOutputs[] = {
+  {1,1,0,7},
+  {1,1,0,8},
+  {1,1,0,9},
+  {1,0,0,10},
 };
 
 class RBconnection
@@ -294,6 +311,15 @@ void setup()
     }
     for (int i2 = 0; i2 < globalSensors[i].numPinsAnalog; i2++)
       pinMode(globalSensors[i].pinsAnalog[i2], INPUT);
+  }
+  for(int i = 0;i<NUM_OUTPUTS;i++){
+    pinMode(globalOutputs[i].pin,OUTPUT);
+  }
+  for(int i = 0;i<NUM_OUTPUTS;i++){
+    if(globalOutputs[i].value)
+      digitalWrite(globalOutputs[i].pin,HIGH);
+    else
+      digitalWrite(globalOutputs[i].pin,LOW);
   }
   dht.begin();
   connection.begin();
