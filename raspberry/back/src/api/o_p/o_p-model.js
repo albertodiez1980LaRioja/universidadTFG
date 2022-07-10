@@ -2,7 +2,7 @@ import { Sequelize } from "sequelize";
 import { sequelize } from "../../database/database"; // importamos la cadena de conexion
 
 
-const Place = sequelize.define('places', {
+const O_P = sequelize.define('o_p', {
     latitude: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -11,14 +11,14 @@ const Place = sequelize.define('places', {
         type: Sequelize.INTEGER,
         primaryKey: true,
     },
-
-    address: {
-        type: Sequelize.TEXT, allowNull: false,
+    dni: {
+        type: Sequelize.STRING,
+        primaryKey: true
     }
 
 }, {
     timestamps: false
 });
 
-//console.log('p', Place);
-export default Place;  
+
+export default O_P;  
