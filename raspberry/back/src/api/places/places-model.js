@@ -12,9 +12,6 @@ const Place = sequelize.define('place', {
         primaryKey: true,
     },
 
-    address: {
-        type: Sequelize.TEXT, allowNull: false,
-    }
 
 }, {
     timestamps: false
