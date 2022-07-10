@@ -16,31 +16,31 @@ const Sensor = sequelize.define('sensors', {
         allowNull: false,
     },
     has_persons: {
-        type: Sequelize.SMALLSTRING,
+        type: Sequelize.SMALLINT,
         allowNull: true,
     },
     has_sound: {
-        type: Sequelize.SMALLSTRING,
+        type: Sequelize.SMALLINT,
         allowNull: true,
     },
     has_gas: {
-        type: Sequelize.SMALLSTRING,
+        type: Sequelize.SMALLINT,
         allowNull: true,
     },
     has_oil: {
-        type: Sequelize.SMALLSTRING,
+        type: Sequelize.SMALLINT,
         allowNull: true,
     },
     has_rain: {
-        type: Sequelize.SMALLSTRING,
+        type: Sequelize.SMALLINT,
         allowNull: true,
     },
     has_temperature: {
-        type: Sequelize.SMALLSTRING,
+        type: Sequelize.SMALLINT,
         allowNull: true,
     },
     humidity: {
-        type: Sequelize.SMALLSTRING,
+        type: Sequelize.SMALLINT,
         allowNull: true,
     },
 
