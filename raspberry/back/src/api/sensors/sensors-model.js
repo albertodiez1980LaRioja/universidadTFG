@@ -35,7 +35,7 @@ const Sensor = sequelize.define('sensors', {
         type: Sequelize.SMALLINT,
         allowNull: true,
     },
-    has_temperature: {
+    temperature: {
         type: Sequelize.SMALLINT,
         allowNull: true,
     },
