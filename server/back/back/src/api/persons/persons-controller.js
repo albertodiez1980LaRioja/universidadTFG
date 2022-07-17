@@ -1,12 +1,12 @@
-import { OwnerService } from './owners-service';
-import { OwnerRepository } from './owners-repository';
-import Owner from './owners-model';
+import { PersonService } from './persons-service';
+import { PersonRepository } from './persons-repository';
+import Person from './persons-model';
 import { Router } from 'express';
 const RouterPlace = Router();
 
 let { BaseController } = require("../base/base-controller");
 
-class OwnerController extends BaseController {
+class PersonController extends BaseController {
     constructor(service, options = {}) {
         super(service, options);
 
@@ -20,4 +20,4 @@ class OwnerController extends BaseController {
     }
 }
 
-export default new OwnerController(new OwnerService(new OwnerRepository(Owner)));
+export default new PersonController(new PersonService(new PersonRepository(Person)));

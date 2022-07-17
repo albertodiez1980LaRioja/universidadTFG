@@ -2,7 +2,7 @@ import { Sequelize } from "sequelize";
 import { sequelize } from "../../database/database"; // importamos la cadena de conexion
 
 
-const Operator = sequelize.define('operators', {
+const Person = sequelize.define('persons', {
     dni: {
         type: Sequelize.STRING,
         primaryKey: true,
@@ -16,4 +16,4 @@ const Operator = sequelize.define('operators', {
     timestamps: false
 });
 
-export default Operator;  
+export default Person;  

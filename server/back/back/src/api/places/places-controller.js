@@ -1,7 +1,6 @@
 import { PlaceService } from './places-service';
 import { PlaceRepository } from './places-repository';
 import Place from './places-model';
-import Owner from '../owners/owners-model';
 import { Router } from 'express';
 const RouterPlace = Router();
 let { BaseController } = require("../base/base-controller");
