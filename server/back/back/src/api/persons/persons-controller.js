@@ -18,6 +18,32 @@ class PersonController extends BaseController {
         this.router.delete('/:dni', this.delete.bind(this));
         this.router.post('', this.create.bind(this));
     }
+
+    async authenticate(req, res, next) {
+        try {
+
+            // Check credentials. If correct, user entity is returned
+            const { username, password } = req.body;
+            const user = await this.service.authenticate(username, password);
+            if (!user) throw this.httpErrors.create(401, res.__('Invalid credentials'));
+
+            // Create a new user token
+            const payload = {};
+            payload.username = user.username;
+            const token = this.jwt.createToken(payload);
+
+            res.json({
+                success: true,
+                message: this.successMessage(user.username, 'authenticated', res.__mf),
+                result: {
+                    token,
+                    user: this.mapEntity(user)
+                }
+            });
+        } catch (err) {
+            next(err);
+        }
+    }
 }
 
 export default new PersonController(new PersonService(new PersonRepository(Person)));

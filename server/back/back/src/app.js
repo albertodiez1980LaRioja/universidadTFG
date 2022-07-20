@@ -8,6 +8,7 @@ import RouterS_P from './api/s_p/s_p-controller';
 import RouterMeasurement from './api/measurements/measurements-controller';
 import RouterSensor from './api/sensors/sensors-controller';
 import RouterAlarm from './api/alarms/alarms-controller';
+const jwt = require('../middlewares/jwt.middleware');
 
 
 // initialization
@@ -27,6 +28,18 @@ app.use(cors());
 //app.use(bodyParser.json());                                     // parse application/json
 //app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 
+var requestTime = function (req, res, next) {
+    try {
+        console.log(`[REQ] ${req.method} ${req.originalUrl}`);
+        next();
+    } catch (err) {
+        next(err);
+    }
+}
+
+
+app.use(requestTime);
+app.use(jwt);
 
 // routes
 app.use('/api/places', RouterPlace.router);
