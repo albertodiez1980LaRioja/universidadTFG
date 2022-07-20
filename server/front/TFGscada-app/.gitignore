@@ -9,6 +9,7 @@
 # Node
 /node_modules
 /server/back/back/node_modules
+/server/back/back/.env
 npm-debug.log
 yarn-error.log
 
