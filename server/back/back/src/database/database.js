@@ -1,14 +1,14 @@
 import { Sequelize } from "sequelize";
+import config from '../../config/config';
 
 
 // la cadena de conexion
 export const sequelize = new Sequelize(
-    //'node1',
-    'postgres',
-    'postgres',
-    'password', {
-    host: 'localhost',
-    dialect: 'postgres',
+    config.sequelize.user,
+    config.sequelize.db,
+    config.sequelize.pass, {
+    host: config.sequelize.host,
+    dialect: config.sequelize.dialect,
     pool: {
         max: 5,
         min: 0,
