@@ -4,6 +4,8 @@ import Person from './persons-model';
 import { Router } from 'express';
 const RouterPlace = Router();
 
+
+
 let { BaseController } = require("../base/base-controller");
 
 class PersonController extends BaseController {
@@ -44,6 +46,8 @@ class PersonController extends BaseController {
             next(err);
         }
     }
+
+
 }
 
 export default new PersonController(new PersonService(new PersonRepository(Person)));

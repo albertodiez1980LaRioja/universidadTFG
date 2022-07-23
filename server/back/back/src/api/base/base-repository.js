@@ -43,11 +43,11 @@ class BaseRepository {
 
     async get(req, res, transaction = undefined) {
         try {
-            let params = { where: this.validateParams(req.query) };
+            let params = { where: this.validateParams(req.params) };
             if (transaction != undefined)
                 params.transaction = transaction;
             const rows = await this.model.findAll(params);
-            res.status(200).json({ data: rows });
+            return rows;
         } catch (err) {
             res.status(500).json({
                 message: 'Something goes wrong: ' + err,
@@ -61,7 +61,7 @@ class BaseRepository {
             let campos = req.body;
             let objeto = {
                 attributes: req.params,
-                where: this.validateParams(req.query)
+                where: this.validateParams(req.params)
             }
             if (transaction != undefined)
                 objeto.transaction = transaction;
@@ -71,9 +71,7 @@ class BaseRepository {
                     await row.update(campos);
                 });
             }
-            res.json({
-                message: 'Update sucess', data: filas
-            });
+            return filas;
         } catch (err) {
             if (transaction == undefined)
                 res.status(500).json({ message: 'Something goes wrong: ' + err });
@@ -84,11 +82,11 @@ class BaseRepository {
 
     async getOneEntity(req, res, transaction = undefined) {
         try {
-            let params = { where: this.validateParams(req.query) };
+            let params = { where: this.validateParams(req.params) };
             if (transaction != undefined)
                 params.transaction = transaction;
             const filas = await this.model.findOne(params);
-            res.json(filas);
+            return filas;
         } catch (err) {
             res.status(500).json({
                 message: 'Something goes wrong: ' + err,
@@ -99,11 +97,11 @@ class BaseRepository {
 
     async delete(req, res, transaction = undefined) {
         try {
-            let objeto = { where: this.validateParams(req.query) };
+            let objeto = { where: this.validateParams(req.params) };
             if (transaction != undefined)
                 objeto.transaction = transaction;
             const deletedRowCount = await this.model.destroy(objeto);
-            res.json({ message: 'Deleted sucessfully', deletedRowCount: deletedRowCount });
+            return deletedRowCount;
         } catch (err) {
             if (transaction == undefined)
                 res.status(500).json({
@@ -124,12 +122,7 @@ class BaseRepository {
             if (transaction != undefined)
                 params.transaction = transaction;
             let newRow = await this.model.create(campos, params)
-            if (newRow) {
-                res.json({
-                    message: 'Created succefully',
-                    data: newRow
-                });
-            }
+            return newRow;
         } catch (err) {
             if (transaction == undefined)
                 res.status(500).json({
