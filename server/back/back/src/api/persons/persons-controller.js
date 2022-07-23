@@ -2,6 +2,8 @@ import { PersonService } from './persons-service';
 import { PersonRepository } from './persons-repository';
 import Person from './persons-model';
 import { Router } from 'express';
+const jwt = require('jsonwebtoken');
+const config = require('../../../config/config');
 const RouterPlace = Router();
 
 
@@ -19,29 +21,34 @@ class PersonController extends BaseController {
         this.router.patch('/:dni', this.update.bind(this));
         this.router.delete('/:dni', this.delete.bind(this));
         this.router.post('', this.create.bind(this));
+        this.router.post('/authenticate', this.authenticate.bind(this));
     }
 
-    async authenticate(req, res, next) {
+    authenticate = async function (req, res, next) {
         try {
 
             // Check credentials. If correct, user entity is returned
-            const { username, password } = req.body;
-            const user = await this.service.authenticate(username, password);
-            if (!user) throw this.httpErrors.create(401, res.__('Invalid credentials'));
+            const { user_name, pass } = req.body;
+            const user = await this.service.authenticate(user_name, pass);
+            if (!user || user === undefined) {
+                res.status(500).json({
+                    message: 'User not found '
+                });
+                return;
+            }
 
-            // Create a new user token
-            const payload = {};
-            payload.username = user.username;
-            const token = this.jwt.createToken(payload);
-
+            // Genera el token de autenticación
+            delete user.dataValues.pass;
+            let token = jwt.sign({
+                usuario: user,
+            }, config.secret, {
+                expiresIn: config.tokenCaducity
+            })
             res.json({
-                success: true,
-                message: this.successMessage(user.username, 'authenticated', res.__mf),
-                result: {
-                    token,
-                    user: this.mapEntity(user)
-                }
-            });
+                ok: true,
+                usuario: user,
+                token,
+            })
         } catch (err) {
             next(err);
         }

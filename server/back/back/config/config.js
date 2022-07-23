@@ -7,6 +7,7 @@ const config = {
     expressPort: process.env.EXPRESS_PORT,
     listLimit: process.env.LIST_LIMIT || undefined,
     secret: process.env.SECRET,
+    tokenCaducity: process.env.TOKEN_CADUCITY,
     isApiSecured: process.env.API_SECURED,
     routesWhitelist: process.env.ROUTES_WHITELIST.split(','),
     sequelize: {
