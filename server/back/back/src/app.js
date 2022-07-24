@@ -9,10 +9,13 @@ import RouterMeasurement from './api/measurements/measurements-controller';
 import RouterSensor from './api/sensors/sensors-controller';
 import RouterAlarm from './api/alarms/alarms-controller';
 const jwt = require('../middlewares/jwt.middleware');
+import { sequelize } from "./database/database";
 
 
 // initialization
 var app = express();
+
+sequelize.authenticate().then(() => sequelize);
 
 app.disable('etag');
 

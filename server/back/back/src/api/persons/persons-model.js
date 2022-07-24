@@ -14,6 +14,7 @@ const Person = sequelize.define('persons', {
     celular: { type: Sequelize.STRING, allowNull: false, },
     address: { type: Sequelize.STRING, allowNull: false, },
     email: { type: Sequelize.STRING, allowNull: false, },
+    roles: { type: Sequelize.INTEGER, allowNull: false }
 }, {
     timestamps: false
 });
