@@ -1,0 +1,40 @@
+<div class="dashboard-container">
+  <mat-toolbar color="primary">
+    <button mat-icon-button (click)="toggle()">
+      <mat-icon *ngIf="show">menu</mat-icon>
+      <mat-icon *ngIf="!show">arrow_back</mat-icon>
+    </button>
+    <h3>Constroles remotos</h3>
+    <!--
+    <button mat-icon-button id="logout" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+    </button>
+    -->
+    <!-- <app-profile-card></app-profile-card> -->
+  </mat-toolbar>
+  <mat-drawer-container autosize>
+    <mat-drawer #drawer class="sidenav" mode="side">
+      <!--
+      <img class="dashboard-sidenav-img" src="/assets/sidenav-logo.png" />
+      <mat-divider></mat-divider>
+      -->
+
+      <mat-nav-list >
+        <mat-list-item
+          *ngFor="let item of sideNavItems"
+          [routerLink]="item.link"
+          routerLinkActive="active-list-item"
+        >
+          <mat-icon class="list-item-icon">{{ item.icon }}</mat-icon>
+          <span class="list-item-text">{{ item.text }}</span>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-drawer>
+
+    <div class="container">
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </mat-drawer-container>
+</div>
