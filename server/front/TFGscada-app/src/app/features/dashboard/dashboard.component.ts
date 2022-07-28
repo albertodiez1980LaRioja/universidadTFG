@@ -11,11 +11,17 @@ import { Router } from '@angular/router';
 export class DashboardComponent implements OnInit {
 
   @ViewChild('drawer') drawer: any;
-  sideNavItems:{icon:'',text:'',link:''}[] = [];//sideNavItems;
+  sideNavItems: { icon: string, text: string, link: string }[] = [
+    { icon: 'supervised_user_circle', text: 'Usuarios', link: './users' },
+    { icon: 'store', text: 'Lugares', link: './places' },
+    { icon: 'access_alarms', text: 'Alarmas', link: './alarms' },
+    { icon: 'flash_on', text: 'Acciones', link: './actions' },
+  ];//sideNavItems;
   show = true;
 
 
   constructor(/*private auth: AuthService, private router: Router*/) {
+    console.log(this.sideNavItems);
     /*this.sideNavItems = sideNavItems.filter((item) =>
       this.auth.user.role === 'admin' && this.auth.user.tenantId === 'admin'
         ? item.isAdministration
@@ -23,11 +29,12 @@ export class DashboardComponent implements OnInit {
     );*/
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   toggle(): void {
     this.drawer.toggle();
     this.show = !this.show;
+    console.log(this.sideNavItems);
   }
 
   logout(): void {

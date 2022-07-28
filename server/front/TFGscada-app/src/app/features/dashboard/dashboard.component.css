@@ -1,5 +1,4 @@
 @use '@angular/material' as mat;
-
 .dashboard-container {
   min-height: 90%;
   display: flex;
@@ -9,40 +8,40 @@
   bottom: 0;
   left: 0;
   right: 0;
+}
 
-  .mat-drawer-container{
-    min-height: 80%;
-  }
+.dashboard-container .mat-drawer-container {
+  min-height: 80%;
+}
 
-  #logout {
-    margin-left: auto;
-  }
+.dashboard-container #logout {
+  margin-left: auto;
 }
 
 ::ng-deep .mat-list-item {
   width: 70% !important;
   margin: auto;
 }
+
 .sidenav {
   width: 250px;
-  .dashboard-sidenav-img {
-    display: block;
-    width: 60%;
-    margin: 2rem auto;
-  }
+}
+
+.sidenav .dashboard-sidenav-img {
+  display: block;
+  width: 60%;
+  margin: 2rem auto;
 }
 
 .list-item-icon {
   margin: 10px;
   user-select: none;
-  //color: $gray;
-  color:black;
+  color: black;
 }
 
 .list-item-text {
   margin: 10px;
   user-select: none;
-  //color: $gray;
   color: black;
 }
 
@@ -56,27 +55,26 @@ mat-toolbar {
   height: 100%;
   display: flex;
   flex-direction: column;
+}
 
-  .content {
-    flex-shrink: 1;
-    flex-grow: 1;
-    overflow: auto;
-    padding: 1rem;
+.container .content {
+  flex-shrink: 1;
+  flex-grow: 1;
+  overflow: auto;
+  padding: 1rem;
+}
 
-    &::-webkit-scrollbar {
-      width: 10px;
-    }
-    &::-webkit-scrollbar-thumb {
-      background: #ccc;
-      border-radius: 4px;
-    }
-  }
+.container .content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.container .content::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
 }
 
 .active-list-item {
-  // color: mat-color($primary) !important;
   background-color: transparent !important;
-  //border-right: solid 3px mat.get-color-from-palette(blue, 700) !important;
   /* border-radius: 24px; */
 }
 
@@ -84,6 +82,7 @@ mat-toolbar {
   justify-content: start !important;
   align-items: center !important;
 }
+
 .hover-class:hover {
   background-color: transparent;
 }

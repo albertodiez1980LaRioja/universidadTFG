@@ -4,7 +4,7 @@
       <mat-icon *ngIf="show">menu</mat-icon>
       <mat-icon *ngIf="!show">arrow_back</mat-icon>
     </button>
-    <h3>Constroles remotos</h3>
+    <h3>Controles remotos</h3>
     <!--
     <button mat-icon-button id="logout" (click)="logout()">
       <mat-icon>logout</mat-icon>
@@ -19,7 +19,7 @@
       <mat-divider></mat-divider>
       -->
 
-      <mat-nav-list >
+      <mat-nav-list  [disableRipple]="true">
         <mat-list-item
           *ngFor="let item of sideNavItems"
           [routerLink]="item.link"
