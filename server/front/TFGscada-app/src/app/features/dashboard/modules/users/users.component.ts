@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UsersService } from './users.service';
 
 @Component({
   selector: 'app-users',
@@ -7,9 +8,28 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UsersComponent implements OnInit {
 
-  constructor() { }
+  constructor(public usersService: UsersService) {
+    this.usersService.getUsers()/*.subscribe({
+      next: (response) => {
+        console.log('respuesta: ', response);
+      },
+      error: (err) => {
+        console.log('Ha ocurrido un error: ', err);
+      }
+    });*/
+  }
 
   ngOnInit(): void {
+    this.usersService.getUsers().subscribe({
+      next: (response) => {
+        console.log('respuesta: ', response);
+      },
+      error: (err) => {
+        console.log('Ha ocurrido un error: ', err);
+      }
+    });
+
+
   }
 
 }

@@ -15,6 +15,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
@@ -32,7 +33,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatMenuModule,
     MatToolbarModule,
     MatIconModule, MatCardModule, MatSliderModule,
-    MatSidenavModule, MatListModule
+    MatSidenavModule, MatListModule, HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
