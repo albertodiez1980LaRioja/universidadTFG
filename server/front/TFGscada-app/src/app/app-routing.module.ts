@@ -2,7 +2,11 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
 
-const routes: Routes = [ 
+// App own modules and services
+//import { AuthGuard } from '@core/guards/auth.guard';
+import { DashboardGuard } from './guards/dashboard.guard';
+
+const routes: Routes = [
   {
     path: '',
     component: AppComponent,
@@ -20,9 +24,9 @@ const routes: Routes = [
           import('./features/dashboard/dashboard.module').then(
             (m) => m.DashboardModule
           ),
-        // canActivate: [DashboardGuard],
+        canActivate: [DashboardGuard],
       },
-      
+
       { path: '**', redirectTo: 'dashboard' },
     ],
   },
@@ -30,11 +34,11 @@ const routes: Routes = [
   { path: 'places', loadChildren: () => import('./features/dashboard/modules/places/places.module').then(m => m.PlacesModule) },
   { path: 'alarms', loadChildren: () => import('./features/dashboard/modules/alarms/alarms.module').then(m => m.AlarmsModule) },
   { path: 'actions', loadChildren: () => import('./features/dashboard/modules/actions/actions.module').then(m => m.ActionsModule) },
-  
+
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes), RouterModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

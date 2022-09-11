@@ -12,6 +12,8 @@ import { MatSliderModule } from '@angular/material/slider';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
+
+
 const routes: Routes = [
   {
     path: '',
@@ -31,6 +33,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes),
+    RouterModule,
     MatButtonModule,
     MatMenuModule,
     MatToolbarModule,

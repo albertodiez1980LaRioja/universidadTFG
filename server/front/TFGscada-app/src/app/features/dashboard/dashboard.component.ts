@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-//import { AuthService } from '@core/services/auth.service';
-//import { IUser } from '@shared/interfaces/users.interfaces';
+import { AuthService } from '../../guards/auth.service';
+import { IUser } from './modules/users/users-interfaces';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
   show = true;
 
 
-  constructor(/*private auth: AuthService, private router: Router*/) {
+  constructor(private auth: AuthService, private router: Router) {
     console.log(this.sideNavItems);
     /*this.sideNavItems = sideNavItems.filter((item) =>
       this.auth.user.role === 'admin' && this.auth.user.tenantId === 'admin'
