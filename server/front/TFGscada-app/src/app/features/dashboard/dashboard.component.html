@@ -11,7 +11,8 @@
     </button>
     -->
     <!-- <app-profile-card></app-profile-card> --> 
-    <button mat-raised-button [style.margin-left]="'auto'" matTooltip="Deslogear" (click)="logOut()"><mat-icon class="logout">launch</mat-icon></button>
+    <h3 [style.margin-left]="'auto'" [style.margin-right]="'3em'">{{this.auth.user.user_name}}</h3>
+    <button mat-raised-button  matTooltip="Deslogear" (click)="logOut()"><mat-icon class="logout">launch</mat-icon></button>
   </mat-toolbar>
   <mat-drawer-container autosize>
     <mat-drawer #drawer class="sidenav" mode="side">

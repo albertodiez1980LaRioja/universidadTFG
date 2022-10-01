@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
   show = true;
 
 
-  constructor(private auth: AuthService, private router: Router) {
+  constructor(public auth: AuthService, private router: Router) {
     console.log(this.sideNavItems);
     /*this.sideNavItems = sideNavItems.filter((item) =>
       this.auth.user.role === 'admin' && this.auth.user.tenantId === 'admin'
