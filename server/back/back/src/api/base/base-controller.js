@@ -42,12 +42,7 @@ class BaseController {
                 data: newRow
             });
         }
-        else {
-            res.status(500).json({
-                message: 'Something goes wrong: ' + err,
-                data: {}
-            });
-        }
+
         return newRow;
     }
 }

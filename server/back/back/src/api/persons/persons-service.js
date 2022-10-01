@@ -4,11 +4,20 @@ const bcrypt = require('bcrypt');
 
 class PersonService extends BaseService {
     authenticate = async function (username, plainPassword) {
-        if(username == undefined || plainPassword == undefined)
+        if (username == undefined || plainPassword == undefined)
             return undefined;
         const user = await this.repository.read({ username }, { scope: null });
         if (!user || user == undefined) return;
         const match = await bcrypt.compareSync(plainPassword, user.pass);
+        return match ? user : undefined;
+    }
+
+    verificate = async function (username, plainPassword) {
+        if (username == undefined || plainPassword == undefined)
+            return undefined;
+        const user = await this.repository.read({ username }, { scope: null });
+        if (!user || user == undefined) return;
+        const match = plainPassword == user.pass;
         return match ? user : undefined;
     }
 
@@ -23,8 +32,11 @@ class PersonService extends BaseService {
             req.body.pass = bcrypt.hashSync(req.body.pass, 10);
         }
         const ret = await this.repository.create(req, res);
-        delete ret.dataValues.pass;
-        return ret;
+        if (ret != undefined && ret.dataValues != undefined) {
+            delete ret.dataValues.pass;
+            return ret;
+        }
+        return undefined;
     }
 
     get = async function (req, res) {

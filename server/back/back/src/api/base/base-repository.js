@@ -73,10 +73,9 @@ class BaseRepository {
             }
             return filas;
         } catch (err) {
-            if (transaction == undefined)
-                res.status(500).json({ message: 'Something goes wrong: ' + err });
-            else
-                throw err; // propagate the err
+            if (transaction != undefined)
+                await transaction.rollback();
+            res.status(500).json({ message: 'Something goes wrong: ' + err });
         }
     }
 
@@ -103,13 +102,13 @@ class BaseRepository {
             const deletedRowCount = await this.model.destroy(objeto);
             return deletedRowCount;
         } catch (err) {
-            if (transaction == undefined)
-                res.status(500).json({
-                    message: 'Something goes wrong: ' + err,
-                    data: {}
-                });
-            else
-                throw err; // propagate the err
+            if (transaction != undefined)
+                await transaction.rollback();
+
+            res.status(500).json({
+                message: 'Something goes wrong: ' + err,
+                data: {}
+            });
         }
     }
 
@@ -124,13 +123,13 @@ class BaseRepository {
             let newRow = await this.model.create(campos, params)
             return newRow;
         } catch (err) {
-            if (transaction == undefined)
-                res.status(500).json({
-                    message: 'Something goes wrong: ' + err,
-                    data: {}
-                });
-            else
-                throw err; // propagate the err
+            if (transaction != undefined)
+                await transaction.rollback();
+
+            res.status(500).json({
+                message: 'Something goes wrong: ' + err,
+                data: {}
+            });
         }
 
     }

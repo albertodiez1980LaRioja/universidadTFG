@@ -42,18 +42,14 @@ export class AuthService {
         return false;
     }
 
-    authenticateUser(
-        user_name: string,
-        pass: string
-    ) {
-        console.log('Se hace la llamada');
+    authenticateUser(user_name: string, pass: string) {
         return this.http.post('http://localhost:3000/api/persons/authenticate', { user_name, pass });
     }
-    /*
-    validateToken(): Observable<IResponse<TokenUser>> {
-        return this.api.read('users/token');
+
+    validateToken(token: string) {
+        return this.http.post('http://localhost:3000/api/persons/validateToken', { token });
     }
-    */
+
     set user(user: IUser) {
         this._user = user;
     }
