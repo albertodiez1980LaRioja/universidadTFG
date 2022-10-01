@@ -9,6 +9,8 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthComponent } from './auth.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 const routes: Routes = [
   {
@@ -28,13 +30,17 @@ const routes: Routes = [
     MatButtonModule,
     MatMenuModule,
     MatToolbarModule,
-    MatIconModule, MatCardModule, MatSliderModule
+    MatIconModule, MatCardModule, MatSliderModule,
+    FormsModule,
+    MatFormFieldModule, MatInputModule
   ],
   exports: [RouterModule, MatButtonModule,
     MatMenuModule,
     MatToolbarModule,
     MatIconModule, MatCardModule, MatSliderModule,
-    FormsModule, ReactiveFormsModule
+    FormsModule, ReactiveFormsModule,
+    FormsModule,
+    MatFormFieldModule, MatInputModule
   ],
 })
 export class AuthModule { }

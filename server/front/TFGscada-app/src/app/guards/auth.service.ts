@@ -46,7 +46,8 @@ export class AuthService {
         user_name: string,
         pass: string
     ) {
-        return this.http.post('persons/authenticate', { user_name, pass });
+        console.log('Se hace la llamada');
+        return this.http.post('http://localhost:3000/api/persons/authenticate', { user_name, pass });
     }
     /*
     validateToken(): Observable<IResponse<TokenUser>> {

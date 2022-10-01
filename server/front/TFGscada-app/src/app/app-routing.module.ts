@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AppComponent } from './app.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
 
 // App own modules and services
 //import { AuthGuard } from '@core/guards/auth.guard';
@@ -38,7 +41,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), RouterModule],
+  imports: [RouterModule.forRoot(routes), RouterModule
+    , MatFormFieldModule,
+    MatInputModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

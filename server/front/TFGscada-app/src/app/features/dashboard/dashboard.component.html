@@ -10,7 +10,8 @@
       <mat-icon>logout</mat-icon>
     </button>
     -->
-    <!-- <app-profile-card></app-profile-card> -->
+    <!-- <app-profile-card></app-profile-card> --> 
+    <button mat-raised-button [style.margin-left]="'auto'" matTooltip="Deslogear" (click)="logOut()"><mat-icon class="logout">launch</mat-icon></button>
   </mat-toolbar>
   <mat-drawer-container autosize>
     <mat-drawer #drawer class="sidenav" mode="side">

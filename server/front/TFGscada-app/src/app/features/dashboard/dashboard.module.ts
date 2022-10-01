@@ -9,6 +9,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatTooltip } from '@angular/material/tooltip';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
@@ -37,13 +38,15 @@ const routes: Routes = [
     MatButtonModule,
     MatMenuModule,
     MatToolbarModule,
-    MatIconModule, MatCardModule, MatSliderModule
+    MatIconModule, MatCardModule, MatSliderModule,
+
   ],
   exports: [RouterModule, MatButtonModule,
     MatMenuModule,
     MatToolbarModule,
     MatIconModule, MatCardModule, MatSliderModule,
-    FormsModule, ReactiveFormsModule
+    FormsModule, ReactiveFormsModule,
+
   ],
 })
 

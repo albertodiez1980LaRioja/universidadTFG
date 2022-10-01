@@ -1,28 +1,50 @@
-
-<div class="register">
-    <form class="custom-form" method="post">
-      <h1>Register</h1>
-      <input
-        type="email"
-        [(ngModel)]="email"
-        name="email"
-        placeholder="Email"
-        required="required"
-      />
-      <input
-        type="password"
-        [(ngModel)]="password"
-        name="password"
-        placeholder="Password"
-        required="required"
-      />
-      <input
-        type="password"
-        [(ngModel)]="confirmPassword"
-        name="password"
-        placeholder="Repeat the password"
-        required="required"
-      />
-      <button type="submit" (click)="register()">Register</button>
+<div class="container">
+  <div class="main">
+    <div class="center">
+      <img src="/assets/sidenav-logo.png" />
+    </div>
+    <form [formGroup]="loginForm">
+      <mat-form-field appearance="outline">
+        <input
+          matInput
+          formControlName="username"
+          type="text"
+          placeholder="Nombre de usuario"
+        />
+        
+        <mat-error>
+          {{ loginForm.get('username')?.getError('error') }}
+        </mat-error>
+        
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <input
+          matInput
+          formControlName="password"
+          [type]="hidePassword ? 'password' : 'text'"
+          placeholder="Contraseña"
+        />
+        <mat-icon
+          matSuffix
+          class="pointer"
+          (click)="hidePassword = !hidePassword"
+          >{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon
+        >
+        
+        <mat-error>{{
+          loginForm.get('password')?.getError('error')
+        }}</mat-error>
+        
+      </mat-form-field>
+      <button
+        mat-raised-button
+        color="primary"
+        class="login-button"
+        [disabled]="loginForm.invalid"
+        (click)="authenticateUser()"
+      >
+        Acceder
+      </button>
     </form>
   </div>
+</div>

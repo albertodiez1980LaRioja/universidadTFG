@@ -1,4 +1,4 @@
-@use '@angular/material' as mat;
+
 .dashboard-container {
   min-height: 90%;
   display: flex;
@@ -86,3 +86,5 @@ mat-toolbar {
 .hover-class:hover {
   background-color: transparent;
 }
+
+

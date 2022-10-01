@@ -18,6 +18,9 @@ import { MatListModule } from '@angular/material/list';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -47,7 +50,9 @@ export function tokenGetter() {
     MatMenuModule,
     MatToolbarModule,
     MatIconModule, MatCardModule, MatSliderModule,
-    MatSidenavModule, MatListModule, HttpClientModule
+    MatSidenavModule, MatListModule, HttpClientModule,
+    MatFormFieldModule, MatInputModule,
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]

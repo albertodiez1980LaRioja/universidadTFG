@@ -37,10 +37,11 @@ export class DashboardComponent implements OnInit {
     console.log(this.sideNavItems);
   }
 
-  logout(): void {
-    //this.auth.user = {} as IUser;
+  logOut(): void {
+    this.auth.user = {} as IUser;
     localStorage.removeItem('token');
-    //this.router.navigate(['auth']);
+    localStorage.removeItem('user');
+    this.router.navigateByUrl('/auth');
   }
 
 }
