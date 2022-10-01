@@ -14,7 +14,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
-
 const routes: Routes = [
   {
     path: '',
@@ -39,14 +38,12 @@ const routes: Routes = [
     MatMenuModule,
     MatToolbarModule,
     MatIconModule, MatCardModule, MatSliderModule,
-
   ],
   exports: [RouterModule, MatButtonModule,
     MatMenuModule,
     MatToolbarModule,
     MatIconModule, MatCardModule, MatSliderModule,
     FormsModule, ReactiveFormsModule,
-
   ],
 })
 

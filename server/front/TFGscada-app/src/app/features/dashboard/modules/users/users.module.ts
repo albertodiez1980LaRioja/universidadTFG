@@ -3,17 +3,18 @@ import { CommonModule } from '@angular/common';
 
 import { UsersRoutingModule } from './users-routing.module';
 import { UsersComponent } from './users.component';
-import { UsersService } from './users.service';
-import { IUser } from './users-interfaces';
+import { TableComponent } from 'src/app/shared/component/table/table.component';
+
 
 
 @NgModule({
   declarations: [
-    UsersComponent
+    UsersComponent,
+    TableComponent
   ],
   imports: [
     CommonModule,
-    UsersRoutingModule
+    UsersRoutingModule,
   ]
 })
 export class UsersModule {

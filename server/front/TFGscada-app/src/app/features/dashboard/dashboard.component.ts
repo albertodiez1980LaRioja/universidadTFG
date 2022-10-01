@@ -18,7 +18,7 @@ export class DashboardComponent implements OnInit {
     { icon: 'flash_on', text: 'Acciones', link: './actions' },
   ];//sideNavItems;
   show = true;
-
+  msg = this.sideNavItems[0].text;
 
   constructor(public auth: AuthService, private router: Router) {
     console.log(this.sideNavItems);
@@ -29,7 +29,26 @@ export class DashboardComponent implements OnInit {
     );*/
   }
 
-  ngOnInit(): void { }
+  async ngOnInit() {
+    let userJson = localStorage.getItem('user');
+    let token = localStorage.getItem('token');
+    if (userJson != undefined && token != undefined) {
+      this.auth.validateToken(token).subscribe({
+        next: (response: any) => {
+          if (!response.ok) {
+            this.logOut();
+          }
+        },
+        error: (err) => {
+          console.log('Error en la validacion: ', err);
+          this.logOut();
+        }
+      });
+    }
+    else {
+      this.logOut();
+    }
+  }
 
   toggle(): void {
     this.drawer.toggle();

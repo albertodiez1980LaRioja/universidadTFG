@@ -21,6 +21,7 @@ import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { TableComponent } from './shared/component/table/table.component';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -32,6 +33,7 @@ export function tokenGetter() {
     AppComponent,
     DashboardComponent,
     AuthComponent,
+    TableComponent,
   ],
   imports: [
     JwtModule.forRoot({
@@ -52,7 +54,7 @@ export function tokenGetter() {
     MatIconModule, MatCardModule, MatSliderModule,
     MatSidenavModule, MatListModule, HttpClientModule,
     MatFormFieldModule, MatInputModule,
-    MatTooltipModule
+    MatTooltipModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

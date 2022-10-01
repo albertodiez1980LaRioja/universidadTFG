@@ -4,7 +4,7 @@
       <mat-icon *ngIf="show">menu</mat-icon>
       <mat-icon *ngIf="!show">arrow_back</mat-icon>
     </button>
-    <h3>Controles remotos</h3>
+    <h3>{{msg}}</h3>
     <!--
     <button mat-icon-button id="logout" (click)="logout()">
       <mat-icon>logout</mat-icon>
@@ -25,6 +25,7 @@
         <mat-list-item
           *ngFor="let item of sideNavItems"
           [routerLink]="item.link"
+          (click)="msg=item.text;"
           routerLinkActive="active-list-item"
         >
           <mat-icon class="list-item-icon">{{ item.icon }}</mat-icon>
