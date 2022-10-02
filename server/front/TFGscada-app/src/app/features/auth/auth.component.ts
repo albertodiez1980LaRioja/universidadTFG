@@ -37,17 +37,6 @@ export class AuthComponent implements OnInit {
     let userJson = localStorage.getItem('user');
     let token = localStorage.getItem('token');
     if (userJson != undefined && token != undefined) {
-      /*this.auth.validateToken(token).subscribe({
-        next: (response: any) => {
-          if (response.ok && userJson != undefined) {
-            this.auth.user = JSON.parse(userJson);
-            this.router.navigateByUrl(this.returnUrl);
-          }
-        },
-        error: (err) => {
-          console.log('Error en la validacion: ', err);
-        }
-      });*/
       this.auth.user = JSON.parse(userJson);
       this.router.navigateByUrl(this.returnUrl);
     }
