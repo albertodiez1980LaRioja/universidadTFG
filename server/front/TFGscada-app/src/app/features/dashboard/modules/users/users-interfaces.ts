@@ -1,5 +1,11 @@
 export interface IUser {
-    dni: string;
     name: string;
+    telephone: string;
+    celular: string;
+    address: string;
+    email: string;
+    dni: string;
+    roles: number;
     user_name: string;
+
 }

@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { ITableConfig } from 'src/app/shared/component/table/table.interfaces';
 import { UsersService } from './users.service';
+
+
+import { usersConfig } from './users.config';
+import { IUser } from './users-interfaces';
 
 
 @Component({
@@ -8,22 +13,18 @@ import { UsersService } from './users.service';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
+  usersConfig = usersConfig;
+  usersDate: IUser[] = [];
+
 
   constructor(public usersService: UsersService) {
-    this.usersService.getUsers()/*.subscribe({
-      next: (response) => {
-        console.log('respuesta: ', response);
-      },
-      error: (err) => {
-        console.log('Ha ocurrido un error: ', err);
-      }
-    });*/
   }
 
   ngOnInit(): void {
     this.usersService.getUsers().subscribe({
-      next: (response) => {
+      next: (response: any) => {
         console.log('respuesta: ', response);
+        this.usersDate = response.data;
       },
       error: (err) => {
         console.log('Ha ocurrido un error: ', err);

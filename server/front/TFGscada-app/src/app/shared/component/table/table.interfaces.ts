@@ -11,7 +11,9 @@ export interface ITableColumn {
     | 'actions'
     | 'list';
     datePipe?: string;
+    sticky?: boolean;
     class?: string;
+    editable?: boolean;
     width?: string;
     disabled?: boolean;
 }
@@ -29,6 +31,7 @@ interface IAction {
     backgroundColor?: string;
     themeColor?: 'primary' | 'accent' | 'warn';
     color?: string;
+    sticky?: boolean;
     icon?: string;
     tooltip?: string;
 }
@@ -38,6 +41,7 @@ export interface ITableConfig {
     paginator?: boolean;
     sort?: boolean;
     filter?: boolean;
+    stickyHeader?: boolean;
     actions?: IAction[];
     maxHeight?: string;
 }

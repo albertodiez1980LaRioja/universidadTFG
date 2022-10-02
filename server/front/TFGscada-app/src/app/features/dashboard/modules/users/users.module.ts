@@ -14,6 +14,15 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule, Routes } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSortModule } from '@angular/material/sort';
+import { FormsModule } from '@angular/forms';
+
 
 
 
@@ -27,7 +36,9 @@ import { MatInputModule } from '@angular/material/input';
     UsersRoutingModule,
 
     MatButtonModule, MatCardModule, MatIconModule, MatMenuModule, MatSliderModule,
-    MatToolbarModule, MatInputModule
+    MatToolbarModule, MatInputModule, MatPaginatorModule, MatTooltipModule,
+    MatChipsModule, MatTableModule, MatCheckboxModule, MatProgressSpinnerModule,
+    MatSortModule, FormsModule
   ],
 })
 export class UsersModule {

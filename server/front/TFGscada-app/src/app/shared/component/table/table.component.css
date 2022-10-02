@@ -1,9 +1,7 @@
-//@use '@angular/material' as mat;
-//@import '../../../../variables.scss';
-
 ::ng-deep .mat-sort-header-container {
   justify-content: center;
 }
+
 .full {
   width: 100%;
 }
@@ -13,45 +11,38 @@ tr {
 }
 
 .table-row:hover {
-  //background-color: mat.get-color-from-palette($primary, 50);
   background-color: white;
 }
 
-.action-buttons {
-  // width: 100%;
-  // display: flex;
-  // justify-content: space-evenly;
+.cell p {
+  margin: 0;
 }
 
-.cell {
-  p {
-    margin: 0;
-  }
-  &:hover {
-    //background-color: mat.get-color-from-palette($primary, 100);
-    background-color: white;
-  }
-  .cell-content {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .chip-list {
-    display: flex;
-    justify-content: center;
-  }
+.cell:hover {
+  background-color: white;
 }
+
+.cell .cell-content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cell .chip-list {
+  display: flex;
+  justify-content: center;
+}
+
 .header {
-  //background-color: mat.get-color-from-palette($primary);
   background-color: gray;
-  .header-cell {
-    font-size: 1rem;
-    font-weight: 500;
-    text-align: center;
-    color: white;
-  }
+}
+
+.header .header-cell {
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+  color: white;
 }
 
 .align-start {
@@ -62,14 +53,16 @@ tr {
 .sticky {
   max-height: auto;
   overflow: auto;
-  &::-webkit-scrollbar {
-    width: 9px;
-    height: 9px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: #ccc;
-    border-radius: 4px;
-  }
+}
+
+.sticky::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+.sticky::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
 }
 
 .no-data {
@@ -83,14 +76,14 @@ tr {
   border-top: 0.3em solid transparent !important;
 }
 
-::ng-deep .mat-button.mat-accent{
-  color:black !important;
+::ng-deep .mat-button.mat-accent {
+  color: black !important;
 }
 
 ::ng-deep
-  .edit-field
-  .mat-form-field-appearance-outline
-  .mat-form-field-wrapper {
+.edit-field
+.mat-form-field-appearance-outline
+.mat-form-field-wrapper {
   padding: 0;
 }
 
@@ -103,6 +96,7 @@ td.mat-cell:last-of-type,
 td.mat-footer-cell:last-of-type {
   padding-right: 1rem;
 }
+
 th.mat-header-cell:first-of-type,
 td.mat-cell:first-of-type,
 td.mat-footer-cell:first-of-type {
@@ -110,8 +104,7 @@ td.mat-footer-cell:first-of-type {
 }
 
 ::ng-deep .mat-sort-header-arrow {
-  //color: mat.get-color-from-palette($accent);
-  color:black;
+  color: black;
 }
 
 .container {
