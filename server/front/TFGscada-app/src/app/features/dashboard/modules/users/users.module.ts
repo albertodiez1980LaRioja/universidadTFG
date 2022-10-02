@@ -15,7 +15,7 @@ import { TableComponent } from 'src/app/shared/component/table/table.component';
   imports: [
     CommonModule,
     UsersRoutingModule,
-  ]
+  ],
 })
 export class UsersModule {
   constructor() {
