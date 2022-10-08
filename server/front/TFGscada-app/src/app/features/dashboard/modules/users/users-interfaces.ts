@@ -7,5 +7,7 @@ export interface IUser {
     dni: string;
     roles: number;
     user_name: string;
-
+    roleText: string | undefined;
 }
+
+export const RoleText: string[] = ['Administrador', 'Operario', 'Usuario']

@@ -12,10 +12,24 @@ export const usersConfig: ITableConfig = {
         { name: 'Telefono móvil', prop: 'celular', type: 'text' },
         { name: 'DNI', prop: 'dni', type: 'text' },
         { name: 'Dirección', prop: 'address', type: 'text' },
-        { name: 'Rol', prop: 'roles', type: 'text' },
+        { name: 'Rol', prop: 'roleText', type: 'text' },
     ],
 
     actions: [
+        {
+            name: 'Update',
+            type: 'mat-icon-button',
+            themeColor: 'primary',
+            icon: 'create',
+            tooltip: 'Modificar registro',
+        },
+        {
+            name: 'Delete',
+            type: 'mat-icon-button',
+            themeColor: 'warn',
+            icon: 'delete',
+            tooltip: 'Borrar fila',
+        },
         {
             name: 'View',
             type: 'mat-icon-button',
@@ -23,6 +37,7 @@ export const usersConfig: ITableConfig = {
             icon: 'remove_red_eye',
             tooltip: 'View',
         },
+
 
     ],
 };
