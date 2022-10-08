@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ITableConfig } from 'src/app/shared/component/table/table.interfaces';
 import { UsersService } from './users.service';
 
 
 import { usersConfig, } from './users.config';
 import { IUser, RoleText } from './users-interfaces';
+import { TableComponent } from 'src/app/shared/component/table/table.component';
+import { DialogComponent } from 'src/app/shared/component/dialog/dialog.component';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 
 @Component({
@@ -18,7 +21,9 @@ export class UsersComponent implements OnInit {
   usersDate: IUser[] = [];
 
 
-  constructor(public usersService: UsersService) {
+  constructor(public usersService: UsersService,
+    private dialog: MatDialog
+  ) {
   }
 
   ngOnInit(): void {
@@ -37,8 +42,63 @@ export class UsersComponent implements OnInit {
         console.log('Ha ocurrido un error: ', err);
       }
     });
+  }
 
+  @ViewChild("tableUsers") tableUsers: ElementRef | undefined;
 
+  applyFilter() {
+    if (this.tableUsers != undefined) {
+      let table = this.tableUsers as unknown as TableComponent;
+      table.dataSource.filter = 'onlyColumns';
+      if (table.dataSource.paginator) {
+        table.dataSource.paginator.firstPage();
+      }
+    }
+  }
+
+  clickSearch($event: any) {
+    console.log($event);
+    if (this.tableUsers != undefined) {
+      let table = this.tableUsers as unknown as TableComponent;
+      table.dataSource.filterPredicate = (data: IUser, filter: string) => {
+        if (data.dni == '16603537')
+          return true;
+        return false;
+      };
+      this.applyFilter();
+    }
+  }
+
+  clearFilter($event: any) {
+    if (this.tableUsers != undefined) {
+      let table = this.tableUsers as unknown as TableComponent;
+      table.dataSource.filterPredicate = (data: IUser, filter: string) => {
+        return true;
+      };
+      this.applyFilter();
+    }
+  }
+
+  tableEvent($event: any) {
+    console.log('Evento de la tabla: ', $event);
+    switch ($event.action) {
+      case 'Update':
+        const dialogRef = this.dialog.open(DialogComponent, {
+          width: '250px',
+          data: {},
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+
+        });
+        break;
+      case 'Delete':
+        break;
+      case 'View':
+        break;
+
+    }
   }
 
 }

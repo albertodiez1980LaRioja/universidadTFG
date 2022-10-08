@@ -22,6 +22,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { FormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 
@@ -38,7 +39,7 @@ import { FormsModule } from '@angular/forms';
     MatButtonModule, MatCardModule, MatIconModule, MatMenuModule, MatSliderModule,
     MatToolbarModule, MatInputModule, MatPaginatorModule, MatTooltipModule,
     MatChipsModule, MatTableModule, MatCheckboxModule, MatProgressSpinnerModule,
-    MatSortModule, FormsModule
+    MatSortModule, FormsModule, MatDialogModule
   ],
 })
 export class UsersModule {

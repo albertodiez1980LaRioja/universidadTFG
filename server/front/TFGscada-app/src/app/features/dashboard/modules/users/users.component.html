@@ -1,2 +1,15 @@
-<app-table #tableServices [config]="usersConfig" [data]="usersDate" [isLoadingTable]="false" (action)="''">
+<div class="tab">
+    <div class="sub-tab">
+        <button mat-raised-button (click)="clickSearch($event)">
+            <mat-icon>search</mat-icon>
+        </button>
+        <button mat-raised-button (click)="clearFilter($event)">
+            <mat-icon>close</mat-icon>
+        </button>
+        <button mat-raised-button>
+            <mat-icon>person_add</mat-icon>
+        </button>
+    </div>
+</div>
+<app-table #tableUsers [config]="usersConfig" [data]="usersDate" [isLoadingTable]="false" (action)="tableEvent($event)">
 </app-table>
