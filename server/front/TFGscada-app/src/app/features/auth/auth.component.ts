@@ -44,21 +44,24 @@ export class AuthComponent implements OnInit {
 
   authenticateUser(): void {
     const values = this.loginForm.value;
-    this.router.navigateByUrl(this.returnUrl);
+    //this.router.navigateByUrl(this.returnUrl);
+    console.log('Se hace el authenticaate user');
     this.authenticateUser$ = this.auth
       .authenticateUser(values.username, values.password)
       .subscribe({
         next: (response: any) => {
-          console.log('Autenticado', response.usuario);
-          localStorage.setItem('user', JSON.stringify(response.usuario));
-          localStorage.setItem('token', response.token);
-          this.auth.user = response.usuario;
-          this.router.navigateByUrl(this.returnUrl);
+          if (response.message != 'User not found') {
+            console.log('Autenticado', response.usuario);
+            localStorage.setItem('user', JSON.stringify(response.usuario));
+            localStorage.setItem('token', response.token);
+            this.auth.user = response.usuario;
+            this.router.navigateByUrl(this.returnUrl);
+          }
         },
         error: (err: HttpErrorResponse) => {
           console.log('Error de autenticación', err);
           if (err.status === 500) {
-            this.authenticateUser();
+            //this.authenticateUser();
           } else {
             this.loginForm
               .get('username')
