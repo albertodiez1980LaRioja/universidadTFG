@@ -52,7 +52,7 @@ class PersonService extends BaseService {
 
     getOneEntity = async function (req, res) {
         let ret = await this.repository.getOneEntity(req, res);
-        if (res != undefined && ret.dataValues != undefined) {
+        if (res != undefined && ret != undefined && ret.dataValues != undefined) {
             delete ret.dataValues.pass;
         }
         return ret;

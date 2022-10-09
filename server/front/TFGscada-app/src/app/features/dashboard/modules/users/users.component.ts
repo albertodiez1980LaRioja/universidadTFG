@@ -26,7 +26,7 @@ export class UsersComponent implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
+  fetchUsers() {
     this.usersService.getUsers().subscribe({
       next: (response: any) => {
         console.log('respuesta: ', response);
@@ -42,6 +42,10 @@ export class UsersComponent implements OnInit {
         console.log('Ha ocurrido un error: ', err);
       }
     });
+  }
+
+  ngOnInit(): void {
+    this.fetchUsers();
   }
 
   @ViewChild("tableUsers") tableUsers: ElementRef | undefined;
@@ -79,10 +83,41 @@ export class UsersComponent implements OnInit {
     }
   }
 
+  addPerson() {
+    this.dialogConfig.action = 'insert';
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: this.dialogConfig,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != '') {
+        // save the row
+        let user = result;
+        const keys = Object.keys(result);
+        for (let i = 0; i < keys.length; i++) {
+          if (keys[i] == 'roleText') {
+            user['roles'] = this.roleText.indexOf(result[keys[i]]);
+          }
+        }
+        user.pass = 'abc';
+        this.usersService.saveUser(user).subscribe({
+          next: (result: any) => {
+            console.log(result);
+            this.fetchUsers();
+          },
+          error: (err: any) => {
+            console.log(err);
+          }
+        });
+      }
+    });
+  }
+
   tableEvent($event: any) {
     console.log('Evento de la tabla: ', $event);
     switch ($event.action) {
       case 'Update':
+        this.dialogConfig.action = 'update';
         for (let i = 0; i < this.dialogConfig.columns.length; i++) {
           this.dialogConfig.columns[i].value = $event.row[this.dialogConfig.columns[i].prop];
         }
@@ -91,8 +126,25 @@ export class UsersComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-          console.log('The dialog was closed', result);
-          // save the row
+          if (result != '') {
+            // save the row
+            let user = result;
+            const keys = Object.keys(result);
+            for (let i = 0; i < keys.length; i++) {
+              if (keys[i] == 'roleText') {
+                user['roles'] = this.roleText.indexOf(result[keys[i]]);
+              }
+            }
+            this.usersService.updateUser(user).subscribe({
+              next: (result: any) => {
+                console.log(result);
+                this.fetchUsers();
+              },
+              error: (err: any) => {
+                console.log(err);
+              }
+            });
+          }
         });
         break;
       case 'Delete':

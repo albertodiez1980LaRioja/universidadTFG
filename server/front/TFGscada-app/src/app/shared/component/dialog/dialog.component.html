@@ -2,24 +2,25 @@
 <mat-dialog-content>
     <form novalidate [formGroup]="form">
         <div class="columns">
-            <mat-form-field *ngFor="let column of data.columns">
+            <mat-form-field *ngFor="let column of columnsShow">
                 <mat-label>{{ column.name }}</mat-label>
                 <input matInput *ngIf="column.type == 'text'" type="{{column.type}}"
                     formControlName="{{ column.prop }}">
                 <input matInput *ngIf="column.type == 'email'" type="{{column.type}}"
                     formControlName="{{ column.prop }}" email>
+                <input matInput *ngIf="column.type == 'password'" type="{{column.type}}"
+                    formControlName="{{ column.prop }}">
                 <mat-select *ngIf="column.type == 'combo'" formControlName="{{ column.prop }}">
                     <mat-option *ngFor="let value of column.arrayValues; index as i;"
                         value="{{column.arrayShows != undefined ? column.arrayShows[i]:''}}">
                         {{column.arrayShows != undefined ? column.arrayShows[i]:''}}</mat-option>
                 </mat-select>
-
             </mat-form-field>
         </div>
     </form>
 
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button (click)="save()">Install</button>
+    <button mat-raised-button mat-dialog-close>Cancelar</button>
+    <button mat-raised-button (click)="save()">Aceptar</button>
 </mat-dialog-actions>

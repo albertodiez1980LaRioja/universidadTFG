@@ -3,10 +3,11 @@ import { sequelize } from "../../database/database"; // importamos la cadena de 
 
 
 const Person = sequelize.define('persons', {
-    dni: {
-        type: Sequelize.STRING,
-        primaryKey: true,
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true, autoIncrement: true
     },
+    dni: { type: Sequelize.STRING, },
     name: { type: Sequelize.STRING, allowNull: false, },
     user_name: { type: Sequelize.STRING, allowNull: false, unique: true },
     pass: { type: Sequelize.STRING, allowNull: false, },
@@ -18,5 +19,9 @@ const Person = sequelize.define('persons', {
 }, {
     timestamps: false
 });
+
+Person.asociate = function () {
+    console.log('Se hacen las asociaciones de la persona');
+}
 
 export default Person;  

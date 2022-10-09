@@ -15,7 +15,18 @@ import { sequelize } from "./database/database";
 // initialization
 var app = express();
 
+
 sequelize.authenticate().then(() => sequelize);
+
+for (let table in sequelize.models) {
+    const model = sequelize.model(table);
+    if (model.asociate != undefined) {
+        model.asociate();
+    }
+}
+sequelize.sync({ force: false }); // sync all tables
+
+
 
 app.disable('etag');
 

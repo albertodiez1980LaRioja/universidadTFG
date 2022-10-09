@@ -10,6 +10,7 @@ class BaseRepository {
         let ret = {};
         let keysParams = Object.keys(params);
         let modelParams = Object.keys(this.model.tableAttributes);
+        console.log('tableAtribures', modelParams, keysParams, params);
         keysParams.forEach(param => {
             if (modelParams.indexOf(param) > -1) {
                 ret[param] = params[param];
@@ -43,7 +44,7 @@ class BaseRepository {
 
     async get(req, res, transaction = undefined) {
         try {
-            let params = { where: this.validateParams(req.params) };
+            let params = { where: this.validateParams(req.query) };
             if (transaction != undefined)
                 params.transaction = transaction;
             const rows = await this.model.findAll(params);
@@ -62,10 +63,12 @@ class BaseRepository {
             let objeto = {
                 attributes: req.params,
                 where: this.validateParams(req.params)
+                //where: req.params
             }
             if (transaction != undefined)
                 objeto.transaction = transaction;
             const filas = await this.model.findAll(objeto);
+            console.log('encontrados para hacer el update:', filas, req.params);
             if (filas.length > 0) {
                 filas.forEach(async row => {
                     await row.update(campos);

@@ -15,11 +15,11 @@ class PersonController extends BaseController {
         super(service, options);
 
         this.router = RouterPlace;
-        this.router.get('/:dni', this.getOneEntity.bind(this));
+        this.router.get('/:id', this.getOneEntity.bind(this));
         this.router.get('', this.get.bind(this));
 
-        this.router.patch('/:dni', this.update.bind(this));
-        this.router.delete('/:dni', this.delete.bind(this));
+        this.router.patch('/:id', this.update.bind(this));
+        this.router.delete('/:id', this.delete.bind(this));
         this.router.post('', this.create.bind(this));
         this.router.post('/authenticate', this.authenticate.bind(this));
         this.router.post('/validateToken', this.validateToken.bind(this));

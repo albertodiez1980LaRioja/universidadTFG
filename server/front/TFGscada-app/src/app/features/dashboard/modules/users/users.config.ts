@@ -45,6 +45,7 @@ export const usersConfig: ITableConfig = {
 
 export const dialogConfig: IDialogConfig = {
     columns: [
+        { name: 'id', prop: 'id', type: 'text', canView: false },
         { name: 'Nombre de usuario', prop: 'user_name', type: 'text' },
         { name: 'Nombre', prop: 'name', type: 'text' },
         { name: 'Correo electrónico', prop: 'email', type: 'email' },
@@ -52,7 +53,9 @@ export const dialogConfig: IDialogConfig = {
         { name: 'Telefono móvil', prop: 'celular', type: 'text' },
         { name: 'DNI', prop: 'dni', type: 'text' },
         { name: 'Dirección', prop: 'address', type: 'text' },
+        { name: 'Contraseña', prop: 'pass', type: 'password' },
         { name: 'Rol', prop: 'roleText', type: 'combo', arrayValues: [0, 1, 2], arrayShows: ['Administrador', 'Operario', 'Usuario'] },
     ],
-    title: "Datos del usuario"
+    title: 'Datos del usuario',
+    action: 'insert'
 }

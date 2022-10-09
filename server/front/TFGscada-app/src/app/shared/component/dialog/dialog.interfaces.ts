@@ -1,6 +1,7 @@
 export interface IDialogConfig {
     columns: IDialogColumn[];
     title: string;
+    action: 'insert' | 'update';
 }
 
 export interface IDialogColumn {
@@ -11,7 +12,8 @@ export interface IDialogColumn {
     | 'combo'
     | 'checkbox'
     | 'date'
-    | 'chip';
+    | 'chip'
+    | 'password';
     name: string;
     showChip?: boolean;
     canSearch?: boolean;

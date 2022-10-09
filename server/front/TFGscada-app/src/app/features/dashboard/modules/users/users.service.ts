@@ -20,4 +20,12 @@ export class UsersService {
   getUsers(): Observable<HttpResponse<IUser>> {
     return this.http.get<HttpResponse<IUser>>(this.apiUrl);
   }
+
+  updateUser(user: IUser): Observable<HttpResponse<IUser>> {
+    return this.http.patch<HttpResponse<IUser>>(this.apiUrl + '/' + user.id, user);
+  }
+
+  saveUser(user: IUser): Observable<HttpResponse<IUser>> {
+    return this.http.post<HttpResponse<IUser>>(this.apiUrl, user);
+  }
 }
