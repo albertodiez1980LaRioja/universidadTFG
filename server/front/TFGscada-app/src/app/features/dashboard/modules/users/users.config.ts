@@ -1,3 +1,4 @@
+import { IDialogConfig } from "src/app/shared/component/dialog/dialog.interfaces";
 import { ITableConfig } from "src/app/shared/component/table/table.interfaces";
 
 export const usersConfig: ITableConfig = {
@@ -41,3 +42,17 @@ export const usersConfig: ITableConfig = {
 
     ],
 };
+
+export const dialogConfig: IDialogConfig = {
+    columns: [
+        { name: 'Nombre de usuario', prop: 'user_name', type: 'text' },
+        { name: 'Nombre', prop: 'name', type: 'text' },
+        { name: 'Correo electrónico', prop: 'email', type: 'email' },
+        { name: 'Telefono fijo', prop: 'telephone', type: 'text' },
+        { name: 'Telefono móvil', prop: 'celular', type: 'text' },
+        { name: 'DNI', prop: 'dni', type: 'text' },
+        { name: 'Dirección', prop: 'address', type: 'text' },
+        { name: 'Rol', prop: 'roleText', type: 'combo', arrayValues: [0, 1, 2], arrayShows: ['Administrador', 'Operario', 'Usuario'] },
+    ],
+    title: "Datos del usuario"
+}

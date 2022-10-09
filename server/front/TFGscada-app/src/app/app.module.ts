@@ -21,7 +21,9 @@ import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
 import { DialogComponent } from './shared/component/dialog/dialog.component';
+import { MatSelectModule } from '@angular/material/select';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -54,7 +56,7 @@ export function tokenGetter() {
     MatIconModule, MatCardModule, MatSliderModule,
     MatSidenavModule, MatListModule, HttpClientModule,
     MatFormFieldModule, MatInputModule,
-    MatTooltipModule,
+    MatTooltipModule, MatDialogModule, MatSelectModule
   ],
   providers: [],
   //exports: [TableComponent],

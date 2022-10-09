@@ -1,13 +1,12 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ITableConfig } from 'src/app/shared/component/table/table.interfaces';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { UsersService } from './users.service';
 
 
-import { usersConfig, } from './users.config';
+import { usersConfig, dialogConfig } from './users.config';
 import { IUser, RoleText } from './users-interfaces';
 import { TableComponent } from 'src/app/shared/component/table/table.component';
 import { DialogComponent } from 'src/app/shared/component/dialog/dialog.component';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -17,6 +16,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 })
 export class UsersComponent implements OnInit {
   usersConfig = usersConfig;
+  dialogConfig = dialogConfig;
   roleText = RoleText;
   usersDate: IUser[] = [];
 
@@ -83,14 +83,16 @@ export class UsersComponent implements OnInit {
     console.log('Evento de la tabla: ', $event);
     switch ($event.action) {
       case 'Update':
+        for (let i = 0; i < this.dialogConfig.columns.length; i++) {
+          this.dialogConfig.columns[i].value = $event.row[this.dialogConfig.columns[i].prop];
+        }
         const dialogRef = this.dialog.open(DialogComponent, {
-          width: '250px',
-          data: {},
+          data: this.dialogConfig,
         });
 
         dialogRef.afterClosed().subscribe(result => {
-          console.log('The dialog was closed');
-
+          console.log('The dialog was closed', result);
+          // save the row
         });
         break;
       case 'Delete':

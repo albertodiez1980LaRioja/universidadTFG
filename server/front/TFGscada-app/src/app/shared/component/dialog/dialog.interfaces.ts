@@ -7,17 +7,17 @@ export interface IDialogColumn {
     prop: string; // name of column
     type:
     | 'text'
-    | 'icon'
-    | 'button'
+    | 'email'
+    | 'combo'
     | 'checkbox'
     | 'date'
-    | 'colorText'
-    | 'actions'
-    | 'list';
-    label: string;
-    showChip: boolean;
-    canSearch: boolean;
-    canChange: boolean;
-    canView: boolean;
-    arrayValues: string[];
+    | 'chip';
+    name: string;
+    showChip?: boolean;
+    canSearch?: boolean;
+    canChange?: boolean;
+    canView?: boolean;
+    arrayValues?: any[];
+    arrayShows?: string[];
+    value?: any;
 }
