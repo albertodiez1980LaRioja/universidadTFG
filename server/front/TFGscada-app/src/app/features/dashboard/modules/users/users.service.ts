@@ -28,4 +28,9 @@ export class UsersService {
   saveUser(user: IUser): Observable<HttpResponse<IUser>> {
     return this.http.post<HttpResponse<IUser>>(this.apiUrl, user);
   }
+
+  deleteUser(userId: number): Observable<HttpResponse<IUser>> {
+    return this.http.delete<HttpResponse<IUser>>(this.apiUrl + '/' + userId.toString());
+  }
+
 }

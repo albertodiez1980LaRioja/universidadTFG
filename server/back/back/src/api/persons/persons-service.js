@@ -59,6 +59,9 @@ class PersonService extends BaseService {
     }
 
     update = async function (req, res) {
+        if (req.body != undefined && req.body.pass != undefined) {
+            req.body.pass = bcrypt.hashSync(req.body.pass, 10);
+        }
         const ret = await this.repository.update(req, res);
         if (ret != undefined && ret.length != undefined) {
             for (let i = 0; i < ret.length; i++) {

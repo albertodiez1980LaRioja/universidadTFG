@@ -22,13 +22,18 @@ export class DialogComponent implements OnInit {
     let parameters: any = {};
     for (let i = 0; i < this.data.columns.length; i++) {
       const numColumn = this.data.columns[i].prop;
-
+      let value = this.data.columns[i].value;
+      if (this.data.action == 'insert')
+        value = '';
       if (this.data.columns[i].canView == undefined || this.data.columns[i].canView == true) {
         this.columnsShow.push(this.data.columns[i]);
-        parameters[numColumn] = [this.data.columns[i].value, Validators.required];
+        if (this.data.action != 'update' || this.data.columns[i].type != 'password')
+          parameters[numColumn] = [value, Validators.required];
+        else
+          parameters[numColumn] = [value];
       }
       else
-        parameters[numColumn] = [this.data.columns[i].value];
+        parameters[numColumn] = [value];
     }
     this.form = this.fb.group(parameters);
   }

@@ -9,6 +9,7 @@ export interface IUser {
     roles: number;
     user_name: string;
     roleText: string | undefined;
+    pass: string | undefined;
 }
 
 export const RoleText: string[] = ['Administrador', 'Operario', 'Usuario']

@@ -44,7 +44,7 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.fetchUsers();
   }
 
@@ -99,9 +99,8 @@ export class UsersComponent implements OnInit {
             user['roles'] = this.roleText.indexOf(result[keys[i]]);
           }
         }
-        user.pass = 'abc';
         this.usersService.saveUser(user).subscribe({
-          next: (result: any) => {
+          next: async (result: any) => {
             console.log(result);
             this.fetchUsers();
           },
@@ -113,7 +112,7 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  tableEvent($event: any) {
+  async tableEvent($event: any) {
     console.log('Evento de la tabla: ', $event);
     switch ($event.action) {
       case 'Update':
@@ -125,29 +124,35 @@ export class UsersComponent implements OnInit {
           data: this.dialogConfig,
         });
 
-        dialogRef.afterClosed().subscribe(result => {
+        dialogRef.afterClosed().subscribe(async result => {
           if (result != '') {
             // save the row
             let user = result;
             const keys = Object.keys(result);
+            if (user['pass'] == undefined || user['pass'] == '')
+              delete user['pass'];
             for (let i = 0; i < keys.length; i++) {
               if (keys[i] == 'roleText') {
                 user['roles'] = this.roleText.indexOf(result[keys[i]]);
               }
             }
-            this.usersService.updateUser(user).subscribe({
-              next: (result: any) => {
-                console.log(result);
-                this.fetchUsers();
-              },
-              error: (err: any) => {
-                console.log(err);
-              }
+            await this.usersService.updateUser(user).toPromise().then((result: any) => {
+              console.log(result);
             });
+            this.fetchUsers();
           }
         });
         break;
       case 'Delete':
+        this.usersService.deleteUser($event.row.id).subscribe({
+          next: (result: any) => {
+            console.log(result);
+            this.fetchUsers();
+          },
+          error: (err: any) => {
+            console.log(err);
+          }
+        });
         break;
       case 'View':
         break;
