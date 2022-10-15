@@ -4,23 +4,25 @@
         <div class="columns">
             <mat-form-field *ngFor="let column of columnsShow">
                 <mat-label>{{ column.name }}</mat-label>
-                <input matInput *ngIf="column.type == 'text'" type="{{column.type}}"
-                    formControlName="{{ column.prop }}">
+                <input matInput *ngIf="column.type == 'text'" type="{{column.type}}" formControlName="{{ column.prop }}"
+                    [readonly]="!editable">
                 <input matInput *ngIf="column.type == 'email'" type="{{column.type}}"
-                    formControlName="{{ column.prop }}" email>
+                    formControlName="{{ column.prop }}" email [readonly]="!editable">
                 <input matInput *ngIf="column.type == 'password'" type="{{column.type}}"
-                    formControlName="{{ column.prop }}">
-                <mat-select *ngIf="column.type == 'combo'" formControlName="{{ column.prop }}">
+                    formControlName="{{ column.prop }}" [readonly]="!editable">
+                <mat-select *ngIf="column.type == 'combo' && editable" formControlName="{{ column.prop }}">
                     <mat-option *ngFor="let value of column.arrayValues; index as i;"
                         value="{{column.arrayShows != undefined ? column.arrayShows[i]:''}}">
                         {{column.arrayShows != undefined ? column.arrayShows[i]:''}}</mat-option>
                 </mat-select>
+                <input matInput *ngIf="column.type == 'combo' && !editable" type="{{column.type}}"
+                    formControlName="{{ column.prop }}" [readonly]="!editable">
             </mat-form-field>
         </div>
     </form>
 
 </mat-dialog-content>
-<mat-dialog-actions>
-    <button mat-raised-button mat-dialog-close>Cancelar</button>
+<mat-dialog-actions class="center">
+    <button mat-raised-button mat-dialog-close *ngIf="editable">Cancelar</button>
     <button mat-raised-button (click)="save()">Aceptar</button>
 </mat-dialog-actions>

@@ -60,17 +60,64 @@ export class UsersComponent implements OnInit {
     }
   }
 
+  read_prop(obj: any, id: any) {
+    if (id != undefined)
+      return obj[id];
+    console.log('fallo al leer la propiedad');
+    return undefined;
+  }
+
   clickSearch($event: any) {
-    console.log($event);
-    if (this.tableUsers != undefined) {
-      let table = this.tableUsers as unknown as TableComponent;
-      table.dataSource.filterPredicate = (data: IUser, filter: string) => {
-        if (data.dni == '16603537')
-          return true;
-        return false;
-      };
-      this.applyFilter();
+    this.dialogConfig.action = 'search';
+    this.dialogConfig.editable = true;
+    for (let i = 0; i < this.dialogConfig.columns.length; i++) {
+      this.dialogConfig.columns[i].value = '';
     }
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: this.dialogConfig,
+    });
+
+
+
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result != '') {
+        // save the row
+        console.log('llegados para la busqueda: ', result);
+        let user = result;
+        const keys = Object.keys(result);
+        if (user['pass'] == undefined || user['pass'] == '')
+          delete user['pass'];
+        for (let i = 0; i < keys.length; i++) {
+          if (keys[i] == 'roleText') {
+            user['roles'] = this.roleText.indexOf(result[keys[i]]);
+          }
+        }
+
+        if (this.tableUsers != undefined) {
+          let table = this.tableUsers as unknown as TableComponent;
+          table.dataSource.filterPredicate = (data: IUser, filter: string) => {
+            let keys = Object.keys(data);
+            console.log(keys, result);
+            for (let i = 0; i < keys.length; i++) {
+              let value = this.read_prop(result, keys[i]);
+              if (value != undefined && value != '' && keys[i] != 'id' && !(keys[i] == 'roles' && value == -1)) {
+                console.log(value, this.read_prop(data, keys[i]));
+                if (!this.read_prop(data, keys[i]).toString().toLowerCase().includes(value.toString().toLowerCase()))
+                  return false;
+              }
+            }
+            console.log(data, filter, keys);
+            if (data.dni == user.dni)
+              return true;
+            return true;
+          };
+          this.applyFilter();
+        }
+      }
+    });
+
+
+
   }
 
   clearFilter($event: any) {
@@ -117,6 +164,7 @@ export class UsersComponent implements OnInit {
     switch ($event.action) {
       case 'Update':
         this.dialogConfig.action = 'update';
+        this.dialogConfig.editable = true;
         for (let i = 0; i < this.dialogConfig.columns.length; i++) {
           this.dialogConfig.columns[i].value = $event.row[this.dialogConfig.columns[i].prop];
         }
@@ -155,6 +203,14 @@ export class UsersComponent implements OnInit {
         });
         break;
       case 'View':
+        this.dialogConfig.action = 'view';
+        this.dialogConfig.editable = false;
+        for (let i = 0; i < this.dialogConfig.columns.length; i++) {
+          this.dialogConfig.columns[i].value = $event.row[this.dialogConfig.columns[i].prop];
+        }
+        const dialogRef2 = this.dialog.open(DialogComponent, {
+          data: this.dialogConfig,
+        });
         break;
 
     }

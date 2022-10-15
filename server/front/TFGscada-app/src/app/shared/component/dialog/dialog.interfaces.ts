@@ -1,7 +1,8 @@
 export interface IDialogConfig {
     columns: IDialogColumn[];
     title: string;
-    action: 'insert' | 'update';
+    action: 'insert' | 'update' | 'view' | 'search';
+    editable: boolean;
 }
 
 export interface IDialogColumn {
