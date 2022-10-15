@@ -24,6 +24,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogComponent } from './shared/component/dialog/dialog.component';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -56,7 +57,7 @@ export function tokenGetter() {
     MatIconModule, MatCardModule, MatSliderModule,
     MatSidenavModule, MatListModule, HttpClientModule,
     MatFormFieldModule, MatInputModule,
-    MatTooltipModule, MatDialogModule, MatSelectModule
+    MatTooltipModule, MatDialogModule, MatSelectModule, MatTabsModule
   ],
   providers: [],
   //exports: [TableComponent],

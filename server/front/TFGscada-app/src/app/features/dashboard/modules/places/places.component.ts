@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-places',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PlacesComponent implements OnInit {
 
-  constructor() { }
+  constructor(matTab: MatTabsModule) { }
 
   ngOnInit(): void {
   }

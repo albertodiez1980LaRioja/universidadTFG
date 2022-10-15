@@ -31,7 +31,13 @@ export class AuthService {
     ) { }
 
     isAuthenticated(): boolean {
-        return Object.keys(this._user).length > 0;
+        const user = localStorage.getItem('user');
+        if (user != undefined) {
+            //console.log('usuario', user);
+            return true;
+        }
+        return false;
+        //return Object.keys(this._user).length > 0;
     }
 
     hasValidToken(): boolean {
@@ -54,7 +60,10 @@ export class AuthService {
         this._user = user;
     }
 
-    get user(): IUser {
-        return this._user;
+    get user(): any {
+        const item = localStorage.getItem('user');
+        if (item != undefined)
+            return JSON.parse(item);
+        return undefined;
     }
 }

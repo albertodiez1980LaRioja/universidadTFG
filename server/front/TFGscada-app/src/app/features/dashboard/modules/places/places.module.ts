@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { PlacesRoutingModule } from './places-routing.module';
 import { PlacesComponent } from './places.component';
+import { MatTabsModule } from '@angular/material/tabs';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { PlacesComponent } from './places.component';
   ],
   imports: [
     CommonModule,
-    PlacesRoutingModule
+    PlacesRoutingModule,
+    MatTabsModule
   ]
 })
 export class PlacesModule { }

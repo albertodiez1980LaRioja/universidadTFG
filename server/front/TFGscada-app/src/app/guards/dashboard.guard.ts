@@ -20,6 +20,7 @@ export class DashboardGuard implements CanActivate {
         if (this.auth.isAuthenticated()) {
             return true;
         } else {
+            console.log('se navega a auth', route.url);
             this.router.navigate(['auth'], {
                 queryParams: { returnUrl: state.url },
             });
