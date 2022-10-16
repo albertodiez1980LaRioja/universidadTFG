@@ -25,6 +25,15 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DialogComponent } from './shared/component/dialog/dialog.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTabsModule } from '@angular/material/tabs';
+//import { TableComponent } from 'src/app/shared/component/table/table.component';
+import { TableModule } from 'src/app/shared/component/table/table.module';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatChipsModule } from '@angular/material/chips';
+import { CommonModule } from '@angular/common';
+import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSortModule } from '@angular/material/sort';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -57,7 +66,12 @@ export function tokenGetter() {
     MatIconModule, MatCardModule, MatSliderModule,
     MatSidenavModule, MatListModule, HttpClientModule,
     MatFormFieldModule, MatInputModule,
-    MatTooltipModule, MatDialogModule, MatSelectModule, MatTabsModule
+    MatTooltipModule, MatDialogModule, MatSelectModule, MatTabsModule,
+    MatPaginatorModule, MatChipsModule,
+    CommonModule,
+    MatButtonModule,
+    MatTableModule, MatCheckboxModule, MatProgressSpinnerModule,
+    MatSortModule
   ],
   providers: [],
   //exports: [TableComponent],
