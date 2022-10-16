@@ -25,12 +25,15 @@ export class DialogComponent implements OnInit {
     for (let i = 0; i < this.data.columns.length; i++) {
       const numColumn = this.data.columns[i].prop;
       let value = this.data.columns[i].value;
-      if (this.data.action == 'insert')
+      if (this.data.action == 'insert' || this.data.columns[i].type == 'password')
         value = '';
       if (this.data.columns[i].canView == undefined || this.data.columns[i].canView == true) {
-        if (this.data.action == 'insert' || (this.data.action == 'update' && this.data.columns[i].type != 'password')) {
+        if (this.data.action.toLowerCase() == 'insert' || this.data.action.toLowerCase() == 'update') {
           this.columnsShow.push(this.data.columns[i]);
-          parameters[numColumn] = [value, Validators.required];
+          if (this.data.action.toLowerCase() == 'update' && this.data.columns[i].type == 'password')
+            parameters[numColumn] = '';
+          else
+            parameters[numColumn] = [value, Validators.required];
         }
         else {
           if (this.data.columns[i].canSearch === undefined || this.data.columns[i].canSearch == true) {

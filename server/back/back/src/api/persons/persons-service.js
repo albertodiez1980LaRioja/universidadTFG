@@ -62,11 +62,12 @@ class PersonService extends BaseService {
         if (req.body != undefined && req.body.pass != undefined) {
             req.body.pass = bcrypt.hashSync(req.body.pass, 10);
         }
-        const ret = await this.repository.update(req, res);
+        const ret = { ...await this.repository.update(req, res) };
         if (ret != undefined && ret.length != undefined) {
             for (let i = 0; i < ret.length; i++) {
-                if (ret[i].dataValues != undefined && ret[i].dataValues.pass != undefined)
+                if (ret[i].dataValues != undefined && ret[i].dataValues.pass != undefined) {
                     delete ret[i].dataValues.pass;
+                }
             }
         }
         return ret;
