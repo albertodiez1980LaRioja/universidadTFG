@@ -21,7 +21,15 @@ const Person = sequelize.define('persons', {
 });
 
 Person.asociate = function () {
+    const alarms = sequelize.model('alarms');
     console.log('Se hacen las asociaciones de la persona');
+    this.hasMany(alarms, {
+        foreignKey: 'operatorId'
+    });
+
+    const places = sequelize.model('places');
+    this.belongsToMany(places, { through: 'o_p' });
+
 }
 
 export default Person;  

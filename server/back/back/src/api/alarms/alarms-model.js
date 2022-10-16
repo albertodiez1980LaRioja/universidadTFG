@@ -3,26 +3,20 @@ import { sequelize } from "../../database/database"; // importamos la cadena de 
 
 
 const Alarm = sequelize.define('alarms', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true, autoIncrement: true
+    },
     date_time: {
         type: DataTypes.DATE,
-        primaryKey: true,
+        //primaryKey: true,
     },
-    latitude: {
+    sensorId: {
         type: Sequelize.INTEGER,
-        primaryKey: true,
+        //primaryKey: true,
     },
-    longitude: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-    },
-    id_sensor: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-    },
-
-
-    dni_operator_acussated: {
-        type: Sequelize.STRING, allowNull: false,
+    operatorId: {
+        type: Sequelize.INTEGER, allowNull: false,
     },
     date_finish: {
         type: DataTypes.DATE, allowNull: false,
@@ -33,5 +27,29 @@ const Alarm = sequelize.define('alarms', {
 }, {
     timestamps: false
 });
+
+Alarm.asociate = function () {
+    const persons = sequelize.model('persons');
+    console.log('Se hacen las asociaciones de la alarma a la persona');
+    this.belongsTo(persons, {
+        foreignKey: 'operatorId'
+    });
+
+    const measurements = sequelize.model('alarms');
+    this.belongsTo(measurements, {
+        foreignKey: 'measurementId'
+    });
+
+    const places = sequelize.model('places');
+    this.belongsTo(places, {
+        foreignKey: 'placeId'
+    });
+
+    const sensors = sequelize.model('sensors');
+    this.belongsTo(sensors, {
+        foreignKey: 'sensorId'
+    });
+
+}
 
 export default Alarm;  

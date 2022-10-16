@@ -23,17 +23,9 @@ const routes: Routes = [
       { path: 'places', loadChildren: () => import('./modules/places/places.module').then(m => m.PlacesModule) },
       { path: 'alarms', loadChildren: () => import('./modules/alarms/alarms.module').then(m => m.AlarmsModule) },
       { path: 'actions', loadChildren: () => import('./modules/actions/actions.module').then(m => m.ActionsModule) },
-      { path: '', pathMatch: 'full', redirectTo: 'users' },
+      { path: '', pathMatch: 'full', redirectTo: 'places' },
     ],
   },
-  {
-    path: 'users',
-    loadChildren: () => import('./modules/users/users.module').then(m => m.UsersModule)
-  },
-  {
-    path: 'places',
-    loadChildren: () => import('./modules/places/places.module').then(m => m.PlacesModule)
-  }
 ];
 
 @NgModule({
