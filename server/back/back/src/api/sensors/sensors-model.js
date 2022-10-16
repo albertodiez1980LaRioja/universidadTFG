@@ -16,11 +16,11 @@ const Sensor = sequelize.define('sensors', {
         allowNull: false,
     },
     range_low: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: true,
     },
     range_hight: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: true,
     },
 

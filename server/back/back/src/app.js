@@ -7,10 +7,11 @@ import RouterO_P from './api/o_p/o_p-controller';
 import RouterS_P from './api/s_p/s_p-controller';
 import RouterMeasurement from './api/measurements/measurements-controller';
 import RouterSensor from './api/sensors/sensors-controller';
+import SensorService from './api/sensors/sensors-model';
 import RouterAlarm from './api/alarms/alarms-controller';
 const jwt = require('../middlewares/jwt.middleware');
 import { sequelize } from "./database/database";
-
+import config from '../config/config';
 
 // initialization
 var app = express();
@@ -24,7 +25,59 @@ for (let table in sequelize.models) {
         model.asociate();
     }
 }
-sequelize.sync({ force: false }); // sync all tables
+if (config.createDatabase != 'false') {
+    // sync all tables
+    sequelize.sync({ force: true }).then(() => {
+        // add the sensors data
+        console.log('add sensor data', SensorService);
+        SensorService.create({
+            name: 'HC-SR501', description: 'Detector de personas por infrarrojos',
+            range_low: 0, range_hight: 1
+        });
+        SensorService.create({
+            name: 'Sensor de vibración', description: "Sensor de vibración",
+            range_low: 0, range_hight: 1
+        });
+        SensorService.create({
+            name: 'Sensor de sonido', description: 'Sensor de sonido',
+            range_low: 0, range_hight: 1
+        });
+        SensorService.create({
+            name: 'Sensor de obstaculos', description: 'Detector de personas por infrarrojos',
+            range_low: 0, range_hight: 1
+        });
+        SensorService.create({
+            name: 'Sensor de gas MQ2', description: 'Detector de gas inflamable',
+            range_low: 0, range_hight: 1
+        });
+        SensorService.create({
+            name: 'Sensor de lluvia', description: 'Sensor de lluvia',
+            range_low: 0, range_hight: 1
+        });
+        SensorService.create({
+            name: 'Sensor de aceite', description: 'Sensor de aceite',
+            range_low: 0, range_hight: 1
+        });
+        SensorService.create({
+            name: 'DHT11', description: 'Detector de temperatura y humedad ambiente',
+            range_low: 0, range_hight: 1
+        });
+        SensorService.create({
+            name: 'Sensibilidad lumínica', description: 'Detector de sensibilidad lumínica',
+            range_low: 0, range_hight: 1
+        });
+        SensorService.create({
+            name: 'Sensor de incendios', description: 'Sensor de incencios',
+            range_low: 0, range_hight: 1
+        });
+
+
+
+    }
+    );
+}
+else
+    sequelize.sync({ force: false }); // sync all tables
 
 
 

@@ -9,6 +9,7 @@ const config = {
     secret: process.env.SECRET,
     tokenCaducity: process.env.TOKEN_CADUCITY,
     isApiSecured: process.env.API_SECURED,
+    createDatabase: process.env.SEQUELIZE_CREATE_DATABASE,
     routesWhitelist: process.env.ROUTES_WHITELIST.split(','),
     sequelize: {
         dialect: process.env.SEQUELIZE_DIALECT || 'postgres',
