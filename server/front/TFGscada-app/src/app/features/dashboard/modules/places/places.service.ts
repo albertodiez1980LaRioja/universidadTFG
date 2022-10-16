@@ -13,7 +13,7 @@ import { IPlace } from './places-interfaces';
   providedIn: 'root'
 })
 export class PlacesService {
-  apiUrl = 'http://localhost:3000/api/persons';
+  apiUrl = 'http://localhost:3000/api/places';
 
   constructor(private http: HttpClient) { }
 

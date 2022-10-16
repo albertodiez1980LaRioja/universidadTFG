@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { UsersService } from './users.service';
 
-
 import { usersConfig, dialogConfig } from './users.config';
 import { IUser, RoleText } from './users-interfaces';
 import { TableComponent } from 'src/app/shared/component/table/table.component';
@@ -63,7 +62,6 @@ export class UsersComponent implements OnInit {
   read_prop(obj: any, id: any) {
     if (id != undefined)
       return obj[id];
-    console.log('fallo al leer la propiedad');
     return undefined;
   }
 
@@ -76,8 +74,6 @@ export class UsersComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: this.dialogConfig,
     });
-
-
 
     dialogRef.afterClosed().subscribe(async result => {
       if (result != '') {
@@ -92,7 +88,6 @@ export class UsersComponent implements OnInit {
             user['roles'] = this.roleText.indexOf(result[keys[i]]);
           }
         }
-
         if (this.tableUsers != undefined) {
           let table = this.tableUsers as unknown as TableComponent;
           table.dataSource.filterPredicate = (data: IUser, filter: string) => {
@@ -115,9 +110,6 @@ export class UsersComponent implements OnInit {
         }
       }
     });
-
-
-
   }
 
   clearFilter($event: any) {
@@ -135,7 +127,6 @@ export class UsersComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogComponent, {
       data: this.dialogConfig,
     });
-
     dialogRef.afterClosed().subscribe(result => {
       if (result != '') {
         // save the row
@@ -171,7 +162,6 @@ export class UsersComponent implements OnInit {
         const dialogRef = this.dialog.open(DialogComponent, {
           data: this.dialogConfig,
         });
-
         dialogRef.afterClosed().subscribe(async result => {
           if (result != '') {
             // save the row
@@ -212,8 +202,6 @@ export class UsersComponent implements OnInit {
           data: this.dialogConfig,
         });
         break;
-
     }
   }
-
 }

@@ -3,7 +3,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { PlacesService } from './places.service';
 import { placesConfig, dialogConfig } from './places.config';
 import { IPlace } from './places-interfaces';
-import { TableComponent } from 'src/app/shared/component/table/table.component';
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -19,7 +19,20 @@ export class PlacesComponent implements OnInit {
   constructor(public placesService: PlacesService,
     matTab: MatTabsModule,) { }
 
+  selected = new FormControl(0);
+  tabs = ['Datos', 'Mapa', 'Lugar'];
+
+  addTab(selectAfterAdding: boolean) {
+    //this.tabs.push('New');
+
+    //if (selectAfterAdding) {
+    this.selected.setValue(this.tabs.length - 1);
+    //}
+  }
+
   ngOnInit(): void {
+    this.fetchPlaces();
+    this.selected.setValue(1);
   }
 
   fetchPlaces() {
@@ -27,6 +40,7 @@ export class PlacesComponent implements OnInit {
       next: (response: any) => {
         console.log('respuesta: ', response);
         this.placesDate = response.data;
+        console.log('lugares', this.placesDate);
         /*this.usersDate.forEach(user => {
           if (user.roles < this.roleText.length)
             user.roleText = this.roleText[user.roles];

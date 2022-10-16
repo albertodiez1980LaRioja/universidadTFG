@@ -3,19 +3,9 @@ import { sequelize } from "../../database/database"; // importamos la cadena de 
 
 
 const O_P = sequelize.define('o_p', {
-    /*latitude: {
+    priority: {
         type: Sequelize.INTEGER,
-        primaryKey: true,
     },
-    longitude: {
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-    },
-    dni: {
-        type: Sequelize.STRING,
-        primaryKey: true
-    }
-    */
 }, {
     timestamps: false
 });

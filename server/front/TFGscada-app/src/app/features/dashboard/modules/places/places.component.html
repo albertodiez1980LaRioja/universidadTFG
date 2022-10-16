@@ -1,11 +1,9 @@
-<mat-tab-group animationDuration="0ms">
-    <mat-tab label="Datos"> Datos
-        <!--
+<mat-tab-group animationDuration="0ms" [selectedIndex]="selected.value">
+    <mat-tab [label]="this.tabs[0]">
         <app-table #tablePlaces [config]="placesConfig" [data]="placesDate" [isLoadingTable]="false"
             (action)="tableEvent($event)">
         </app-table>
--->
     </mat-tab>
-    <mat-tab label="Mapa"> Mapa </mat-tab>
-    <mat-tab label="Lugar"> Lugar </mat-tab>
+    <mat-tab [label]="this.tabs[1]"> Mapa </mat-tab>
+    <mat-tab [label]="this.tabs[2]"> Lugar </mat-tab>
 </mat-tab-group>

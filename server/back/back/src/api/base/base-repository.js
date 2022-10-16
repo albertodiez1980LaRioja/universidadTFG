@@ -41,9 +41,11 @@ class BaseRepository {
         return await Sequelize.transaction();
     }
 
-    async get(req, res, transaction = undefined) {
+    async get(req, res, include = undefined, transaction = undefined) {
         try {
             let params = { where: this.validateParams(req.query) };
+            if (include != undefined)
+                params.include = include;
             if (transaction != undefined)
                 params.transaction = transaction;
             const rows = await this.model.findAll(params);
