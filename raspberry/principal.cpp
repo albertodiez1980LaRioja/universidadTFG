@@ -426,7 +426,7 @@ int main(void)
             printf("Número de filas introducidas: %d\n", numRows);
         }
     }
-    //  connection.exitConnection();
+    connection.exitConnection();
 
     // gcc - Wall - o blink blink.c - lwiringPi
     // compilation
