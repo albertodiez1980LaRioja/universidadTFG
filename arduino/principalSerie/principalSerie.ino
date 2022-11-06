@@ -88,75 +88,80 @@ float DHT11reads[2];
 
 void RBconnection::wait()
 {
-    
-    char text[500];
-    if (Serial.available() > 0){
-      String llegado = Serial.readString();
-      if(llegado.length()>12){
-        int fail = 0;
-        unsigned int activate = llegado.charAt(0);
-        if(activate >= '0')
-          activate = activate - '0';
+
+  char text[500];
+  if (Serial.available() > 0)
+  {
+    String llegado = Serial.readString();
+    if (llegado.length() > 12)
+    {
+      int fail = 0;
+      unsigned int activate = llegado.charAt(0);
+      if (activate >= '0')
+        activate = activate - '0';
+      else
+        fail = 1;
+      unsigned int outputs[50];
+
+      unsigned int checksumCalculated = activate + '0';
+      for (int i = 0; i < NUM_OUTPUTS && fail == 0; i++)
+      {
+        outputs[i] = llegado.charAt(2 + i * 2);
+        if (outputs[i] >= '0')
+        {
+          outputs[i] = outputs[i] - '0';
+          checksumCalculated += outputs[i];
+        }
         else
           fail = 1;
-        unsigned int outputs[50];
-        
-        unsigned int checksumCalculated = activate + '0';
-        for(int i=0;i<NUM_OUTPUTS && fail==0;i++){
-          outputs[i]=llegado.charAt(2+i*2);
-          if(outputs[i]>='0'){
-            outputs[i]=outputs[i]-'0';
-            checksumCalculated+=outputs[i];
-          }
+      }
+      unsigned int checksumLlegado = llegado.charAt(10);
+      if (checksumLlegado == checksumCalculated && activate == 1 && fail == 0)
+      {
+        for (int i = 0; i < NUM_OUTPUTS; i++)
+        {
+          if (outputs[i] == 1)
+            globalOutputs[i].value = 0; // 0 is activated
           else
-            fail = 1;
+            globalOutputs[i].value = 1;
         }
-        unsigned int checksumLlegado = llegado.charAt(10);
-        if( checksumLlegado==checksumCalculated && activate == 1 && fail == 0){
-          for(int i=0;i<NUM_OUTPUTS;i++){
-            if(outputs[i]==1)   
-              globalOutputs[i].value =0; // 0 is activated
-            else
-              globalOutputs[i].value =1;
-          }
-          for (int i = 0; i < NUM_OUTPUTS; i++)
-          {
-            if (globalOutputs[i].value )
-              digitalWrite(globalOutputs[i].pin, HIGH);
-            else
-              digitalWrite(globalOutputs[i].pin, LOW);
-          }    
+        for (int i = 0; i < NUM_OUTPUTS; i++)
+        {
+          if (globalOutputs[i].value)
+            digitalWrite(globalOutputs[i].pin, HIGH);
+          else
+            digitalWrite(globalOutputs[i].pin, LOW);
         }
       }
-      int checksum = globalSensors[HC_SR501].measurementMAX+
-        globalSensors[VIBRATION_SENSOR].measurementMAX+
-        globalSensors[SOUND_SENSOR].measurementMAX+
-        globalSensors[OBSTACLE_SENSOR].measurementMIN+
-        globalSensors[MQ2_GAS_SENSOR].measurementMAX+
-        globalSensors[RAIN_SENSOR].measurementMAX+
-        globalSensors[OIL_SENSOR].measurementMAX+
-        globalSensors[PHOTOSENSITIVE_SENSOR].measurementMIN+
-        globalSensors[FLAME_SENSOR].measurementMIN+
-        (int)(DHT11reads[0])+
-        (int)(DHT11reads[1]);
-      sprintf(text,"%d %d %d %d %d %d %d %d %d %d %d %d ",
-        globalSensors[HC_SR501].measurementMAX, 
-        globalSensors[VIBRATION_SENSOR].measurementMAX,
-        globalSensors[SOUND_SENSOR].measurementMAX,
-        globalSensors[OBSTACLE_SENSOR].measurementMIN,
-        globalSensors[MQ2_GAS_SENSOR].measurementMAX,
-        globalSensors[RAIN_SENSOR].measurementMAX,
-        globalSensors[OIL_SENSOR].measurementMAX,
-        globalSensors[PHOTOSENSITIVE_SENSOR].measurementMIN,
-        globalSensors[FLAME_SENSOR].measurementMIN,
-        (int)(DHT11reads[0]),
-        (int)(DHT11reads[1]),
-        checksum
-       );
-      Serial.println(text);
-      readSensors(1); // reset some reads
     }
-    delay(100);
+    int checksum = globalSensors[HC_SR501].measurementMAX +
+                   globalSensors[VIBRATION_SENSOR].measurementMAX +
+                   globalSensors[SOUND_SENSOR].measurementMAX +
+                   globalSensors[OBSTACLE_SENSOR].measurementMIN +
+                   globalSensors[MQ2_GAS_SENSOR].measurementMAX +
+                   globalSensors[RAIN_SENSOR].measurementMAX +
+                   globalSensors[OIL_SENSOR].measurementMAX +
+                   globalSensors[PHOTOSENSITIVE_SENSOR].measurementMIN +
+                   globalSensors[FLAME_SENSOR].measurementMIN +
+                   (int)(DHT11reads[0]) +
+                   (int)(DHT11reads[1]);
+    sprintf(text, "%d %d %d %d %d %d %d %d %d %d %d %d ",
+            globalSensors[HC_SR501].measurementMAX,
+            globalSensors[VIBRATION_SENSOR].measurementMAX,
+            globalSensors[SOUND_SENSOR].measurementMAX,
+            globalSensors[OBSTACLE_SENSOR].measurementMIN,
+            globalSensors[MQ2_GAS_SENSOR].measurementMAX,
+            globalSensors[RAIN_SENSOR].measurementMAX,
+            globalSensors[OIL_SENSOR].measurementMAX,
+            globalSensors[PHOTOSENSITIVE_SENSOR].measurementMIN,
+            globalSensors[FLAME_SENSOR].measurementMIN,
+            (int)(DHT11reads[0]),
+            (int)(DHT11reads[1]),
+            checksum);
+    Serial.println(text);
+    readSensors(1); // reset some reads
+  }
+  delay(100);
 }
 
 #define DHTTYPE DHT11
@@ -168,9 +173,9 @@ void setup()
 {
   Serial.begin(9600); // conf. velocidad del monitor Serial
   while (!Serial)
-    {
-        ; // wait for serial port to connect. Needed for native USB
-    }
+  {
+    ; // wait for serial port to connect. Needed for native USB
+  }
   int i;
   for (i = 0; i < NUM_SENSORS; i++)
   {
@@ -244,7 +249,6 @@ void readSensor_DHT11(Tsensor *sensor)
   float hic = dht.computeHeatIndex(t, h, false);
   DHT11reads[0] = h;
   DHT11reads[1] = t;
-
 }
 
 void readSensors(int doAll)
