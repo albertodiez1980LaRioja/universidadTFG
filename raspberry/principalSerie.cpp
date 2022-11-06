@@ -164,11 +164,11 @@ void ArduinoConnection ::wait()
     // delay(700);
     sleep(1);
     char activate = 1;
-    char output1 = 0;
+    char output1 = 1;
     char output2 = 1;
     char output3 = 1;
     char output4 = 0;
-    char toSend[] = "1 1 1 0 0 0     \0";
+    char toSend[] = "1 1 1 0 0 0     \n\0";
     toSend[0] = activate + '0';
     toSend[2] = output1 + '0';
     toSend[4] = output2 + '0';
@@ -176,6 +176,7 @@ void ArduinoConnection ::wait()
     toSend[8] = output4 + '0';
     char checksum = activate + output1 + output2 + output3 + output4;
     toSend[10] = checksum + '0';
+    printf("Se manda: %s", toSend);
     if ((write(fd, toSend, sizeof(toSend))) == -1)
     {
         fprintf(stderr, "write() failed: %s\n", strerror(errno));
@@ -183,9 +184,9 @@ void ArduinoConnection ::wait()
     }
     sleep(1);
     // delay(300);
-    //   int msToDelay = 1;
+    //    int msToDelay = 1;
     this->read_from_serial(this->fd, this->bufferIn, 500);
-    printf("%s", (char *)this->bufferIn);
+    // printf("%s", (char *)this->bufferIn);
     if (loadData(bufferIn, lenghtBufferIn))
     {
         this->writeToBBDD = true;
@@ -233,7 +234,7 @@ void ArduinoConnection ::wait()
     }
     else
     {
-        // printf("Paquete con checksum incorrecto\n\n");
+        printf("Paquete con checksum incorrecto\n\n");
         this->writeToBBDD = false;
     }
 }
@@ -272,7 +273,7 @@ PGconn *BDconnection::getConnection()
 {
     // PGconn *conn;
     /* Make a connection to the database */
-    this->conninfo = (char *)"dbname = postgres";
+    this->conninfo = (char *)"dbname = raspberryTest";
     this->conn = PQconnectdb(this->conninfo);
 
     /* Check to see that the backend connection was successfully made */
@@ -397,7 +398,7 @@ int main(void)
     int numRows = 0;
     ArduinoConnection arduinoConnection((char *)"/dev/ttyACM0");
     BDconnection connection;
-    // connection.getConnection(); // connect to bbdd
+    connection.getConnection(); // connect to bbdd
 
     while (true)
     {
@@ -405,10 +406,9 @@ int main(void)
 
         if (arduinoConnection.getWriteToBDD())
         {
-            /*      connection.insertRow(arduinoConnection.getBinaryValues(), arduinoConnection.getHasPersons(),
-                                       arduinoConnection.getHasSound(), arduinoConnection.getHasGas(), arduinoConnection.getHasOil(),
-                                       arduinoConnection.getHasRain(), arduinoConnection.getTemperature(), arduinoConnection.getHumidity());
-                                       */
+            connection.insertRow(arduinoConnection.getBinaryValues(), arduinoConnection.getHasPersons(),
+                                 arduinoConnection.getHasSound(), arduinoConnection.getHasGas(), arduinoConnection.getHasOil(),
+                                 arduinoConnection.getHasRain(), arduinoConnection.getTemperature(), arduinoConnection.getHumidity());
             arduinoConnection.resetWriteToBBDD();
             numRows++;
             printf("Número de filas introducidas: %d\n", numRows);

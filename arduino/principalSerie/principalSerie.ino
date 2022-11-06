@@ -1,7 +1,5 @@
 #include <DHT.h>
 
-#define VERVOSE 1
-
 typedef struct
 {
   byte code;
@@ -47,15 +45,14 @@ Tsensor globalSensors[] = {
 
 #define NUM_OUTPUTS 4
 Toutput globalOutputs[] = {
-    {1, 0, 0, 7},
-    {1, 0, 0, 8},
-    {1, 0, 0, 9},
-    {1, 0, 0, 10},
+    {1, 1, 0, 7},
+    {1, 1, 0, 8},
+    {1, 1, 0, 9},
+    {1, 1, 0, 10},
 };
 
 class RBconnection
 {
-  int state, RBclockIn, RBdateIn, RBdateOut;
   byte bufferOut[50], bufferIn[50], maskBit[8];
   int lenghtBufferOut, lenghtBufferIn, nowBufferIn, nowBufferOut, nowBufferInBit, nowBufferOutBit;
   int isIn, isOut;
@@ -78,47 +75,12 @@ void RBconnection::intToBytes(byte *hightByte, byte *lowByte, int integer)
 
 void RBconnection::begin()
 {
-  RBclockIn = 11;
-  RBdateIn = 12;
-  RBdateOut = 13;
-  pinMode(RBclockIn, INPUT);
-  pinMode(RBdateIn, INPUT);
-  pinMode(RBdateOut, OUTPUT);
-  maskBit[0] = 128;
-  for (int i = 1; i < 8; i++)
-  {
-    maskBit[i] = maskBit[i - 1] / 2;
-  }
-  state = 0;
-  lenghtBufferOut = 0;
-  lenghtBufferIn = 0;
-  nowBufferIn = 0;
-  nowBufferOut = 0;
-  nowBufferInBit = 0;
-  nowBufferOutBit = 0;
-  sendBit = 0;
-  isIn = 0;
-  isOut = 0;
   time = millis();
-}
-
-void RBconnection::calculateCheckSum(byte *hightByte, byte *lowByte, byte *buffer, int lenght)
-{
-  int sum = 0;
-  for (int i = 0; i < lenght - 2; i++)
-  {
-    sum += buffer[i];
-  }
-  *lowByte = sum % 128;
-  *hightByte = sum / 128;
 }
 
 RBconnection::RBconnection()
 {
 }
-
-int last = 0;
-byte led = 7; // pin de salida para activar un diodo LED
 
 void readSensors(int doAll);
 
@@ -130,16 +92,29 @@ void RBconnection::wait()
     char text[500];
     if (Serial.available() > 0){
       String llegado = Serial.readString();
-      if(llegado.length()>10){
-        unsigned int activate = llegado.charAt(0) - '0';
-        unsigned int output1 = llegado.charAt(2) - '0';
-        unsigned int output2 = llegado.charAt(4) - '0';
-        unsigned int output3 = llegado.charAt(6) - '0';
-        unsigned int output4 = llegado.charAt(8) - '0';
-        unsigned int checksumCalculated = activate + output1 + output2 + output3 + output4;
-        if( (llegado.charAt(10) - '0')==checksumCalculated && activate == 1){
+      if(llegado.length()>12){
+        int fail = 0;
+        unsigned int activate = llegado.charAt(0);
+        if(activate >= '0')
+          activate = activate - '0';
+        else
+          fail = 1;
+        unsigned int outputs[50];
+        
+        unsigned int checksumCalculated = activate + '0';
+        for(int i=0;i<NUM_OUTPUTS && fail==0;i++){
+          outputs[i]=llegado.charAt(2+i*2);
+          if(outputs[i]>='0'){
+            outputs[i]=outputs[i]-'0';
+            checksumCalculated+=outputs[i];
+          }
+          else
+            fail = 1;
+        }
+        unsigned int checksumLlegado = llegado.charAt(10);
+        if( checksumLlegado==checksumCalculated && activate == 1 && fail == 0){
           for(int i=0;i<NUM_OUTPUTS;i++){
-            if( llegado.charAt(2+i*2)=='1')    
+            if(outputs[i]==1)   
               globalOutputs[i].value =0; // 0 is activated
             else
               globalOutputs[i].value =1;
@@ -164,7 +139,7 @@ void RBconnection::wait()
         globalSensors[FLAME_SENSOR].measurementMIN+
         (int)(DHT11reads[0])+
         (int)(DHT11reads[1]);
-      sprintf(text,"%d %d %d %d %d %d %d %d %d %d %d %d",
+      sprintf(text,"%d %d %d %d %d %d %d %d %d %d %d %d ",
         globalSensors[HC_SR501].measurementMAX, 
         globalSensors[VIBRATION_SENSOR].measurementMAX,
         globalSensors[SOUND_SENSOR].measurementMAX,
@@ -183,19 +158,6 @@ void RBconnection::wait()
     }
     delay(100);
 }
-
-String msg[10] = {
-    "Sensor de personas: ",
-    "Sensor de vibración: ",
-    "Sensor de sonido: ",
-    "Sensor de obstaculo: ",
-    "Sensor de gas: ",
-    "Sensor de aceite: ",
-    "Sensor de lluvia: ",
-    "Temperatura y humedad",
-    "Sensor de luz: ",
-    "Sensor de fuego:",
-};
 
 #define DHTTYPE DHT11
 DHT dht(globalSensors[DHT11_SENSOR].pins[0], DHTTYPE);
@@ -273,7 +235,6 @@ void readSensor_DHT11(Tsensor *sensor)
   // Comprobamos si ha habido algún error en la lectura
   if (isnan(h) || isnan(t) || isnan(f))
   {
-    //Serial.println("Error obteniendo los datos del sensor DHT11");
     return;
   }
 
