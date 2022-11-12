@@ -285,7 +285,8 @@ PGconn *BDconnection::getConnection()
 {
     // PGconn *conn;
     /* Make a connection to the database */
-    this->conninfo = (char *)"dbname = raspberryTest";
+    // this->conninfo = (char *)"dbname = raspberryTest";
+    this->conninfo = (char *)"dbname = postgres";
     this->conn = PQconnectdb(this->conninfo);
 
     /* Check to see that the backend connection was successfully made */
