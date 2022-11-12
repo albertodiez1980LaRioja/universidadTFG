@@ -224,7 +224,7 @@ void ArduinoConnection ::wait(int action)
             printf("Personas detectadas\n");
         else
             printf("Personas NO detectadas\n");
-        if (this->has_sound > 600)
+        if (this->has_sound > 0)
             printf("Sonido detectado %d\n", this->has_sound);
         else
             printf("Sonido NO detectado %d\n", this->has_sound);
