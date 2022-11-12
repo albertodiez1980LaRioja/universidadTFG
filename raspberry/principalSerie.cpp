@@ -30,7 +30,7 @@ class ArduinoConnection
 
 public:
     ArduinoConnection(char *name);
-    void wait();
+    void wait(int action);
     int loadData(char *buffer, int lenght);
     int getBinaryValues() { return this->binary_values; };
     int getHasPersons() { return this->has_persons; };
@@ -159,16 +159,27 @@ void delay(float millis)
     }
 }
 
-void ArduinoConnection ::wait()
+void ArduinoConnection ::wait(int action)
 {
     // delay(700);
     sleep(1);
     char activate = 1;
-    char output1 = 1;
-    char output2 = 1;
-    char output3 = 1;
+    char output1 = 0;
+    char output2 = 0;
+    char output3 = 0;
     char output4 = 0;
     char toSend[] = "1 1 1 0 0 0     \n\0";
+    if (action != -1)
+    {
+        if (action & 0x01)
+            output1 = 1;
+        if (action & 0x02)
+            output2 = 1;
+        if (action & 0x04)
+            output3 = 1;
+        if (action & 0x08)
+            output4 = 1;
+    }
     toSend[0] = activate + '0';
     toSend[2] = output1 + '0';
     toSend[4] = output2 + '0';
@@ -256,6 +267,7 @@ public:
     PGresult *startTransaction(char *sentence);
     void endTransaction(PGconn *conn, PGresult *res);
     int insertRow(int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity);
+    int getLastAction();
     PGconn *getConnection();
     void exitConnection();
 };
@@ -284,6 +296,34 @@ PGconn *BDconnection::getConnection()
         this->exit_nicely(conn);
     }
     return conn;
+}
+
+int BDconnection::getLastAction()
+{
+    PGresult *res;
+    res = PQexecParams(this->conn,
+                       "SELECT date_time,binary_values FROM public.actions order by date_time desc limit 1",
+                       0, /* no parameters */
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                       1);
+
+    if (PQresultStatus(res) != PGRES_TUPLES_OK)
+    {
+        fprintf(stderr, "SELECT failed: %s", PQerrorMessage(conn));
+        PQclear(res);
+        return -1;
+    }
+    if (PQntuples(res) > 0)
+    {
+        char *value = PQgetvalue(res, 0, 1);
+        return ((*(int *)value) / 16777216);
+    }
+    else
+        printf("No había datos para leer en las acciones\n");
+    return 0;
 }
 
 int BDconnection::insertRow(int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity)
@@ -330,10 +370,6 @@ int BDconnection::insertRow(int binary_values, int has_persons, int has_sound, i
         PQclear(res);
         this->exit_nicely(conn);
     }
-    // numRows = PQcmdTuples(res)[0];
-    //  printf("Número de filas introducidas: %d\n", numRows);
-    //   show_binary_results(res);
-
     PQclear(res);
     return 1;
 }
@@ -402,7 +438,7 @@ int main(void)
 
     while (true)
     {
-        arduinoConnection.wait();
+        arduinoConnection.wait(connection.getLastAction());
 
         if (arduinoConnection.getWriteToBDD())
         {
@@ -412,6 +448,7 @@ int main(void)
             arduinoConnection.resetWriteToBBDD();
             numRows++;
             printf("Número de filas introducidas: %d\n", numRows);
+            connection.getLastAction();
         }
     }
     // connection.exitConnection();
