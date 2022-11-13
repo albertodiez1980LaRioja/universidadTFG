@@ -141,7 +141,7 @@ int ArduinoConnection::loadData(char *buffer, int lenght)
     if (aux[11] != (aux[0] + aux[1] + aux[2] + aux[3] + aux[4] + aux[5] + aux[6] + aux[7] + aux[8] + aux[9] + aux[10]))
         return 0;
     this->has_persons = aux[0];
-    this->has_sound = aux[1];
+    this->has_sound = aux[2];
     this->has_gas = aux[4];
     this->has_rain = aux[6];
     this->has_oil = aux[5];
