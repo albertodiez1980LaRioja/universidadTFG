@@ -53,11 +53,7 @@ Toutput globalOutputs[] = {
 
 class RBconnection
 {
-  byte bufferOut[50], bufferIn[50], maskBit[8];
-  int lenghtBufferOut, lenghtBufferIn, nowBufferIn, nowBufferOut, nowBufferInBit, nowBufferOutBit;
-  int isIn, isOut;
   unsigned int time;
-  int sendBit;
 
 public:
   RBconnection();
@@ -66,12 +62,6 @@ public:
   void calculateCheckSum(byte *hightByte, byte *lowByte, byte *buffer, int lenght);
   void intToBytes(byte *hightByte, byte *lowByte, int integer);
 };
-
-void RBconnection::intToBytes(byte *hightByte, byte *lowByte, int integer)
-{
-  *lowByte = integer % 128;
-  *hightByte = integer / 128;
-}
 
 void RBconnection::begin()
 {

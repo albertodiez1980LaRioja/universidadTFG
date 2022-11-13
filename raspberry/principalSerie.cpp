@@ -457,5 +457,8 @@ int main(void)
     // to compile serial
     // gcc -Wall -o principalSerie principalSerie.cpp -I/usr/include/postgresql -lpq
 
+    // link para VPN
+    // https://www.geeknetic.es/Guia/1998/Como-usar-y-configurar-OpenVPN.html
+
     return 0;
 }
