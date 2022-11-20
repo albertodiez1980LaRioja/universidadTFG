@@ -30,7 +30,8 @@ class ArduinoConnection
 
 public:
     ArduinoConnection(char *name);
-    void wait(int action);
+    void getSensorValues();
+    int sendActionToRaspberry(int action);
     int loadData(char *buffer, int lenght);
     int getBinaryValues() { return this->binary_values; };
     int getHasPersons() { return this->has_persons; };
@@ -139,7 +140,10 @@ int ArduinoConnection::loadData(char *buffer, int lenght)
     sscanf(buffer, "%d %d %d %d %d %d %d %d %d %d %d %d", &aux[0], &aux[1], &aux[2], &aux[3], &aux[4],
            &aux[5], &aux[6], &aux[7], &aux[8], &aux[9], &aux[10], &aux[11]);
     if (aux[11] != (aux[0] + aux[1] + aux[2] + aux[3] + aux[4] + aux[5] + aux[6] + aux[7] + aux[8] + aux[9] + aux[10]))
+    {
+        printf("Fail: %s\n", buffer);
         return 0;
+    }
     this->has_persons = aux[0];
     this->has_sound = aux[2];
     this->has_gas = aux[4];
@@ -159,9 +163,8 @@ void delay(float millis)
     }
 }
 
-void ArduinoConnection ::wait(int action)
+int ArduinoConnection ::sendActionToRaspberry(int action)
 {
-    // delay(700);
     sleep(1);
     char activate = 1;
     char output1 = 0;
@@ -194,10 +197,31 @@ void ArduinoConnection ::wait(int action)
         exit(EXIT_FAILURE);
     }
     sleep(1);
+    this->read_from_serial(this->fd, this->bufferIn, 500);
+    if (loadData(this->bufferIn, lenghtBufferIn))
+    {
+        printf("Action updated:  %s\n", this->bufferIn);
+        return 1;
+    }
+    printf("Fail to send action: %s\n", this->bufferIn);
+    return 0;
+}
+
+void ArduinoConnection ::getSensorValues()
+{
+    sleep(1);
+    char toSend[] = "Get values   ";
+    printf("Se manda: %s", toSend);
+    if ((write(fd, toSend, sizeof(toSend))) == -1)
+    {
+        fprintf(stderr, "write() failed: %s\n", strerror(errno));
+        exit(EXIT_FAILURE);
+    }
+    sleep(1);
     // delay(300);
     //    int msToDelay = 1;
+
     this->read_from_serial(this->fd, this->bufferIn, 500);
-    // printf("%s", (char *)this->bufferIn);
     if (loadData(bufferIn, lenghtBufferIn))
     {
         this->writeToBBDD = true;
@@ -285,8 +309,8 @@ PGconn *BDconnection::getConnection()
 {
     // PGconn *conn;
     /* Make a connection to the database */
-    // this->conninfo = (char *)"dbname = raspberryTest";
-    this->conninfo = (char *)"dbname = postgres";
+    this->conninfo = (char *)"dbname = raspberryTest";
+    // this->conninfo = (char *)"dbname = postgres";
     this->conn = PQconnectdb(this->conninfo);
 
     /* Check to see that the backend connection was successfully made */
@@ -436,11 +460,16 @@ int main(void)
     ArduinoConnection arduinoConnection((char *)"/dev/ttyACM0");
     BDconnection connection;
     connection.getConnection(); // connect to bbdd
-
+    int lastAction = 999;
     while (true)
     {
-        arduinoConnection.wait(connection.getLastAction());
-
+        int auxAction = connection.getLastAction();
+        arduinoConnection.getSensorValues();
+        if (lastAction != auxAction)
+        {
+            if (arduinoConnection.sendActionToRaspberry(auxAction))
+                lastAction = auxAction;
+        }
         if (arduinoConnection.getWriteToBDD())
         {
             connection.insertRow(arduinoConnection.getBinaryValues(), arduinoConnection.getHasPersons(),
