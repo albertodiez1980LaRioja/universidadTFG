@@ -225,7 +225,7 @@ void ArduinoConnection ::getSensorValues()
     if (loadData(bufferIn, lenghtBufferIn))
     {
         this->writeToBBDD = true;
-        printf("Paquete recibido: \n");
+        printf("Paquete recibido: %s\n", bufferIn);
         printf("Paquete con checksum correcto\n\n");
         printf("Byte binarios %u\n", this->binary_values);
         if (this->binary_values & 1)
