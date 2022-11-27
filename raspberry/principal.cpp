@@ -267,7 +267,7 @@ public:
     BDconnection();
     PGresult *startTransaction(char *sentence);
     void endTransaction(PGconn *conn, PGresult *res);
-    int insertRow(int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity);
+    int insertMeasurement(int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity);
     PGconn *getConnection();
     void exitConnection();
 };
@@ -298,7 +298,7 @@ PGconn *BDconnection::getConnection()
     return conn;
 }
 
-int BDconnection::insertRow(int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity)
+int BDconnection::insertMeasurement(int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity)
 {
     /*
     INSERT INTO public.sensors(
@@ -418,9 +418,9 @@ int main(void)
         arduinoConnection.wait();
         if (arduinoConnection.getWriteToBDD())
         {
-            connection.insertRow(arduinoConnection.getBinaryValues(), arduinoConnection.getHasPersons(),
-                                 arduinoConnection.getHasSound(), arduinoConnection.getHasGas(), arduinoConnection.getHasOil(),
-                                 arduinoConnection.getHasRain(), arduinoConnection.getTemperature(), arduinoConnection.getHumidity());
+            connection.insertMeasurement(arduinoConnection.getBinaryValues(), arduinoConnection.getHasPersons(),
+                                         arduinoConnection.getHasSound(), arduinoConnection.getHasGas(), arduinoConnection.getHasOil(),
+                                         arduinoConnection.getHasRain(), arduinoConnection.getTemperature(), arduinoConnection.getHumidity());
             arduinoConnection.resetWriteToBBDD();
             numRows++;
             printf("Número de filas introducidas: %d\n", numRows);

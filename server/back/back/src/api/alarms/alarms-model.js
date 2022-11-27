@@ -35,15 +35,13 @@ Alarm.asociate = function () {
         foreignKey: 'operatorId'
     });
 
-    const measurements = sequelize.model('alarms');
+    const measurements = sequelize.model('measurements');
     this.belongsTo(measurements, {
         foreignKey: 'measurementId'
     });
 
-    const places = sequelize.model('places');
-    this.belongsTo(places, {
-        foreignKey: 'placeId'
-    });
+
+
 
     const sensors = sequelize.model('sensors');
     this.belongsTo(sensors, {

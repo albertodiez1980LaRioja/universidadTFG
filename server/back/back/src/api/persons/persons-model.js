@@ -30,6 +30,10 @@ Person.asociate = function () {
     const places = sequelize.model('places');
     this.belongsToMany(places, { through: 'o_p' });
 
+    const action = sequelize.model('actions');
+    this.hasMany(action, {
+        foreignKey: 'personId'
+    });
 }
 
 export default Person;  

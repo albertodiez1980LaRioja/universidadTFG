@@ -13,9 +13,11 @@ const Place = sequelize.define('places', {
     longitude: {
         type: Sequelize.DOUBLE,
     },
-
     address: {
         type: Sequelize.TEXT, allowNull: false,
+    },
+    identifier: {
+        type: Sequelize.TEXT, allowNull: false
     }
 
 }, {
@@ -23,10 +25,10 @@ const Place = sequelize.define('places', {
 });
 
 Place.asociate = function () {
-    const alarms = sequelize.model('alarms');
+    /*const alarms = sequelize.model('alarms');
     this.hasMany(alarms, {
         foreignKey: 'placeId'
-    });
+    });*/
 
     const measurements = sequelize.model('measurements');
     this.hasMany(measurements, {
@@ -39,6 +41,10 @@ Place.asociate = function () {
     const sensors = sequelize.model('sensors');
     this.belongsToMany(sensors, { through: 's_p' });
 
+    const action = sequelize.model('actions');
+    this.hasMany(action, {
+        foreignKey: 'placeId'
+    });
 
 }
 

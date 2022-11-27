@@ -8,7 +8,10 @@ import RouterS_P from './api/s_p/s_p-controller';
 import RouterMeasurement from './api/measurements/measurements-controller';
 import RouterSensor from './api/sensors/sensors-controller';
 import SensorService from './api/sensors/sensors-model';
+import OutputService from './api/outputs/output-model';
 import RouterAlarm from './api/alarms/alarms-controller';
+import RouterOutput from './api/outputs/output-controller';
+import ActionOutput from './api/actions/action-controller';
 const jwt = require('../middlewares/jwt.middleware');
 import { sequelize } from "./database/database";
 import config from '../config/config';
@@ -71,7 +74,10 @@ if (config.createDatabase != 'false') {
             range_low: 0, range_hight: 1
         });
 
-
+        OutputService.create({ name: 'Primero' });
+        OutputService.create({ name: 'Segundo' });
+        OutputService.create({ name: 'Tercero' });
+        OutputService.create({ name: 'Cuarto' });
 
     }
     );
@@ -116,5 +122,7 @@ app.use('/api/s_p', RouterS_P.router);
 app.use('/api/measurements', RouterMeasurement.router);
 app.use('/api/sensors', RouterSensor.router);
 app.use('/api/alarms', RouterAlarm.router);
+app.use('/api/outputs', RouterOutput.router);
+
 
 export default app;  

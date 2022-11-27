@@ -287,17 +287,18 @@ class BDconnection
     }
 
 public:
-    BDconnection();
+    BDconnection(char *charConnection);
     PGresult *startTransaction(char *sentence);
     void endTransaction(PGconn *conn, PGresult *res);
-    int insertRow(int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity);
+    int insertMeasurement(int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity);
     int getLastAction();
     PGconn *getConnection();
     void exitConnection();
 };
 
-BDconnection::BDconnection()
+BDconnection::BDconnection(char *charConnection)
 {
+    this->conninfo = charConnection;
 }
 
 void BDconnection::exitConnection()
@@ -309,8 +310,8 @@ PGconn *BDconnection::getConnection()
 {
     // PGconn *conn;
     /* Make a connection to the database */
-    this->conninfo = (char *)"dbname = raspberryTest";
-    // this->conninfo = (char *)"dbname = postgres";
+    // this->conninfo = (char *)"dbname = raspberryTest";
+    //  this->conninfo = (char *)"dbname = postgres";
     this->conn = PQconnectdb(this->conninfo);
 
     /* Check to see that the backend connection was successfully made */
@@ -351,7 +352,7 @@ int BDconnection::getLastAction()
     return 0;
 }
 
-int BDconnection::insertRow(int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity)
+int BDconnection::insertMeasurement(int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity)
 {
     /*
     INSERT INTO public.sensors(
@@ -458,27 +459,26 @@ int main(void)
 {
     int numRows = 0;
     ArduinoConnection arduinoConnection((char *)"/dev/ttyACM0");
-    BDconnection connection;
+    BDconnection connection((char *)"dbname = raspberryTest");
     connection.getConnection(); // connect to bbdd
     int lastAction = 999;
     while (true)
     {
         int auxAction = connection.getLastAction();
-        arduinoConnection.getSensorValues();
         if (lastAction != auxAction)
         {
             if (arduinoConnection.sendActionToRaspberry(auxAction))
                 lastAction = auxAction;
         }
+        arduinoConnection.getSensorValues();
         if (arduinoConnection.getWriteToBDD())
         {
-            connection.insertRow(arduinoConnection.getBinaryValues(), arduinoConnection.getHasPersons(),
-                                 arduinoConnection.getHasSound(), arduinoConnection.getHasGas(), arduinoConnection.getHasOil(),
-                                 arduinoConnection.getHasRain(), arduinoConnection.getTemperature(), arduinoConnection.getHumidity());
+            connection.insertMeasurement(arduinoConnection.getBinaryValues(), arduinoConnection.getHasPersons(),
+                                         arduinoConnection.getHasSound(), arduinoConnection.getHasGas(), arduinoConnection.getHasOil(),
+                                         arduinoConnection.getHasRain(), arduinoConnection.getTemperature(), arduinoConnection.getHumidity());
             arduinoConnection.resetWriteToBBDD();
             numRows++;
             printf("Número de filas introducidas: %d\n", numRows);
-            connection.getLastAction();
         }
     }
     // connection.exitConnection();
