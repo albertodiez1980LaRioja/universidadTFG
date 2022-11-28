@@ -11,7 +11,7 @@ import SensorService from './api/sensors/sensors-model';
 import OutputService from './api/outputs/output-model';
 import RouterAlarm from './api/alarms/alarms-controller';
 import RouterOutput from './api/outputs/output-controller';
-import ActionOutput from './api/actions/action-controller';
+import RouterAction from './api/actions/action-controller';
 const jwt = require('../middlewares/jwt.middleware');
 import { sequelize } from "./database/database";
 import config from '../config/config';
@@ -123,6 +123,6 @@ app.use('/api/measurements', RouterMeasurement.router);
 app.use('/api/sensors', RouterSensor.router);
 app.use('/api/alarms', RouterAlarm.router);
 app.use('/api/outputs', RouterOutput.router);
-
+app.use('/api/actions', RouterAction.router);
 
 export default app;  

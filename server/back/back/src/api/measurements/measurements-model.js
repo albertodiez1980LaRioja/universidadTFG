@@ -9,34 +9,25 @@ const Measurement = sequelize.define('measurements', {
     },
     date_time: {
         type: DataTypes.DATE,
-        //primaryKey: true,
+        allowNull: false,
     },
-    latitude: {
-        type: Sequelize.INTEGER,
-        //primaryKey: true,
-    },
-    longitude: {
-        type: Sequelize.INTEGER,
-        //primaryKey: true,
-    },
-
     binary_values: {
-        type: Sequelize.INTEGER, allowNull: false,
+        type: Sequelize.INTEGER, allowNull: true,
     },
     has_persons: {
-        type: DataTypes.INTEGER, allowNull: false,
+        type: DataTypes.INTEGER, allowNull: true,
     },
     has_sound: {
-        type: DataTypes.INTEGER, allowNull: false,
+        type: DataTypes.INTEGER, allowNull: true,
     },
     has_gas: {
-        type: DataTypes.INTEGER, allowNull: false,
+        type: DataTypes.INTEGER, allowNull: true,
     },
     has_oil: {
-        type: DataTypes.INTEGER, allowNull: false,
+        type: DataTypes.INTEGER, allowNull: true,
     },
     has_rain: {
-        type: DataTypes.INTEGER, allowNull: false,
+        type: DataTypes.INTEGER, allowNull: true,
     },
     temperature: {
         type: DataTypes.INTEGER, allowNull: true,

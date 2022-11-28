@@ -5,6 +5,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <time.h>
+#include <curl/curl.h>
 
 // for the serial I/O
 #include <fcntl.h>
@@ -484,10 +485,13 @@ int main(void)
     // connection.exitConnection();
 
     // to compile serial
-    // gcc -Wall -o principalSerie principalSerie.cpp -I/usr/include/postgresql -lpq
+    // gcc -Wall -o principalSerie principalSerie.cpp -I/usr/include/postgresql -lpq -lcurl
 
     // link para VPN
     // https://www.geeknetic.es/Guia/1998/Como-usar-y-configurar-OpenVPN.html
+
+    // ejemplo de post no bloqueante:
+    // https://everything.curl.dev/libcurl/examples/http-ul-nonblock
 
     return 0;
 }

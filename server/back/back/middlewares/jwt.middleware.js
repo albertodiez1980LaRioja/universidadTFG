@@ -16,6 +16,7 @@ module.exports = async function (req, res, next) {
             if (!token)
                 return res.status(403).send('A token is required for authentication');
             try {
+                // habría que comprobar si esta en la base de datos
                 const decoded = jwt.verify(token, config.secret);
                 req.user = decoded;
                 console.log(decoded);

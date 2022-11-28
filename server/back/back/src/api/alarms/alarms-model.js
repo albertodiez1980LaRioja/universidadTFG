@@ -16,7 +16,7 @@ const Alarm = sequelize.define('alarms', {
         //primaryKey: true,
     },
     operatorId: {
-        type: Sequelize.INTEGER, allowNull: false,
+        type: Sequelize.INTEGER, allowNull: true
     },
     date_finish: {
         type: DataTypes.DATE, allowNull: false,
