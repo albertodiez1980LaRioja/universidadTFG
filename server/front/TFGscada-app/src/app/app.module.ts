@@ -15,7 +15,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -34,6 +34,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
+import { AuthInterceptor } from './shared/interceptor/AuthInterceptor';
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -73,7 +74,9 @@ export function tokenGetter() {
     MatTableModule, MatCheckboxModule, MatProgressSpinnerModule,
     MatSortModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   //exports: [TableComponent],
   bootstrap: [AppComponent]
 })
