@@ -9,14 +9,21 @@ class ActionController extends BaseController {
 
     constructor(service, options = {}) {
         super(service, options);
-
         this.router = RouterPlace;
         this.router.get('/:id_action', this.getOneEntity.bind(this));
+        this.router.get('/place/:id_place', this.getByPlace.bind(this));
         this.router.get('', this.get.bind(this));
         this.router.patch('/:id_action', this.update.bind(this));
         this.router.delete('/:id_action', this.delete.bind(this));
         this.router.post('', this.create.bind(this));
     }
+
+    getByPlace = async function (req, res, next) {
+        let ret = await this.service.getByPlace(req, res, next);
+        res.json({ data: ret });
+    }
+
+
 
 
 }
