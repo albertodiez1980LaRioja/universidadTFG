@@ -32,24 +32,24 @@ typedef struct
 #define NUM_SENSORS 10
 
 Tsensor globalSensors[] = {
-  {0, 0, 0, 0, { -1, -1, -1}, 0, {A0, -1, -1}, 1},
-  {1, 0, 0, 0, {6, -1, -1}, 1, { -1, -1, -1}, 0},
-  {2, 0, 0, 0, { -1, -1, -1}, 0, {A1, -1, -1}, 1},
-  {3, 0, 0, 0, {2, -1, -1}, 1, { -1, -1, -1}, 0},
-  {4, 0, 0, 0, { -1, -1, -1}, 0, {A2, -1, -1}, 1},
-  {5, 0, 0, 0, { -1, -1, -1}, 1, {A3, -1, -1}, 0},
-  {6, 0, 0, 0, { -1, -1, -1}, 1, {A4, -1, -1}, 1},
-  {7, 0, 0, 0, {3, -1, -1}, 1, { -1, -1, -1}, 0},
-  {8, 0, 0, 0, {4, -1, -1}, 1, { -1, -1, -1}, 0},
-  {9, 0, 0, 0, {5, -1, -1}, 1, { -1, -1, -1}, 0},
+    {0, 0, 0, 0, {-1, -1, -1}, 0, {A0, -1, -1}, 1},
+    {1, 0, 0, 0, {6, -1, -1}, 1, {-1, -1, -1}, 0},
+    {2, 0, 0, 0, {-1, -1, -1}, 0, {A1, -1, -1}, 1},
+    {3, 0, 0, 0, {2, -1, -1}, 1, {-1, -1, -1}, 0},
+    {4, 0, 0, 0, {-1, -1, -1}, 0, {A2, -1, -1}, 1},
+    {5, 0, 0, 0, {-1, -1, -1}, 1, {A3, -1, -1}, 0},
+    {6, 0, 0, 0, {-1, -1, -1}, 1, {A4, -1, -1}, 1},
+    {7, 0, 0, 0, {3, -1, -1}, 1, {-1, -1, -1}, 0},
+    {8, 0, 0, 0, {4, -1, -1}, 1, {-1, -1, -1}, 0},
+    {9, 0, 0, 0, {5, -1, -1}, 1, {-1, -1, -1}, 0},
 };
 
 #define NUM_OUTPUTS 4
 Toutput globalOutputs[] = {
-  {1, 1, 0, 7},
-  {1, 1, 0, 8},
-  {1, 1, 0, 9},
-  {1, 1, 0, 10},
+    {1, 1, 0, 7},
+    {1, 1, 0, 8},
+    {1, 1, 0, 9},
+    {1, 1, 0, 10},
 };
 
 void readSensors();
@@ -57,31 +57,31 @@ void resetSensors();
 
 float DHT11reads[2];
 
-
-class RBconnection
+class RaspberryListener
 {
-    unsigned int time;
+  unsigned int time;
 
-  public:
-    RBconnection();
-    void wait();
-    void begin();
-    void calculateCheckSum(byte *hightByte, byte *lowByte, byte *buffer, int lenght);
-    void intToBytes(byte *hightByte, byte *lowByte, int integer);
-    char *getActionFromRaspberry(String llegado);
-    char *sendValues();
+public:
+  RaspberryListener();
+  void wait();
+  void begin();
+  void calculateCheckSum(byte *hightByte, byte *lowByte, byte *buffer, int lenght);
+  void intToBytes(byte *hightByte, byte *lowByte, int integer);
+  char *getActionFromRaspberry(String llegado);
+  char *sendValuesToRaspberry();
 };
 
-void RBconnection::begin()
+void RaspberryListener::begin()
 {
   time = millis();
 }
 
-RBconnection::RBconnection()
+RaspberryListener::RaspberryListener()
 {
 }
 
-char *RBconnection::getActionFromRaspberry(String llegado) {
+char *RaspberryListener::getActionFromRaspberry(String llegado)
+{
   char text[300];
   if (llegado.length() > 12)
   {
@@ -123,11 +123,12 @@ char *RBconnection::getActionFromRaspberry(String llegado) {
       }
     }
   }
-  this->sendValues();
+  this->sendValuesToRaspberry();
   return (char *)("The action is realized \n\0");
 }
 
-char *RBconnection::sendValues() {
+char *RaspberryListener::sendValuesToRaspberry()
+{
   char text[200];
   int checksum = globalSensors[HC_SR501].measurementMAX +
                  globalSensors[VIBRATION_SENSOR].measurementMAX +
@@ -153,12 +154,12 @@ char *RBconnection::sendValues() {
           (int)(DHT11reads[0]),
           (int)(DHT11reads[1]),
           checksum);
-  
+
   Serial.println(text);
   return (char *)("Sended");
 }
 
-void RBconnection::wait()
+void RaspberryListener::wait()
 {
   char *text;
   if (Serial.available() > 0)
@@ -168,19 +169,22 @@ void RBconnection::wait()
     {
       int fail = 0;
       unsigned int activate = llegado.charAt(0);
-      if (activate == '0' || activate == '1') {
+      if (activate == '0' || activate == '1')
+      {
         activate = activate - '0';
         text = this->getActionFromRaspberry(llegado);
-        //Serial.println(text);
+        // Serial.println(text);
       }
-      else if (llegado.c_str()[0]=='G' ) {
-        text = this->sendValues();
+      else if (llegado.c_str()[0] == 'G')
+      {
+        text = this->sendValuesToRaspberry();
         resetSensors();
         readSensors(); // reset some reads
-        //Serial.println(text);
+        // Serial.println(text);
       }
-      else{
-        //Serial.println("Mensaje no reconocido %s",llegado.c_str());
+      else
+      {
+        // Serial.println("Mensaje no reconocido %s",llegado.c_str());
         Serial.println(llegado.c_str());
       }
     }
@@ -188,17 +192,17 @@ void RBconnection::wait()
   delay(100);
 }
 
-
-
 #define DHTTYPE DHT11
 DHT dht(globalSensors[DHT11_SENSOR].pins[0], DHTTYPE);
 
-RBconnection connection;
+RaspberryListener connection;
 
 void setup()
 {
   Serial.begin(9600); // conf. velocidad del monitor Serial
-  while (!Serial) {}  ; // wait for serial port to connect. Needed for native USB
+  while (!Serial)
+  {
+  }; // wait for serial port to connect. Needed for native USB
   for (int i = 0; i < NUM_SENSORS; i++)
   {
     for (int i2 = 0; i2 < globalSensors[i].numPins; i2++)
@@ -269,8 +273,8 @@ void readSensor_DHT11(Tsensor *sensor)
   DHT11reads[1] = t;
 }
 
-
-void resetSensors() {
+void resetSensors()
+{
   readSensor_DHT11(&globalSensors[DHT11_SENSOR]);
   for (int i = 0; i < NUM_SENSORS; i++)
   {

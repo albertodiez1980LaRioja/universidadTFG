@@ -198,9 +198,9 @@ public:
 #define NUM_OUTPUTS 4
 Output globalOutputs[] = {Output(7), Output(8), Output(9), Output(10)};
 
-class RBconnection
+class RaspberryCall
 {
-  unsigned int time;
+protected:
   int boolToInt(bool in)
   {
     if (in)
@@ -209,94 +209,97 @@ class RBconnection
   }
 
 public:
-  RBconnection();
-  void wait();
-  void begin();
-  void calculateCheckSum(byte *hightByte, byte *lowByte, byte *buffer, int lenght);
-  void intToBytes(byte *hightByte, byte *lowByte, int integer);
-  char *getActionFromRaspberry(String llegado);
-  char *sendValues();
+  virtual void response(String llegado);
 };
 
-void RBconnection::begin()
+class RaspberrySetOutputs : public RaspberryCall
 {
-  time = millis();
-}
-
-RBconnection::RBconnection()
-{
-}
-
-char *RBconnection::getActionFromRaspberry(String llegado)
-{
-  char text[300];
-  if (llegado.length() > 12)
+public:
+  void response(String llegado)
   {
-    int fail = 0;
-    unsigned int activate = llegado.charAt(0);
-    if (activate >= '0')
-      activate = activate - '0';
-    else
-      fail = 1;
-    unsigned int outputs[50];
-    unsigned int checksumCalculated = activate + '0';
-    for (int i = 0; i < NUM_OUTPUTS && fail == 0; i++)
+    char text[300];
+    if (llegado.length() > 12)
     {
-      outputs[i] = llegado.charAt(2 + i * 2);
-      if (outputs[i] >= '0')
-      {
-        outputs[i] = outputs[i] - '0';
-        checksumCalculated += outputs[i];
-      }
+      int fail = 0;
+      unsigned int activate = llegado.charAt(0);
+      if (activate >= '0')
+        activate = activate - '0';
       else
         fail = 1;
-    }
-    unsigned int checksumLlegado = llegado.charAt(10);
-    if (checksumLlegado == checksumCalculated && activate == 1 && fail == 0)
-    {
-      for (int i = 0; i < NUM_OUTPUTS; i++)
+      unsigned int outputs[50];
+      unsigned int checksumCalculated = llegado.charAt(0);
+      for (int i = 0; i < NUM_OUTPUTS && fail == 0; i++)
       {
-        if (outputs[i] == 1)
-          globalOutputs[i].setOutput(false);
+        outputs[i] = llegado.charAt(2 + i * 2);
+        if (outputs[i] >= '0')
+        {
+          outputs[i] = outputs[i] - '0';
+          checksumCalculated += outputs[i];
+        }
         else
-          globalOutputs[i].setOutput(true);
+          fail = 1;
+      }
+      if (activate == 1 && fail == 0)
+      {
+        for (int i = 0; i < NUM_OUTPUTS; i++)
+        {
+          if (outputs[i] == 1)
+            globalOutputs[i].setOutput(false);
+          else
+            globalOutputs[i].setOutput(true);
+        }
       }
     }
   }
-  this->sendValues();
-  return (char *)("The action is realized \n\0");
-}
+};
 
-char *RBconnection::sendValues()
+class RaspberryCallSensors : public RaspberryCall
 {
-  char text[200];
-  int checksum = HC_SR501.getValorMAX() +
-                 this->boolToInt(vibration_sensor.getValorMAX()) +
-                 sound_sensor.getValorMAX() +
-                 this->boolToInt(obstacle_sensor.getValorMIN()) +
-                 MQ2_gas_sensor.getValorMAX() +
-                 rain_sensor.getValorMAX() +
-                 oil_sensor.getValorMAX() +
-                 this->boolToInt(photosensitive_sensor.getValorMIN()) +
-                 this->boolToInt(flame_sensor.getValorMIN()) +
-                 dht11_sensor.getHumedad() +
-                 dht11_sensor.getTemperatura();
-  sprintf(text, "%d %d %d %d %d %d %d %d %d %d %d %d \n\0",
-          HC_SR501.getValorMAX(),
-          this->boolToInt(vibration_sensor.getValorMAX()),
-          sound_sensor.getValorMAX(),
-          this->boolToInt(obstacle_sensor.getValorMIN()),
-          MQ2_gas_sensor.getValorMAX(),
-          rain_sensor.getValorMAX(),
-          oil_sensor.getValorMAX(),
-          this->boolToInt(photosensitive_sensor.getValorMIN()),
-          this->boolToInt(flame_sensor.getValorMIN()),
-          dht11_sensor.getHumedad(),
-          dht11_sensor.getTemperatura(),
-          checksum);
+public:
+  void response(String llegado)
+  {
+    char text[200];
+    int checksum = HC_SR501.getValorMAX() +
+                   this->boolToInt(vibration_sensor.getValorMAX()) +
+                   sound_sensor.getValorMAX() +
+                   this->boolToInt(obstacle_sensor.getValorMIN()) +
+                   MQ2_gas_sensor.getValorMAX() +
+                   rain_sensor.getValorMAX() +
+                   oil_sensor.getValorMAX() +
+                   this->boolToInt(photosensitive_sensor.getValorMIN()) +
+                   this->boolToInt(flame_sensor.getValorMIN()) +
+                   dht11_sensor.getHumedad() +
+                   dht11_sensor.getTemperatura();
+    sprintf(text, "%d %d %d %d %d %d %d %d %d %d %d %d \n\0",
+            HC_SR501.getValorMAX(),
+            this->boolToInt(vibration_sensor.getValorMAX()),
+            sound_sensor.getValorMAX(),
+            this->boolToInt(obstacle_sensor.getValorMIN()),
+            MQ2_gas_sensor.getValorMAX(),
+            rain_sensor.getValorMAX(),
+            oil_sensor.getValorMAX(),
+            this->boolToInt(photosensitive_sensor.getValorMIN()),
+            this->boolToInt(flame_sensor.getValorMIN()),
+            dht11_sensor.getHumedad(),
+            dht11_sensor.getTemperatura(),
+            checksum);
 
-  Serial.println(text);
-  return (char *)("Sended");
+    Serial.println(text);
+  }
+};
+
+class RaspberryListener
+{
+  RaspberryCallSensors raspberryCallSensors;
+  RaspberrySetOutputs raspberrySetOutputs;
+
+public:
+  RaspberryListener();
+  void listener();
+};
+
+RaspberryListener::RaspberryListener()
+{
 }
 
 void resetSensors()
@@ -329,32 +332,46 @@ void readSensors()
   flame_sensor.leerValores();
 }
 
-void RBconnection::wait()
+void RaspberryListener::listener()
 {
-  char *text;
   if (Serial.available() > 0)
   {
     String llegado = Serial.readString();
     if (llegado.length() > 12)
     {
       int fail = 0;
-      unsigned int activate = llegado.charAt(0);
-      if (activate == '0' || activate == '1')
+      char outputs[50];
+      unsigned int checksumCalculated = llegado.charAt(0);
+      for (int i = 0; i < NUM_OUTPUTS && fail == 0; i++)
       {
-        activate = activate - '0';
-        text = this->getActionFromRaspberry(llegado);
-        // Serial.println(text);
+        outputs[i] = llegado.charAt(2 + i * 2);
+        if (outputs[i] >= '0')
+        {
+          outputs[i] = outputs[i] - '0';
+          checksumCalculated += outputs[i];
+        }
+        else
+          fail = 1;
       }
-      else if (llegado.c_str()[0] == 'G')
+      unsigned int checksumLlegado = llegado.charAt(10);
+      if (checksumLlegado == checksumCalculated && fail == 0)
       {
-        text = this->sendValues();
-        resetSensors();
-        readSensors(); // reset some reads
-        // Serial.println(text);
+        unsigned int activate = llegado.charAt(0);
+        if (activate == '1')
+        {
+          activate = activate - '0';
+          this->raspberrySetOutputs.response(llegado);
+          this->raspberryCallSensors.response(llegado); // send sensor values on response
+        }
+        else if (activate == '0')
+        {
+          this->raspberryCallSensors.response(llegado);
+          resetSensors();
+          readSensors(); // reset some reads
+        }
       }
       else
       {
-        // Serial.println("Mensaje no reconocido %s",llegado.c_str());
         Serial.println(llegado.c_str());
       }
     }
@@ -362,14 +379,13 @@ void RBconnection::wait()
   delay(100);
 }
 
-RBconnection connection;
+RaspberryListener connection;
 void setup()
 {
   Serial.begin(9600); // conf. velocidad del monitor Serial
   while (!Serial)
   {
   }; // wait for serial port to connect. Needed for native USB
-  connection.begin();
   dht.begin();
   resetSensors(); // read hdt11
   readSensors();
@@ -379,5 +395,5 @@ void loop()
 {
   // put your main code here, to run repeatedly:
   readSensors();
-  connection.wait();
+  connection.listener();
 }

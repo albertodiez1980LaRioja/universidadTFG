@@ -17,8 +17,8 @@ typedef struct
   byte code;
   int value;
   int isAnalog;
-  int pin;  
-}Toutput;
+  int pin;
+} Toutput;
 
 #define HC_SR501 0
 #define VIBRATION_SENSOR 1
@@ -45,16 +45,15 @@ Tsensor globalSensors[] = {
     {9, 0, 0, 0, {5, -1, -1}, 1, {-1, -1, -1}, 0},
 };
 
-
 #define NUM_OUTPUTS 4
 Toutput globalOutputs[] = {
-  {1,1,0,7},
-  {1,1,0,8},
-  {1,1,0,9},
-  {1,0,0,10},
+    {1, 1, 0, 7},
+    {1, 1, 0, 8},
+    {1, 1, 0, 9},
+    {1, 0, 0, 10},
 };
 
-class RBconnection
+class RaspberryListener
 {
   int state, RBclockIn, RBdateIn, RBdateOut;
   byte bufferOut[50], bufferIn[50], maskBit[8];
@@ -64,20 +63,20 @@ class RBconnection
   int sendBit;
 
 public:
-  RBconnection();
+  RaspberryListener();
   void wait();
   void begin();
   void calculateCheckSum(byte *hightByte, byte *lowByte, byte *buffer, int lenght);
   void intToBytes(byte *hightByte, byte *lowByte, int integer);
 };
 
-void RBconnection::intToBytes(byte *hightByte, byte *lowByte, int integer)
+void RaspberryListener::intToBytes(byte *hightByte, byte *lowByte, int integer)
 {
   *lowByte = integer % 128;
   *hightByte = integer / 128;
 }
 
-void RBconnection::begin()
+void RaspberryListener::begin()
 {
   RBclockIn = 11;
   RBdateIn = 12;
@@ -103,7 +102,7 @@ void RBconnection::begin()
   time = millis();
 }
 
-void RBconnection::calculateCheckSum(byte *hightByte, byte *lowByte, byte *buffer, int lenght)
+void RaspberryListener::calculateCheckSum(byte *hightByte, byte *lowByte, byte *buffer, int lenght)
 {
   int sum = 0;
   for (int i = 0; i < lenght - 2; i++)
@@ -114,7 +113,7 @@ void RBconnection::calculateCheckSum(byte *hightByte, byte *lowByte, byte *buffe
   *hightByte = sum / 128;
 }
 
-RBconnection::RBconnection()
+RaspberryListener::RaspberryListener()
 {
 }
 
@@ -125,7 +124,7 @@ void readSensors(int doAll);
 
 float DHT11reads[2];
 
-void RBconnection::wait()
+void RaspberryListener::wait()
 {
   int read = digitalRead(RBclockIn);
   while (read == digitalRead(RBclockIn))
@@ -294,13 +293,13 @@ String msg[10] = {
 #define DHTTYPE DHT11
 DHT dht(globalSensors[DHT11_SENSOR].pins[0], DHTTYPE);
 
-RBconnection connection;
+RaspberryListener connection;
 
 void setup()
 {
-//#if VERVOSE
+  //#if VERVOSE
   Serial.begin(9600); // conf. velocidad del monitor Serial
-//#endif
+                      //#endif
   int i;
   for (i = 0; i < NUM_SENSORS; i++)
   {
@@ -312,14 +311,16 @@ void setup()
     for (int i2 = 0; i2 < globalSensors[i].numPinsAnalog; i2++)
       pinMode(globalSensors[i].pinsAnalog[i2], INPUT);
   }
-  for(int i = 0;i<NUM_OUTPUTS;i++){
-    pinMode(globalOutputs[i].pin,OUTPUT);
+  for (int i = 0; i < NUM_OUTPUTS; i++)
+  {
+    pinMode(globalOutputs[i].pin, OUTPUT);
   }
-  for(int i = 0;i<NUM_OUTPUTS;i++){
-    if(globalOutputs[i].value)
-      digitalWrite(globalOutputs[i].pin,HIGH);
+  for (int i = 0; i < NUM_OUTPUTS; i++)
+  {
+    if (globalOutputs[i].value)
+      digitalWrite(globalOutputs[i].pin, HIGH);
     else
-      digitalWrite(globalOutputs[i].pin,LOW);
+      digitalWrite(globalOutputs[i].pin, LOW);
   }
   dht.begin();
   connection.begin();

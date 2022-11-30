@@ -211,7 +211,7 @@ int ArduinoConnection ::sendActionToRaspberry(int action)
 void ArduinoConnection ::getSensorValues()
 {
     sleep(1);
-    char toSend[] = "Get values   ";
+    char toSend[] = "0 1 1 0 0 2     \n\0";
     printf("Se manda: %s", toSend);
     if ((write(fd, toSend, sizeof(toSend))) == -1)
     {
