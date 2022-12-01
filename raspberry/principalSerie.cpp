@@ -17,20 +17,15 @@
 
 class ArduinoConnection
 {
-private:
-    static ArduinoConnection *instance;
+    int open_serial_port(char *name);
+    int fd;
 
 public:
-    static ArduinoConnection *getInstance(char *name)
+    int read_from_serial(char *buf, int lon);
+    int write_to_serial(void *buf, int lon)
     {
-        if (instance == NULL)
-            instance = new ArduinoConnection(name);
-
-        return instance;
+        return write(this->fd, buf, lon);
     }
-    int open_serial_port(char *name);
-    int read_from_serial(int fd, char *buf, int lon);
-    int fd;
     ArduinoConnection(char *name);
 };
 
@@ -88,7 +83,7 @@ int ArduinoConnection::open_serial_port(char *name)
     return fd;
 }
 
-int ArduinoConnection::read_from_serial(int fd, char *buf, int lon)
+int ArduinoConnection::read_from_serial(char *buf, int lon)
 {
     int n;
 
@@ -101,17 +96,13 @@ int ArduinoConnection::read_from_serial(int fd, char *buf, int lon)
                 fprintf(stderr, "read() failed: (%d) %s\n", errno, strerror(errno));
                 return -1;
             }
-            // errno == EAGAIN, loop around and read again
         }
         else
         {
-
             if (n > 0)
             {
-                // printf("%c %d", buf[0], n);
                 return n; // stop reading
             }
-            // read 0 bytes, loop around an read again
         }
     }
 }
@@ -149,8 +140,6 @@ public:
     int getHasRain() { return this->has_rain; };
     int getTemperature() { return this->temperature; };
     int getHumidity() { return this->humidity; };
-
-    bool callToArduino(int action) { return true; };
 };
 
 int ArduinoCall::deserialize(char *buffer, int lenght)
@@ -188,13 +177,13 @@ public:
         sleep(1);
         char toSend[] = "0 1 1 0 0 2     \n\0";
         printf("Se manda: %s", toSend);
-        if ((write(this->arduinoConnection->fd, toSend, sizeof(toSend))) == -1)
+        if ((this->arduinoConnection->write_to_serial(toSend, sizeof(toSend))) == -1)
         {
             fprintf(stderr, "write() failed: %s\n", strerror(errno));
             return false;
         }
         sleep(1);
-        this->arduinoConnection->read_from_serial(this->arduinoConnection->fd, bufferIn, 500);
+        this->arduinoConnection->read_from_serial(bufferIn, 500);
         if (this->deserialize(bufferIn, lenghtBufferIn))
         {
             printf("Paquete recibido: %s\n", bufferIn);
@@ -284,13 +273,13 @@ public:
         char checksum = activate + output1 + output2 + output3 + output4;
         toSend[10] = checksum + '0';
         printf("Se manda: %s", toSend);
-        if ((write(this->arduinoConnection->fd, toSend, sizeof(toSend))) == -1)
+        if ((this->arduinoConnection->write_to_serial(toSend, sizeof(toSend))) == -1)
         {
             fprintf(stderr, "write() failed: %s\n", strerror(errno));
             exit(EXIT_FAILURE);
         }
         sleep(1);
-        this->arduinoConnection->read_from_serial(this->arduinoConnection->fd, bufferIn, 500);
+        this->arduinoConnection->read_from_serial(bufferIn, 500);
         if (this->deserialize(bufferIn, lenghtBufferIn))
         {
             printf("Action updated:  %s\n", bufferIn);

@@ -253,7 +253,7 @@ public:
   }
 };
 
-class RaspberryCallSensors : public RaspberryCall
+class RaspberryGetSensors : public RaspberryCall
 {
 public:
   void response(String llegado)
@@ -290,7 +290,7 @@ public:
 
 class RaspberryListener
 {
-  RaspberryCallSensors raspberryCallSensors;
+  RaspberryGetSensors raspberryCallSensors;
   RaspberrySetOutputs raspberrySetOutputs;
 
 public:
@@ -311,10 +311,8 @@ void resetSensors()
   MQ2_gas_sensor.resetearValores();
   rain_sensor.resetearValores();
   oil_sensor.resetearValores();
-
   photosensitive_sensor.resetearValores();
   flame_sensor.resetearValores();
-
   dht11_sensor.leerValores();
 }
 

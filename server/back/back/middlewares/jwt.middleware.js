@@ -18,8 +18,11 @@ module.exports = async function (req, res, next) {
             try {
                 // habría que comprobar si esta en la base de datos
                 const decoded = jwt.verify(token, config.secret);
+                const user = await this.service.verificate(decoded.usuario.user_name, decoded.usuario.pass);
+                if (!user || user === undefined) {
+                    return res.status(401).send('Invalid token');
+                }
                 req.user = decoded;
-                console.log(decoded);
             } catch (err) {
                 return res.status(401).send('Invalid token');
             }
