@@ -9,7 +9,6 @@ class PersonRepository extends BaseRepository {
         } catch (err) {
             console.log('Error on get user');
         }
-
         return undefined;
     }
 }

@@ -1,5 +1,6 @@
 const { BaseService } = require("../base/base-service");
 import { sequelize } from "../../database/database";
+const bcrypt = require('bcrypt');
 
 class PlaceService extends BaseService {
 
@@ -17,6 +18,15 @@ class PlaceService extends BaseService {
             }
         }
         return ret;
+    }
+
+    authenticate = async function (username, plainPassword) {
+        if (username == undefined || plainPassword == undefined)
+            return undefined;
+        const place = await this.repository.read({ username }, { scope: null });
+        if (!place || place == undefined) return;
+        const match = await bcrypt.compareSync(plainPassword, place.pass);
+        return match ? place : undefined;
     }
 
 }

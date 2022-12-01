@@ -1,7 +1,10 @@
 {
     "files.associations": {
         "condition_variable": "cpp",
-        "mutex": "cpp"
+        "mutex": "cpp",
+        "array": "cpp",
+        "string": "cpp",
+        "string_view": "cpp"
     },
     "C_Cpp.errorSquiggles": "Enabled"
 }

@@ -18,7 +18,15 @@ const Place = sequelize.define('places', {
     },
     identifier: {
         type: Sequelize.TEXT, allowNull: false
+    },
+    pass: {
+        type: Sequelize.TEXT, allowNull: false
+    },
+    actualizationTime: {
+        type: Sequelize.INTEGER, allowNull: false
+
     }
+
 
 }, {
     timestamps: false

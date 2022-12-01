@@ -13,6 +13,7 @@ class PersonService extends BaseService {
     }
 
     verificate = async function (username, plainPassword) {
+        console.log('se va a verificar');
         if (username == undefined || plainPassword == undefined)
             return undefined;
         const user = await this.repository.read({ username }, { scope: null });

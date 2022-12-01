@@ -36,7 +36,7 @@ int main(void)
     // CURLcode res;
     CURLM *multi_handle;
     struct curl_slist *headers = NULL;
-    char token[] = "x-access-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoxLCJkbmkiOiIxNjYwMzU0MSIsIm5hbWUiOiJBbmRyZWEgVmFsZGVycmFtYTMiLCJ1c2VyX25hbWUiOiJBbGJlcnRvIiwicGFzcyI6IiQyYiQxMCQzdXNaVWFUUUFnNDhjLzk5eDBBc2Zlbk5raDNEYUZ4a29TU3N3OXVPL09iSU9rUnFLV3BXLiIsInRlbGVwaG9uZSI6IjIyMiIsImNlbHVsYXIiOiIyMjIyIiwiYWRkcmVzcyI6IkdyYW4gdsOtYSIsImVtYWlsIjoiYWEyQHlhaG9vLmNvbSIsInJvbGVzIjoyfSwiaWF0IjoxNjY5NzI4ODc5LCJleHAiOjE2Njk5MDE2Nzl9.Z4CsHv6w9fzsZsuznIxOIDq1PO_7VibShTtxBJf3SsI"; // your actual token
+    char token[] = "x-access-token-place: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7ImlkIjoxLCJkbmkiOiIxNjYwMzU0MSIsIm5hbWUiOiJBbmRyZWEgVmFsZGVycmFtYTMiLCJ1c2VyX25hbWUiOiJBbGJlcnRvIiwicGFzcyI6IiQyYiQxMCRGcXlYNGlsSXNweEk4MlVmVm9uenQuMUdYemZjalRPLmF4enljZTFjNUNaRjBaSjFXRGVBZSIsInRlbGVwaG9uZSI6IjIyMiIsImNlbHVsYXIiOiIyMjIyIiwiYWRkcmVzcyI6IkdyYW4gdsOtYSIsImVtYWlsIjoiYWEyQHlhaG9vLmNvbSIsInJvbGVzIjoyfSwiaWF0IjoxNjY5OTEwNTQ1LCJleHAiOjE2NzAwODMzNDV9.aptrE1KUsMpXT9ws2C6CGc-8XjKp8LnX5BHUBluW5bY"; // your actual token
     int still_running = 0;
     curl = curl_easy_init();
     multi_handle = curl_multi_init();

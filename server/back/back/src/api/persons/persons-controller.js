@@ -27,11 +27,13 @@ class PersonController extends BaseController {
 
     validateToken = async function (req, res, next) {
         const token = req.body.token || req.query.token || req.headers["x-access-token"];
+        console.log('se decodificara');
         if (!token)
             return res.status(403).send('A token is required for authentication');
         try {
+
             const decoded = jwt.verify(token, config.secret);
-            console.log(decoded.usuario.user_name, decoded.usuario.pass);
+            console.log('Usuario:', decoded.usuario.user_name, decoded.usuario.pass);
             const user = await this.service.verificate(decoded.usuario.user_name, decoded.usuario.pass);
             if (!user || user === undefined) {
                 res.status(500).json({
