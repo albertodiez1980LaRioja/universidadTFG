@@ -4,24 +4,31 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('../config/config');
 import Person from '../src/api/persons/persons-model';
+import Place from '../src/api/places/places-model';
 
 module.exports = async function (req, res, next) {
-
-    console.log('Se hace la llamada: ', req.originalUrl);
     if (config.isApiSecured != 'false') {
-        console.log('no es apiSecured');
         if (config.routesWhitelist.includes(req.originalUrl)) {
 
         }
         else {
             let token = req.body.token || req.query.token || req.headers["x-access-token"];
             if (!token) {
+                return res.status(401).send('Invalid token');
+
+            }
+            if (['/api/actions/place/place', '/api/places/actualization'].includes(req.originalUrl)
+                || (['/api/measurements'].includes(req.originalUrl) && req.method == 'POST')) {
                 try {
-                    token = req.headers["x-access-token-place"];
                     const decoded = jwt.verify(token, config.secret);
-                    console.log('Decoded del place', decoded);
-                    if (!token)
-                        return res.status(403).send('A token is required for authentication');
+                    const place = await Place.findAll({
+                        where: {
+                            identifier: decoded.place.identifier, pass: decoded.place.pass
+                        }
+                    });
+                    if (!place || place === undefined) {
+                        return res.status(401).send('Invalid token');
+                    }
                 }
                 catch {
                     return res.status(401).send('Invalid token');

@@ -18,6 +18,7 @@ class PlaceController extends BaseController {
         this.router.delete('/:latitude,:longitude', this.delete.bind(this));
         this.router.post('', this.create.bind(this));
         this.router.post('/authenticate', this.authenticate.bind(this));
+        this.router.post('/actualization', this.sendActualization.bind(this));
     }
 
     authenticate = async function (req, res, next) {
@@ -42,13 +43,36 @@ class PlaceController extends BaseController {
             delete place.dataValues.pass;
             res.json({
                 ok: true,
-                place: place,
+                //place: place,
                 token,
             })
         } catch (err) {
             next(err);
         }
     }
+
+    sendActualization = async function (req, res, next) {
+        try {
+            // Check credentials. If correct, user entity is returned
+            const { identifier, pass } = req.body;
+            const place = await this.service.authenticate(identifier, pass);
+            if (!place || place === undefined) {
+                res.status(500).json({
+                    message: 'Place not found '
+                });
+                return;
+            }
+
+            delete place.dataValues.pass;
+            res.json({
+                ok: true,
+                place: place,
+            })
+        } catch (err) {
+            next(err);
+        }
+    }
+
 
 }
 
