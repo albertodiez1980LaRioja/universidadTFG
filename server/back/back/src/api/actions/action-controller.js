@@ -4,7 +4,6 @@ import Action from './action-model';
 import { Router } from 'express';
 const RouterPlace = Router();
 let { BaseController } = require("../base/base-controller");
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('../../../config/config');
 
