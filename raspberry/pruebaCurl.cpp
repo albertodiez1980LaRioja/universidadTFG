@@ -28,7 +28,7 @@ public:
         this->url = url;
         this->identifier = identifier;
         this->pass = pass;
-        if (this->curlToken == NULL)
+        if (this->multi_handle == NULL)
         {
             this->curlToken = curl_easy_init();
             this->multi_handle = curl_multi_init();
@@ -42,9 +42,12 @@ public:
         int still_running = 0;
         if (multi_handle != NULL)
         {
+            // curl_multi_perform(multi_handle, &still_running);
             curl_multi_perform(multi_handle, &still_running);
             // curl_multi_info_read(this->multi_handle, &still_running);
         }
+        else
+            printf("No inicializado\n");
         if (still_running)
             return false;
         return true;
@@ -236,14 +239,16 @@ class PostMeasurement : HTTPcall
     {
         return static_cast<PostMeasurement *>(p)->handle_impl(data, size, nmemb);
     }
-    size_t handle_impl(void *buffer, size_t size, size_t nmemb);
+    static size_t handle_impl(void *buffer, size_t size, size_t nmemb);
     /*
     curl_slist_append(headers, "Accept: application/json");
     curl_slist_append(headers, "Content-Type: application/json");
     curl_slist_append(headers, "charset: utf-8");
     */
 public:
-    bool call()
+    PostMeasurement(char *identifier, char *pass, char *url) : HTTPcall(identifier, pass, url) {}
+    bool call(char *dateString, int binary_values, int has_persons, int has_sound, int has_gas, int has_oil,
+              int has_rain, int temperature, int humidity)
     {
         if (!curl)
             return false;
@@ -251,18 +256,50 @@ public:
         char auxURL[2000];
         int still_running;
         struct curl_slist *headers = NULL;
-        sprintf(auxURL, "%s%s", this->url, "/api/places/actualization");
+        sprintf(auxURL, "%s%s", this->url, "/api/measurements");
         curl_easy_setopt(this->curl, CURLOPT_URL, auxURL);
         curl_easy_setopt(this->curl, CURLOPT_FOLLOWLOCATION, 1L);
         curl_easy_setopt(this->curl, CURLOPT_WRITEFUNCTION, &PostMeasurement::handle);
+        // to large packets
+        curl_easy_setopt(this->curl, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_0);
         sprintf(aux, "x-access-token: %s", this->getToken());
         headers = curl_slist_append(headers, aux);
         curl_slist_append(headers, "Accept: application/json");
         curl_slist_append(headers, "Content-Type: application/json");
         curl_slist_append(headers, "charset: utf-8");
+        curl_slist_append(headers, "enctype: multipart/form-data");
+
         curl_easy_setopt(this->curl, CURLOPT_HTTPHEADER, headers);
-        curl_multi_add_handle(this->multi_handle, curl);
+        curl_easy_setopt(this->curl, CURLOPT_POST, 1L);
+        // char buffer[2000] = "{ \"identifier\" : \"aaabaa\" , \"pass\" : \"abc\" }             ";
+        //   sprintf(buffer, "{ \"identifier\" : \"%s\" , \"pass\" : \"%s\" }", "", "");
+        // falla para un tamaño mayor de 800, en ese caso hay que hacer un equivalente de asíncrono
+        // puede ser por el tamaño de los paquetes
+        char buffer[1000] = "{ \"date_time\": \"2022-05-28T10:51:24Z\",\"binary_values\": 1000,\"has_persons\": 1000,\"has_sound\": 0,\"has_gas\": 0,\"has_oil\": 0,\"has_rain\": 0,\"temperature\": 0,\"humidity\": 0 } ";
+        sprintf(buffer, "{ \"date_time\": \"%s\",\"binary_values\": %d,\"has_persons\": %d,\"has_sound\": %d,\"has_gas\": %d,\"has_oil\": %d,\"has_rain\": %d,\"temperature\": %d,\"humidity\": %d }",
+                dateString, binary_values, has_persons, has_sound, has_gas, has_oil,
+                has_rain, temperature, humidity);
+        // char buffer[2000] = "{}";
+        // printf("Buffer: %d\n", strlen(buffer));
+        curl_easy_setopt(this->curl, CURLOPT_POSTFIELDS, buffer);
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, (long)strlen(buffer));
+        // CURLcode res = curl_easy_perform(this->curl);
+        //  curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+        curl_multi_add_handle(this->multi_handle, this->curl);
         curl_multi_perform(this->multi_handle, &still_running);
+        // esto es necesario para un valor mayor de 800, pero entonces ya no sería asíncrono
+        /*do
+        {
+            curl_multi_perform(this->multi_handle, &still_running);
+            // still_running = 0;
+            //  if (still_running)
+
+            //    mc = curl_multi_poll(multi_handle, NULL, 0, 1000, NULL);
+            // if (mc)
+            //    break;
+        } while (still_running);*/
+
+        // curl_multi_poll(multi_handle, NULL, 0, 1000, NULL);
         return true;
     }
 };
@@ -271,13 +308,13 @@ bool PostMeasurement::success = false;
 
 size_t PostMeasurement::handle_impl(void *buffer, size_t size, size_t nmemb)
 {
-    struct json_object *place;
-    struct json_object *actualizationTime;
+    struct json_object *message;
     struct json_object *parsed_json;
     parsed_json = json_tokener_parse((char *)buffer);
-    json_object_object_get_ex(parsed_json, "place", &place);
-    json_object_object_get_ex(place, "actualizationTime", &actualizationTime);
-    this->success = true;
+    json_object_object_get_ex(parsed_json, "message", &message);
+    // json_object_object_get_ex(place, "actualizationTime", &actualizationTime);
+    printf("El mensaje es: %s\n", json_object_get_string(message));
+    PostMeasurement::success = true;
     return size * nmemb;
 }
 
@@ -298,12 +335,20 @@ loadToken(void *buffer, size_t size, size_t nmemb, void *userp)
 
 int main(void)
 {
-
     // HTTPcall httpcall(strdup("aaaaa"), strdup("abc"));
     GetLastAction getLastAction(strdup("aaaaa"), strdup("abc"), strdup("http://localhost:3000"));
     GetActualizationTime getActualizationTime(strdup("aaaaa"), strdup("abc"), strdup("http://localhost:3000"));
+    PostMeasurement postMeasurement(strdup("aaaaa"), strdup("abc"), strdup("http://localhost:3000"));
     getLastAction.call();
     getActualizationTime.call();
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    // 2022-05-28T10:51:24Z
+    char dateString[200];
+    sprintf(dateString, "%d-%02d-%02dT%02d:%02d:%02dZ", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+    // printf("now: %d-%02d-%02dT%02d:%02d:%02dZ\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+    printf("now: %s\n", dateString);
+    postMeasurement.call(dateString, 2, 2, 2, 2, 2, 2, 2, 2);
     while (!HTTPcall::allCallsCompleted())
     {
         // printf("Las llamadas sin terminar\n");

@@ -15,6 +15,16 @@ class MeasurementController extends BaseController {
         this.router.patch('/:latitude,:longitude,:date_time', this.update.bind(this));
         this.router.delete('/:latitude,:longitude,:date_time', this.delete.bind(this));
         this.router.post('', this.create.bind(this));
+        this.router.post('/multiple', this.multiple.bind(this));
+    }
+
+    multiple = async function (req, res) {
+        //console.log("Se ejecuta el multiple", req.body.mesaurements[0]);
+        this.service.createMultiple(req, res);
+        res.json({
+            message: 'Created succefully',
+            //data: newRow
+        });
     }
 
 

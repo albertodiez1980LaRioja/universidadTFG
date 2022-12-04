@@ -20,6 +20,8 @@ module.exports = async function (req, res, next) {
             if (['/api/actions/place/place', '/api/places/actualization'].includes(req.originalUrl)
                 || (['/api/measurements'].includes(req.originalUrl) && req.method == 'POST')) {
                 try {
+                    //if (req.method == 'POST')
+                    console.log(req.body);
                     const decoded = jwt.verify(token, config.secret);
                     const place = await Place.findAll({
                         where: {
