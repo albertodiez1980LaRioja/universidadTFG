@@ -11,8 +11,6 @@ size_t PostMeasurement::handle_impl(void *buffer, size_t size, size_t nmemb)
     if (json_object_object_get_ex(parsed_json, "message", &message))
         if (!strcmp("Created succefully", json_object_get_string(message)))
             PostMeasurement::success = true;
-    printf("El mensaje es: %s\n", json_object_get_string(message));
-    // PostMeasurement::success = true;
     return size * nmemb;
 }
 
@@ -91,7 +89,6 @@ bool PostMeasurement::callMultiMeasurement(Measurement *measurements, int length
     }
 
     sprintf(finalBuffer, "%s %s", allBuffer, " ]}     ");
-    printf("finalBuffer %s \n", finalBuffer);
     curl_easy_setopt(this->curl, CURLOPT_POSTFIELDS, finalBuffer);
     curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, (long)strlen(finalBuffer));
     curl_multi_add_handle(this->multi_handle, this->curl);
