@@ -21,6 +21,18 @@ class MeasurementRepository extends BaseRepository {
             }
         }
     }
+
+    existsMeasurement = async function (measurement) {
+        try {
+            let files = await this.model.findOne({ where: measurement });
+            return undefined != await files;
+        } catch (err) {
+            res.status(500).json({
+                message: 'Something goes wrong: ' + err,
+                data: {}
+            });
+        }
+    }
 }
 
 exports.MeasurementRepository = (model) => new MeasurementRepository(model); 
