@@ -1,6 +1,16 @@
 #ifndef POSTMEASUREMENT_H
 #define POSTMEASUREMENT_H
 
+#ifndef STRUCTMEASUREMENT_H
+#define STRUCTMEASUREMENT_H
+typedef struct
+{
+    char *date;
+    int binary_values, has_persons, has_sound, has_gas, has_oil;
+    int has_rain, temperature, humidity, placeId;
+} Measurement;
+#endif
+
 #include <stdio.h>
 #include <curl/curl.h>
 #include <json-c/json.h>
@@ -22,8 +32,8 @@ public:
         return PostMeasurement::success;
     }
     PostMeasurement(char *identifier, char *pass, char *url) : HTTPcall(identifier, pass, url) {}
-    bool call(char *dateString, int binary_values, int has_persons, int has_sound, int has_gas, int has_oil,
-              int has_rain, int temperature, int humidity, int placeId);
+    bool call(Measurement measurement);
+    bool callMultiMeasurement(Measurement *measurements, int length);
 };
 
 #endif

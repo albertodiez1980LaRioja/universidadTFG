@@ -19,7 +19,7 @@ class MeasurementController extends BaseController {
     }
 
     multiple = async function (req, res) {
-        //console.log("Se ejecuta el multiple", req.body.mesaurements[0]);
+        console.log("Se ejecuta el multiple", req.body.mesaurements[0]);
         this.service.createMultiple(req, res);
         res.json({
             message: 'Created succefully',
