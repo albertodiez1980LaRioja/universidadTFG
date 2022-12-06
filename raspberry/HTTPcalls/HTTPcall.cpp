@@ -23,7 +23,7 @@ loadToken(void *buffer, size_t size, size_t nmemb, void *userp)
 
 HTTPcall::HTTPcall(char *identifier, char *pass, char *url)
 {
-    this->curl = curl_easy_init();
+    // this->curl = curl_easy_init(); // need to inizialice each time
     this->url = url;
     this->identifier = identifier;
     this->pass = pass;

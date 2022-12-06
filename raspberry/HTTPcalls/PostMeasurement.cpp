@@ -16,7 +16,8 @@ size_t PostMeasurement::handle_impl(void *buffer, size_t size, size_t nmemb)
 
 bool PostMeasurement::call(Measurement measurement)
 {
-    if (!curl)
+    this->curl = curl_easy_init();
+    if (!this->curl)
         return false;
     char aux[2000];
     char auxURL[2000];
@@ -43,14 +44,28 @@ bool PostMeasurement::call(Measurement measurement)
     curl_easy_setopt(this->curl, CURLOPT_POSTFIELDS, buffer);
     curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, (long)strlen(buffer));
     curl_multi_add_handle(this->multi_handle, this->curl);
-    curl_multi_perform(this->multi_handle, &still_running);
+    // curl_multi_perform(this->multi_handle, &still_running);
+    do
+    {
+        CURLMcode mc = curl_multi_perform(multi_handle, &still_running);
+        if (!mc && still_running)
+            /* wait for activity, timeout or "nothing" */
+            mc = curl_multi_poll(multi_handle, NULL, 0, 1000, NULL);
+        if (mc)
+        {
+            fprintf(stderr, "curl_multi_poll() failed, code %d.\n", (int)mc);
+            break;
+        }
+        /* if there are still transfers, loop! */
+    } while (still_running);
     return true;
 }
 
 // this is sync
 bool PostMeasurement::callMultiMeasurement(Measurement *measurements, int length)
 {
-    if (!curl)
+    this->curl = curl_easy_init();
+    if (!this->curl)
         return false;
     char aux[2000];
     char auxURL[2000];

@@ -22,10 +22,19 @@ class ActionController extends BaseController {
 
     getByPlace = async function (req, res, next) {
         let token = req.body.token || req.query.token || req.headers["x-access-token"];
-        const decoded = jwt.verify(token, config.secret);
-        req.params.id_place = decoded.place.id;
-        let ret = await this.service.getByPlace(req, res, next);
-        res.json({ data: ret });
+        try {
+            const decoded = jwt.verify(token, config.secret);
+            if (decoded) {
+                req.params.id_place = decoded.place.id;
+                let ret = await this.service.getByPlace(req, res, next);
+                res.json({ data: ret });
+            }
+            else {
+                return res.status(401).send('Invalid token');
+            }
+        } catch {
+            return res.status(401).send('Invalid token');
+        }
     }
 
 

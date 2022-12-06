@@ -23,12 +23,17 @@ module.exports = async function (req, res, next) {
                     //if (req.method == 'POST')
                     console.log(req.body);
                     const decoded = jwt.verify(token, config.secret);
-                    const place = await Place.findAll({
-                        where: {
-                            identifier: decoded.place.identifier, pass: decoded.place.pass
+                    if (decoded) {
+                        const place = await Place.findAll({
+                            where: {
+                                identifier: decoded.place.identifier, pass: decoded.place.pass
+                            }
+                        });
+                        if (!place || place === undefined) {
+                            return res.status(401).send('Invalid token');
                         }
-                    });
-                    if (!place || place === undefined) {
+                    }
+                    if (!decoded) {
                         return res.status(401).send('Invalid token');
                     }
                 }

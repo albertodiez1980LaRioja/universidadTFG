@@ -34,8 +34,11 @@ public:
     BDconnection(char *charConnection);
     PGresult *startTransaction(char *sentence);
     void endTransaction(PGconn *conn, PGresult *res);
-    int insertMeasurement(int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity);
+    int insertMeasurement(int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity, bool has_sended);
     int getLastAction();
+    int setLastAction(int action, char *date);
+    int getPlaceAtributes(char **identifier, char **pass, char **URL, int *actualizationTime, int *actualization_server_time);
+    int setPlaceActualizationTime(char *identifier, char *pass, char *URL, int actualizationTime, int actualization_server_time);
     PGconn *getConnection();
     void exitConnection();
 };

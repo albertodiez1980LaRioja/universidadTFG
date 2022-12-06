@@ -1,6 +1,7 @@
 #include "GetLastAction.hpp"
 
 bool GetLastAction::actions[NUM_ACTIONS] = {false, false, false, false};
+int GetLastAction::action = 0;
 
 int GetLastAction::getNumActions()
 {
@@ -14,7 +15,8 @@ bool GetLastAction::getAction(int i)
 }
 bool GetLastAction::call()
 {
-    if (!curl)
+    this->curl = curl_easy_init();
+    if (!this->curl)
         return false;
     char aux[2000];
     char auxURL[2000];
@@ -38,9 +40,11 @@ size_t GetLastAction::handle_impl(void *buffer, size_t size, size_t nmemb)
     struct json_object *data;
     struct json_object *action;
 
+    GetLastAction::action = 0;
     parsed_json = json_tokener_parse((char *)buffer);
     json_object_object_get_ex(parsed_json, "data", &data);
     int numActions = json_object_array_length(data);
+    int pow = 1;
     for (int i = 0; i < numActions; i++)
     {
         struct json_object *date;
@@ -53,12 +57,17 @@ size_t GetLastAction::handle_impl(void *buffer, size_t size, size_t nmemb)
                 json_object_object_get_ex(action, "outputId", &output) &&
                 json_object_object_get_ex(action, "value", &value))
             {
+
                 if (strcmp("true", json_object_get_string(value)) == 0)
+                {
                     this->actions[i] = true;
+                    GetLastAction::action = GetLastAction::action + pow;
+                }
                 else
                     this->actions[i] = false;
             }
         }
+        pow = pow * 2;
     }
 
     return size * nmemb;

@@ -16,7 +16,8 @@ size_t GetActualizationTime::handle_impl(void *buffer, size_t size, size_t nmemb
 
 bool GetActualizationTime::call()
 {
-    if (!curl)
+    this->curl = curl_easy_init();
+    if (!this->curl)
         return false;
     char aux[2000];
     char auxURL[2000];
