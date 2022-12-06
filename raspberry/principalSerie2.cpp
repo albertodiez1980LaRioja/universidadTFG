@@ -47,21 +47,34 @@ char *getActualDate(char *dateString)
     return dateString;
 }
 
+void assert(int expression, char *msg)
+{
+    if (!expression)
+    {
+        printf("Fail assert, msg: %s", msg);
+        printf("Exit of the program");
+        exit(1);
+    }
+}
+
+#define DEFAULT_ACTUALIZATION_ARDUINO 5
+
 int main(void)
 {
     int numRows = 0;
     char dateString[200];
     Measurement measurement;
     ArduinoConnection arduinoConnection((char *)"/dev/ttyACM0");
+    assert(arduinoConnection.getIniciated(), strdup("Conexión de arduino no inicializada\n"));
     CallSensors callSensorsArduino(&arduinoConnection);
     CallOutputs callOutputsArduino(&arduinoConnection);
     BDconnection connectionBBDD((char *)"dbname = raspberryTest");
-    connectionBBDD.getConnection(); // connect to bbdd
+    assert(connectionBBDD.getConnection(), strdup("No se puede conectar a la base de datos\n")); // connect to bbdd
     char *identifier = strdup(""), *pass = strdup(""), *URL = strdup("");
-    int actualizationTime = 0, actualizationServerTime = 0;
-    connectionBBDD.getPlaceAtributes(&identifier, &pass, &URL, &actualizationTime, &actualizationServerTime);
+    int secondsActualizationArduino = 0, secondsActualizationServer = 0;
+    assert(connectionBBDD.getPlaceAtributes(&identifier, &pass, &URL, &secondsActualizationArduino, &secondsActualizationServer), strdup("Fallo al leer la tabla place"));
 
-    printf("Atributos de la Raspberry: %s %s %s %d %d\n", identifier, pass, URL, actualizationTime, actualizationServerTime);
+    printf("Atributos de la Raspberry: %s %s %s %d %d\n", identifier, pass, URL, secondsActualizationArduino, secondsActualizationServer);
     // connection.setPlaceActualizationTime(identifier, pass, URL, /*actualizationTime*/ 9, 10);
     GetLastAction getLastActionServer(identifier, pass, URL);
     GetActualizationTime getActualizationTimeServer(identifier, pass, URL);
@@ -69,12 +82,19 @@ int main(void)
 
     // set the last action
     int lastAction = connectionBBDD.getLastAction();
+    assert(lastAction != -1, strdup("Fallo al leer la tabla de las acciones"));
     getLastActionServer.call();
+    getActualizationTimeServer.call();
     while (!HTTPcall::allCallsCompleted())
     {
         // printf("Las llamadas sin terminar\n");
     }
-    connectionBBDD.setLastAction(getLastActionServer.getAllAction(), getActualDate(dateString));
+    secondsActualizationServer = getActualizationTimeServer.getActualizationTime();
+    secondsActualizationArduino = DEFAULT_ACTUALIZATION_ARDUINO;
+    if (secondsActualizationServer < secondsActualizationArduino)
+        secondsActualizationArduino = secondsActualizationServer;
+    printf("Actualización del servidor: %d\n", secondsActualizationServer);
+    assert(connectionBBDD.setLastAction(getLastActionServer.getAllAction(), getActualDate(dateString)), strdup("Fallo al insertar una acción"));
     printf("La ultima accion del servidor: %d %d %d %d %d\n",
            getLastActionServer.getAllAction(), getLastActionServer.getAction(0), getLastActionServer.getAction(1),
            getLastActionServer.getAction(2), getLastActionServer.getAction(3));
@@ -83,9 +103,10 @@ int main(void)
     // get sensors
     if (callSensorsArduino.callToArduino())
     {
-        connectionBBDD.insertMeasurement(callSensorsArduino.getBinaryValues(), callSensorsArduino.getHasPersons(),
-                                         callSensorsArduino.getHasSound(), callSensorsArduino.getHasGas(), callSensorsArduino.getHasOil(),
-                                         callSensorsArduino.getHasRain(), callSensorsArduino.getTemperature(), callSensorsArduino.getHumidity(), false);
+        int aux = connectionBBDD.insertMeasurement(callSensorsArduino.getBinaryValues(), callSensorsArduino.getHasPersons(),
+                                                   callSensorsArduino.getHasSound(), callSensorsArduino.getHasGas(), callSensorsArduino.getHasOil(),
+                                                   callSensorsArduino.getHasRain(), callSensorsArduino.getTemperature(), callSensorsArduino.getHumidity(), false);
+        assert(aux, strdup("Fallo al insertar una medición"));
         measurement = {getActualDate(dateString), callSensorsArduino.getBinaryValues(), callSensorsArduino.getHasPersons(),
                        callSensorsArduino.getHasSound(), callSensorsArduino.getHasGas(), callSensorsArduino.getHasOil(),
                        callSensorsArduino.getHasRain(), callSensorsArduino.getTemperature(), callSensorsArduino.getHumidity(), 1};
@@ -96,36 +117,47 @@ int main(void)
     time_t secondsLastInsertServer = seconds;
     while (true)
     {
-        waitSleep(seconds, 5);
+        waitSleep(seconds, secondsActualizationArduino);
         seconds = time(NULL);
         printf("Segundos pasados: %d\n", (int)(time(NULL) - secondsLastInsert));
-        if (((int)(time(NULL) - secondsLastInsertServer)) >= 10)
-        {
-            secondsLastInsertServer = time(NULL);
-            getLastActionServer.call();
-            postMeasurementServer.call(measurement);
-            while (!HTTPcall::allCallsCompleted())
-            {
-            }
-            if (lastAction != getLastActionServer.getAllAction())
-            {
-                lastAction = getLastActionServer.getAllAction();
-                connectionBBDD.setLastAction(lastAction, getActualDate(dateString));
-            }
-            callOutputsArduino.callToArduino(lastAction);
-        }
         if (callSensorsArduino.callToArduino())
         {
             measurement = {getActualDate(dateString), callSensorsArduino.getBinaryValues(), callSensorsArduino.getHasPersons(),
                            callSensorsArduino.getHasSound(), callSensorsArduino.getHasGas(), callSensorsArduino.getHasOil(),
                            callSensorsArduino.getHasRain(), callSensorsArduino.getTemperature(), callSensorsArduino.getHumidity(), 1};
 
-            connectionBBDD.insertMeasurement(callSensorsArduino.getBinaryValues(), callSensorsArduino.getHasPersons(),
-                                             callSensorsArduino.getHasSound(), callSensorsArduino.getHasGas(), callSensorsArduino.getHasOil(),
-                                             callSensorsArduino.getHasRain(), callSensorsArduino.getTemperature(), callSensorsArduino.getHumidity(), false);
-
+            int aux = connectionBBDD.insertMeasurement(callSensorsArduino.getBinaryValues(), callSensorsArduino.getHasPersons(),
+                                                       callSensorsArduino.getHasSound(), callSensorsArduino.getHasGas(), callSensorsArduino.getHasOil(),
+                                                       callSensorsArduino.getHasRain(), callSensorsArduino.getTemperature(), callSensorsArduino.getHumidity(), false);
+            assert(aux, strdup("Fallo al insertar una medición"));
             numRows++;
             printf("Número de filas introducidas: %d\n", numRows);
+        }
+        if (((int)(time(NULL) - secondsLastInsertServer)) >= secondsActualizationServer)
+        {
+            secondsLastInsertServer = time(NULL);
+            getLastActionServer.call();
+            postMeasurementServer.call(measurement);
+            getActualizationTimeServer.call();
+            while (!HTTPcall::allCallsCompleted())
+            {
+            }
+            if (lastAction != getLastActionServer.getAllAction())
+            {
+                lastAction = getLastActionServer.getAllAction();
+                assert(connectionBBDD.setLastAction(lastAction, getActualDate(dateString)), strdup("Fallo al insertar la última acción"));
+                callOutputsArduino.callToArduino(lastAction);
+            }
+
+            if (secondsActualizationServer != getActualizationTimeServer.getActualizationTime())
+            {
+                printf("Actualizacion del servidor actualizado a %d\n", getActualizationTimeServer.getActualizationTime());
+                secondsActualizationServer = getActualizationTimeServer.getActualizationTime();
+                if (secondsActualizationServer < secondsActualizationArduino)
+                    secondsActualizationArduino = secondsActualizationServer;
+                else
+                    secondsActualizationArduino = DEFAULT_ACTUALIZATION_ARDUINO;
+            }
         }
     }
     connectionBBDD.exitConnection();

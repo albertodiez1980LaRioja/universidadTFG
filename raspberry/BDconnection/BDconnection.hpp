@@ -27,7 +27,7 @@ class BDconnection
     void exit_nicely(PGconn *conn)
     {
         PQfinish(conn);
-        exit(1);
+        // exit(1);
     }
 
 public:
@@ -39,7 +39,7 @@ public:
     int setLastAction(int action, char *date);
     int getPlaceAtributes(char **identifier, char **pass, char **URL, int *actualizationTime, int *actualization_server_time);
     int setPlaceActualizationTime(char *identifier, char *pass, char *URL, int actualizationTime, int actualization_server_time);
-    PGconn *getConnection();
+    int getConnection();
     void exitConnection();
 };
 

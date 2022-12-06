@@ -22,6 +22,7 @@ class ArduinoConnection
 {
     int open_serial_port(char *name);
     int fd;
+    bool iniciated;
 
 public:
     int read_from_serial(char *buf, int lon);
@@ -30,6 +31,10 @@ public:
         return write(this->fd, buf, lon);
     }
     ArduinoConnection(char *name);
+    bool getIniciated()
+    {
+        return this->iniciated;
+    }
 };
 
 #endif

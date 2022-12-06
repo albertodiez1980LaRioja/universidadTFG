@@ -50,7 +50,7 @@ int ArduinoConnection::open_serial_port(char *name)
         ioctl(fd, TIOCSSERIAL, &kernel_serial_settings);
     }
     tcflush(fd, TCIFLUSH);
-
+    this->iniciated = true;
     return fd;
 }
 
@@ -80,6 +80,7 @@ int ArduinoConnection::read_from_serial(char *buf, int lon)
 
 ArduinoConnection::ArduinoConnection(char *name)
 {
+    this->iniciated = false;
     this->fd = this->open_serial_port(name);
 }
 

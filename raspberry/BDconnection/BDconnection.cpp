@@ -12,7 +12,7 @@ void BDconnection::exitConnection()
     PQfinish(conn);
 }
 
-PGconn *BDconnection::getConnection()
+int BDconnection::getConnection()
 {
     // PGconn *conn;
     /* Make a connection to the database */
@@ -26,8 +26,9 @@ PGconn *BDconnection::getConnection()
         fprintf(stderr, "Connection to database failed: %s",
                 PQerrorMessage(conn));
         this->exit_nicely(conn);
+        return 0;
     }
-    return conn;
+    return 1;
 }
 
 int BDconnection::getLastAction()
@@ -55,7 +56,7 @@ int BDconnection::getLastAction()
     }
     else
         printf("No había datos para leer en las acciones\n");
-    return 0;
+    return -1;
 }
 
 int BDconnection::insertMeasurement(int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity, bool has_sended)
@@ -215,7 +216,7 @@ int BDconnection::getPlaceAtributes(char **identifier, char **pass, char **URL, 
     {
         fprintf(stderr, "SELECT failed: %s", PQerrorMessage(conn));
         PQclear(res);
-        return -1;
+        return 0;
     }
     if (PQntuples(res) > 0)
     {
@@ -228,7 +229,7 @@ int BDconnection::getPlaceAtributes(char **identifier, char **pass, char **URL, 
     }
     else
         printf("No había datos para leer\n");
-    return 1;
+    return 0;
 }
 
 int BDconnection::setPlaceActualizationTime(char *identifier, char *pass, char *URL, int actualizationTime, int actualization_server_time)
