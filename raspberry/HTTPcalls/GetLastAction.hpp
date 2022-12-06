@@ -17,8 +17,13 @@ class GetLastAction : HTTPcall
         return static_cast<GetLastAction *>(p)->handle_impl(data, size, nmemb);
     }
     size_t handle_impl(void *buffer, size_t size, size_t nmemb);
+    static bool success;
 
 public:
+    bool getSuccess()
+    {
+        return GetLastAction::success;
+    }
     GetLastAction(char *identifier, char *pass, char *url) : HTTPcall(identifier, pass, url) {}
     int getNumActions();
     bool getAction(int i);

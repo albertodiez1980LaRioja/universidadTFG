@@ -2,6 +2,7 @@
 
 bool GetLastAction::actions[NUM_ACTIONS] = {false, false, false, false};
 int GetLastAction::action = 0;
+bool GetLastAction::success = false;
 
 int GetLastAction::getNumActions()
 {
@@ -16,6 +17,7 @@ bool GetLastAction::getAction(int i)
 bool GetLastAction::call()
 {
     this->curl = curl_easy_init();
+    GetLastAction::success = false;
     if (!this->curl)
         return false;
     char aux[2000];
@@ -69,6 +71,7 @@ size_t GetLastAction::handle_impl(void *buffer, size_t size, size_t nmemb)
         }
         pow = pow * 2;
     }
-
+    if (numActions > 0)
+        GetLastAction::success = true;
     return size * nmemb;
 }

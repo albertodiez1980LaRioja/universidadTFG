@@ -17,6 +17,7 @@ size_t PostMeasurement::handle_impl(void *buffer, size_t size, size_t nmemb)
 bool PostMeasurement::call(Measurement measurement)
 {
     this->curl = curl_easy_init();
+    PostMeasurement::success = false;
     if (!this->curl)
         return false;
     char aux[2000];

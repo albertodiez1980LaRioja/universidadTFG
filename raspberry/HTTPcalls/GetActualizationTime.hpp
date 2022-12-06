@@ -15,8 +15,13 @@ class GetActualizationTime : HTTPcall
         return static_cast<GetActualizationTime *>(p)->handle_impl(data, size, nmemb);
     }
     size_t handle_impl(void *buffer, size_t size, size_t nmemb);
+    static bool success;
 
 public:
+    bool getSuccess()
+    {
+        return GetActualizationTime::success;
+    }
     GetActualizationTime(char *identifier, char *pass, char *url) : HTTPcall(identifier, pass, url)
     {
         GetActualizationTime::actualizationTime = 0;
