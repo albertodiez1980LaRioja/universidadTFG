@@ -130,7 +130,7 @@ class BaseRepository {
         } catch (err) {
             if (transaction != undefined)
                 await transaction.rollback();
-
+            console.log("Fail on create");
             res.status(500).json({
                 message: 'Something goes wrong: ' + err,
                 data: {}

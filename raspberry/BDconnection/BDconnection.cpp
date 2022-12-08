@@ -14,12 +14,8 @@ void BDconnection::exitConnection()
 
 int BDconnection::getConnection()
 {
-    // PGconn *conn;
     /* Make a connection to the database */
-    // this->conninfo = (char *)"dbname = raspberryTest";
-    //  this->conninfo = (char *)"dbname = postgres";
     this->conn = PQconnectdb(this->conninfo);
-
     /* Check to see that the backend connection was successfully made */
     if (PQstatus(conn) != CONNECTION_OK)
     {
@@ -70,7 +66,6 @@ int BDconnection::insertMeasurement(int binary_values, int has_persons, int has_
     */
     const char *paramValues[10];
     char stringValue[100][100];
-    // int numRows;
     sprintf(stringValue[0], "%d", binary_values);
     paramValues[0] = stringValue[0];
     sprintf(stringValue[1], "%d", has_persons);
@@ -146,11 +141,6 @@ PGresult *BDconnection::startTransaction(char *sentence)
      */
     PQclear(res);
 
-    /*
-     * Fetch rows from pg_database, the system catalog of databases
-     */
-    // res = PQexec(conn, "DECLARE myportal CURSOR FOR select * from pg_database");
-    // res = PQexec(conn, "DECLARE myportal CURSOR FOR select * from public.sensors");
     res = PQexec(conn, sentence);
     if (PQresultStatus(res) != PGRES_COMMAND_OK)
     {
@@ -269,4 +259,80 @@ int BDconnection::setPlaceActualizationTime(char *identifier, char *pass, char *
     }
     PQclear(res);
     return 1;
+}
+
+int BDconnection::getMeasurementsNotSended(Measurement *notSended)
+{
+    /*
+        select date_time ,has_sended ,to_send  from public.sensors
+        where false=has_sended and to_send
+        order by date_time desc limit 10
+    */
+    PGresult *res;
+    res = PQexecParams(this->conn,
+                       "select cast(date_time as text), binary_values,cast(has_persons as int4),cast(has_sound as int4),cast(has_gas as int4),cast(has_oil as int4),cast(has_rain as int4),cast(temperature as int4),cast(humidity as int4) ,to_send  from public.sensors where false=has_sended and to_send order by date_time desc limit 10;",
+                       0, /* no parameters */
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                       1);
+
+    if (PQresultStatus(res) != PGRES_TUPLES_OK)
+    {
+        fprintf(stderr, "SELECT failed: %s", PQerrorMessage(conn));
+        PQclear(res);
+        return -1; // send error
+    }
+    if (PQntuples(res) > 0)
+    {
+        for (int i = 0; i < PQntuples(res) && i < 10; i++)
+        {
+            notSended[i].date = PQgetvalue(res, i, 0);
+            notSended[i].binary_values = ntohl(*((uint32_t *)PQgetvalue(res, i, 1)));
+            notSended[i].has_persons = ntohl(*((uint32_t *)PQgetvalue(res, i, 2)));
+            notSended[i].has_sound = ntohl(*((uint32_t *)PQgetvalue(res, i, 3)));
+            notSended[i].has_gas = ntohl(*((uint32_t *)PQgetvalue(res, i, 4)));
+            notSended[i].has_oil = ntohl(*((uint32_t *)PQgetvalue(res, i, 5)));
+            notSended[i].has_rain = ntohl(*((uint32_t *)PQgetvalue(res, i, 6)));
+            notSended[i].temperature = ntohl(*((uint32_t *)PQgetvalue(res, i, 7)));
+            notSended[i].humidity = ntohl(*((uint32_t *)PQgetvalue(res, i, 8)));
+        }
+        return PQntuples(res);
+    }
+    return 0;
+}
+
+int BDconnection::setMeasurementsToSended(Measurement *sended, int len)
+{
+    if (len == 0)
+        return 1;
+    PGresult *res;
+    char query[400] = "update public.sensors set has_sended=true where date_time in(";
+    sprintf(query, "update public.sensors set has_sended=true where date_time in('%s'", sended[0].date);
+    for (int i = 1; i < len && i < 10; i++)
+    {
+        char aux[100] = "";
+        sprintf(aux, ",'%s'", sended[i].date);
+        strcat(query, aux);
+    }
+    strcat(query, ");");
+    printf("Sentencia final: %s\n", query);
+    res = PQexecParams(this->conn,
+                       query,
+                       0,
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                       1);
+
+    if (PQresultStatus(res) != PGRES_COMMAND_OK)
+    {
+        fprintf(stderr, "SELECT failed: %s", PQerrorMessage(conn));
+        PQclear(res);
+        return -1;
+    }
+
+    return 0;
 }

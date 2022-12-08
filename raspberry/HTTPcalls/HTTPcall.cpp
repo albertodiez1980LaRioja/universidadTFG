@@ -64,7 +64,8 @@ char *HTTPcall::loadTokenPlace(char *identifier, char *pass)
 
 char *HTTPcall::getToken()
 {
-    if ((time(NULL) - this->seconds) > 3600)
+    // this->token = this->loadTokenPlace(identifier, pass);
+    if (((time(NULL) - this->seconds) > 3600) || this->token == NULL)
     {
         this->seconds = time(NULL);
         this->token = this->loadTokenPlace(identifier, pass);

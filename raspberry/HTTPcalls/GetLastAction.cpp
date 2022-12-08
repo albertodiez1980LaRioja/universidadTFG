@@ -75,5 +75,7 @@ size_t GetLastAction::handle_impl(void *buffer, size_t size, size_t nmemb)
     }
     if (numActions > 0)
         GetLastAction::success = true;
+    else
+        HTTPcall::token = NULL;
     return size * nmemb;
 }

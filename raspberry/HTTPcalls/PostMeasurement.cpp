@@ -11,6 +11,8 @@ size_t PostMeasurement::handle_impl(void *buffer, size_t size, size_t nmemb)
     if (json_object_object_get_ex(parsed_json, "message", &message))
         if (!strcmp("Created succefully", json_object_get_string(message)))
             PostMeasurement::success = true;
+    if (!PostMeasurement::success)
+        HTTPcall::token = NULL;
     return size * nmemb;
 }
 
@@ -65,6 +67,7 @@ bool PostMeasurement::call(Measurement measurement)
 // this is sync
 bool PostMeasurement::callMultiMeasurement(Measurement *measurements, int length)
 {
+    PostMeasurement::success = false;
     this->curl = curl_easy_init();
     if (!this->curl)
         return false;
@@ -96,6 +99,8 @@ bool PostMeasurement::callMultiMeasurement(Measurement *measurements, int length
                 measurements[0].has_rain, measurements[0].temperature, measurements[0].humidity, measurements[0].placeId);
         strcat(allBuffer, buffer);
     }
+    else
+        printf("No hay longitud\n");
     for (int i = 1; i < length; i++)
     {
         sprintf(buffer, ",{ \"date_time\": \"%s\",\"binary_values\": %d,\"has_persons\": %d,\"has_sound\": %d,\"has_gas\": %d,\"has_oil\": %d,\"has_rain\": %d,\"temperature\": %d,\"humidity\": %d,\"placeId\": %d }",
@@ -105,6 +110,7 @@ bool PostMeasurement::callMultiMeasurement(Measurement *measurements, int length
     }
 
     sprintf(finalBuffer, "%s %s", allBuffer, " ]}     ");
+    // printf("buffer: %s\n", finalBuffer);
     curl_easy_setopt(this->curl, CURLOPT_POSTFIELDS, finalBuffer);
     curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE, (long)strlen(finalBuffer));
     curl_multi_add_handle(this->multi_handle, this->curl);
@@ -121,6 +127,5 @@ bool PostMeasurement::callMultiMeasurement(Measurement *measurements, int length
             break;
         }
     } while (still_running);
-
     return true;
 }

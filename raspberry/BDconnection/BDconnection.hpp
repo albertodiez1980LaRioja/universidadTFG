@@ -18,6 +18,16 @@
 #include <sys/ioctl.h>
 #include <sys/stat.h>
 
+#ifndef STRUCTMEASUREMENT_H
+#define STRUCTMEASUREMENT_H
+typedef struct
+{
+    char *date;
+    int binary_values, has_persons, has_sound, has_gas, has_oil;
+    int has_rain, temperature, humidity, placeId;
+} Measurement;
+#endif
+
 class BDconnection
 {
     char *conninfo;
@@ -41,6 +51,8 @@ public:
     int setPlaceActualizationTime(char *identifier, char *pass, char *URL, int actualizationTime, int actualization_server_time);
     int getConnection();
     void exitConnection();
+    int getMeasurementsNotSended(Measurement *notSended); // return -1 on fail
+    int setMeasurementsToSended(Measurement *sended, int len);
 };
 
 #endif

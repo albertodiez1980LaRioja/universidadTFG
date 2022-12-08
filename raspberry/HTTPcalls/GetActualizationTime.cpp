@@ -17,6 +17,8 @@ GetActualizationTime::handle_impl(void *buffer, size_t size, size_t nmemb)
             this->actualizationTime = json_object_get_int(actualizationTime);
             GetActualizationTime::success = true;
         }
+        else
+            HTTPcall::token = NULL;
     }
     return size * nmemb;
 }
