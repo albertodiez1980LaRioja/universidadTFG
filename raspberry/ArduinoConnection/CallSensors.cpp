@@ -49,23 +49,23 @@ bool CallSensors ::callToArduino(int seconds)
             printf("No hay fuego\n");
         else
             printf("Hay fuego\n");
-        if (this->getBinaryValues() > 350)
+        if (this->getHasPersons() > 350)
             printf("Personas detectadas\n");
         else
             printf("Personas NO detectadas\n");
-        if (this->getBinaryValues() > 600)
+        if (this->getHasSound() > 600)
             printf("Sonido detectado \n");
         else
             printf("Sonido NO detectado \n");
-        if (this->getBinaryValues() > 350)
+        if (this->getHasGas() > 350)
             printf("Gas detectado\n");
         else
             printf("Gas NO detectado\n");
-        if (this->getBinaryValues() < 500)
+        if (this->getHasOil() < 500)
             printf("Aceite detectado\n");
         else
             printf("Aceite NO detectado\n");
-        if (this->getBinaryValues() < 500)
+        if (this->getHasRain() < 500)
             printf("Lluvia detectado\n");
         else
             printf("Lluvia NO detectado\n");

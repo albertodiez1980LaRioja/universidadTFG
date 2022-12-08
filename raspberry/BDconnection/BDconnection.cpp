@@ -59,12 +59,12 @@ int BDconnection::getLastAction()
     return -1;
 }
 
-int BDconnection::insertMeasurement(int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity, bool has_sended)
+int BDconnection::insertMeasurement(int binary_values, int has_persons, int has_sound, int has_gas, int has_oil, int has_rain, int temperature, int humidity, bool has_sended, bool to_send)
 {
     /*
     INSERT INTO public.sensors(
                 date_time, has_sended, binary_values, has_persons, has_sound,
-                has_gas, has_oil, has_rain, temperature, humidity)
+                has_gas, has_oil, has_rain, temperature, humidity, to_send)
         VALUES (?, ?, ?, ?, ?,
                 ?, ?, ?, ?, ?);
     */
@@ -91,10 +91,14 @@ int BDconnection::insertMeasurement(int binary_values, int has_persons, int has_
         paramValues[8] = "true";
     else
         paramValues[8] = "false";
+    if (to_send)
+        paramValues[9] = "true";
+    else
+        paramValues[9] = "false";
 
     res = PQexecParams(conn,
-                       "INSERT INTO public.sensors( date_time, has_sended, binary_values, has_persons, has_sound, has_gas, has_oil, has_rain, temperature, humidity)  VALUES (NOW(), $9, $1, $2, $3, $4, $5, $6, $7,$8);",
-                       9,    /* one param */
+                       "INSERT INTO public.sensors( date_time, has_sended, binary_values, has_persons, has_sound, has_gas, has_oil, has_rain, temperature, humidity, to_send)  VALUES (NOW(), $9, $1, $2, $3, $4, $5, $6, $7,$8,$10);",
+                       10,   /* one param */
                        NULL, /* let the backend deduce param type */
                        paramValues,
                        NULL, /* don't need param lengths since text */

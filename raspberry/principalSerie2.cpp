@@ -57,6 +57,15 @@ void assert(int expression, char *msg)
     }
 }
 
+bool hasAlarm(Measurement measurement)
+{
+    if ((measurement.binary_values & 8) == false)
+        return true; //!!!FIRE
+    if (measurement.has_gas > 350)
+        return true; //!!!flammable gas
+    return false;
+}
+
 #define DEFAULT_ACTUALIZATION_ARDUINO 5
 
 int main(void)
@@ -110,6 +119,8 @@ int main(void)
     time_t secondsLastInsertServer = seconds;
     while (true)
     {
+        bool has_sended = false;
+        bool to_send = false;
         waitSleep(seconds, secondsActualizationArduino);
         seconds = time(NULL);
         printf("Segundos pasados: %d\n", (int)(time(NULL) - secondsLastInsert));
@@ -119,15 +130,9 @@ int main(void)
                            callSensorsArduino.getHasSound(), callSensorsArduino.getHasGas(), callSensorsArduino.getHasOil(),
                            callSensorsArduino.getHasRain(), callSensorsArduino.getTemperature(), callSensorsArduino.getHumidity(), 1};
 
-            int aux = connectionBBDD.insertMeasurement(callSensorsArduino.getBinaryValues(), callSensorsArduino.getHasPersons(),
-                                                       callSensorsArduino.getHasSound(), callSensorsArduino.getHasGas(), callSensorsArduino.getHasOil(),
-                                                       callSensorsArduino.getHasRain(), callSensorsArduino.getTemperature(), callSensorsArduino.getHumidity(), false);
-            assert(aux, strdup("Fallo al insertar una medición"));
-            numRows++;
-            printf("Número de filas introducidas: %d\n", numRows);
-
-            if (((int)(time(NULL) - secondsLastInsertServer)) >= secondsActualizationServer)
+            if ((((int)(time(NULL) - secondsLastInsertServer)) >= secondsActualizationServer) || hasAlarm(measurement))
             {
+                to_send = true;
                 secondsLastInsertServer = time(NULL);
                 getLastActionServer.call();
                 getActualizationTimeServer.call();
@@ -157,7 +162,15 @@ int main(void)
                     printf("No se ha podido hacer la llamada del tiempo de actualización del servidor\n");
                 if (!postMeasurementServer.getSuccess())
                     printf("No se ha podido hacer la llamada del envío de datos al servidor\n");
+                else
+                    has_sended = true;
             }
+            int aux = connectionBBDD.insertMeasurement(callSensorsArduino.getBinaryValues(), callSensorsArduino.getHasPersons(),
+                                                       callSensorsArduino.getHasSound(), callSensorsArduino.getHasGas(), callSensorsArduino.getHasOil(),
+                                                       callSensorsArduino.getHasRain(), callSensorsArduino.getTemperature(), callSensorsArduino.getHumidity(), has_sended, to_send);
+            assert(aux, strdup("Fallo al insertar una medición"));
+            numRows++;
+            printf("Número de filas introducidas: %d\n", numRows);
         }
     }
     connectionBBDD.exitConnection();
