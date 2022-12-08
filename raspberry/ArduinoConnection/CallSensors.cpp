@@ -1,10 +1,21 @@
 #include "CallSensors.hpp"
 
-bool CallSensors ::callToArduino()
+void delayCall(float millis)
+{
+    clock_t start_time = clock();
+    while (clock() < start_time + ((CLOCKS_PER_SEC / 1000.) * millis))
+    {
+    }
+}
+
+bool CallSensors ::callToArduino(int seconds)
 {
     int lenghtBufferIn = 500;
     char bufferIn[500];
-    sleep(1);
+    if (seconds > 2)
+        sleep(1);
+    else
+        delayCall(700);
     char toSend[] = "0 1 1 0 0 2     \n\0";
     printf("Se manda: %s", toSend);
     if ((this->arduinoConnection->write_to_serial(toSend, sizeof(toSend))) == -1)
@@ -12,7 +23,10 @@ bool CallSensors ::callToArduino()
         fprintf(stderr, "write() failed: %s\n", strerror(errno));
         return false;
     }
-    sleep(1);
+    if (seconds > 2)
+        sleep(1);
+    else
+        delayCall(700);
     this->arduinoConnection->read_from_serial(bufferIn, 500);
     if (this->deserialize(bufferIn, lenghtBufferIn))
     {

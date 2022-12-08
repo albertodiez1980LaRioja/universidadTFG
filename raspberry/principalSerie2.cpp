@@ -113,7 +113,7 @@ int main(void)
         waitSleep(seconds, secondsActualizationArduino);
         seconds = time(NULL);
         printf("Segundos pasados: %d\n", (int)(time(NULL) - secondsLastInsert));
-        if (callSensorsArduino.callToArduino())
+        if (callSensorsArduino.callToArduino(secondsActualizationArduino))
         {
             measurement = {getActualDate(dateString), callSensorsArduino.getBinaryValues(), callSensorsArduino.getHasPersons(),
                            callSensorsArduino.getHasSound(), callSensorsArduino.getHasGas(), callSensorsArduino.getHasOil(),
@@ -125,38 +125,39 @@ int main(void)
             assert(aux, strdup("Fallo al insertar una medición"));
             numRows++;
             printf("Número de filas introducidas: %d\n", numRows);
-        }
-        if (((int)(time(NULL) - secondsLastInsertServer)) >= secondsActualizationServer)
-        {
-            secondsLastInsertServer = time(NULL);
-            getLastActionServer.call();
-            getActualizationTimeServer.call();
-            postMeasurementServer.call(measurement);
-            while (!HTTPcall::allCallsCompleted())
-            {
-            }
-            if (getLastActionServer.getSuccess() && lastAction != getLastActionServer.getAllAction())
-            {
-                lastAction = getLastActionServer.getAllAction();
-                assert(connectionBBDD.setLastAction(lastAction, getActualDate(dateString)), strdup("Fallo al insertar la última acción"));
-                callOutputsArduino.callToArduino(lastAction);
-            }
 
-            if (getActualizationTimeServer.getSuccess() && secondsActualizationServer != getActualizationTimeServer.getActualizationTime())
+            if (((int)(time(NULL) - secondsLastInsertServer)) >= secondsActualizationServer)
             {
-                printf("Actualizacion del servidor actualizado a %d\n", getActualizationTimeServer.getActualizationTime());
-                secondsActualizationServer = getActualizationTimeServer.getActualizationTime();
-                if (secondsActualizationServer < secondsActualizationArduino)
-                    secondsActualizationArduino = secondsActualizationServer;
-                else
-                    secondsActualizationArduino = DEFAULT_ACTUALIZATION_ARDUINO;
+                secondsLastInsertServer = time(NULL);
+                getLastActionServer.call();
+                getActualizationTimeServer.call();
+                postMeasurementServer.call(measurement);
+                while (!HTTPcall::allCallsCompleted())
+                {
+                }
+                if (getLastActionServer.getSuccess() && lastAction != getLastActionServer.getAllAction())
+                {
+                    lastAction = getLastActionServer.getAllAction();
+                    assert(connectionBBDD.setLastAction(lastAction, getActualDate(dateString)), strdup("Fallo al insertar la última acción"));
+                    callOutputsArduino.callToArduino(lastAction);
+                }
+
+                if (getActualizationTimeServer.getSuccess() && secondsActualizationServer != getActualizationTimeServer.getActualizationTime())
+                {
+                    printf("Actualizacion del servidor actualizado a %d\n", getActualizationTimeServer.getActualizationTime());
+                    secondsActualizationServer = getActualizationTimeServer.getActualizationTime();
+                    if (secondsActualizationServer < DEFAULT_ACTUALIZATION_ARDUINO)
+                        secondsActualizationArduino = secondsActualizationServer;
+                    else
+                        secondsActualizationArduino = DEFAULT_ACTUALIZATION_ARDUINO;
+                }
+                if (!getLastActionServer.getSuccess())
+                    printf("No se ha podido hacer la llamada de la ultima acción del servidor \n");
+                if (!getActualizationTimeServer.getSuccess())
+                    printf("No se ha podido hacer la llamada del tiempo de actualización del servidor\n");
+                if (!postMeasurementServer.getSuccess())
+                    printf("No se ha podido hacer la llamada del envío de datos al servidor\n");
             }
-            if (!getLastActionServer.getSuccess())
-                printf("No se ha podido hacer la llamada de la ultima acción del servidor \n");
-            if (!getActualizationTimeServer.getSuccess())
-                printf("No se ha podido hacer la llamada del tiempo de actualización del servidor\n");
-            if (!postMeasurementServer.getSuccess())
-                printf("No se ha podido hacer la llamada del envío de datos al servidor\n");
         }
     }
     connectionBBDD.exitConnection();

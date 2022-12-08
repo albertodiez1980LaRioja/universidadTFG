@@ -44,7 +44,9 @@ size_t GetLastAction::handle_impl(void *buffer, size_t size, size_t nmemb)
 
     GetLastAction::action = 0;
     parsed_json = json_tokener_parse((char *)buffer);
-    json_object_object_get_ex(parsed_json, "data", &data);
+    if (!json_object_object_get_ex(parsed_json, "data", &data))
+        return size * nmemb;
+
     int numActions = json_object_array_length(data);
     int pow = 1;
     for (int i = 0; i < numActions; i++)

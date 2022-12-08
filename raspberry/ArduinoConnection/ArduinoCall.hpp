@@ -13,6 +13,8 @@ public:
     ArduinoCall(ArduinoConnection *arduinoConnection)
     {
         this->arduinoConnection = arduinoConnection;
+        this->binary_values = this->has_persons = this->has_sound = this->has_oil = 0;
+        this->has_rain = this->temperature = this->humidity = 0;
     }
     int deserialize(char *buffer, int lenght);
     int getBinaryValues() { return this->binary_values; };

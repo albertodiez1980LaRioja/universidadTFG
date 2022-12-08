@@ -15,7 +15,7 @@ class ActionRepository extends BaseRepository {
             'SELECT max("date"), "outputId"' +
             'FROM public.actions where "placeId"= ' + idPlace.toString() +
             'group by "outputId")', { type: QueryTypes.SELECT });
-        console.log(ret);
+        //console.log(ret);
         return ret;
         /*return this.model.findAll({
             where: { placeId: idPlace, outputId: idOutput },

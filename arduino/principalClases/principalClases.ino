@@ -374,7 +374,7 @@ void RaspberryListener::listener()
       }
     }
   }
-  delay(100);
+  delay(10);
 }
 
 RaspberryListener connection;

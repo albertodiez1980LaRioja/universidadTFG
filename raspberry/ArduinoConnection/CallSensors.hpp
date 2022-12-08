@@ -26,7 +26,7 @@ public:
     CallSensors(ArduinoConnection *Connection) : ArduinoCall(Connection)
     {
     }
-    bool callToArduino();
+    bool callToArduino(int seconds);
 };
 
 #endif

@@ -55,6 +55,7 @@ class PlaceController extends BaseController {
     sendActualization = async function (req, res, next) {
         try {
             // Check credentials. If correct, user entity is returned
+            console.log('Se ejecuta la actualizacion');
             let { identifier, pass } = req.body;
             let token = req.body.token || req.query.token || req.headers["x-access-token"];
             const decoded = jwt.verify(token, config.secret);
