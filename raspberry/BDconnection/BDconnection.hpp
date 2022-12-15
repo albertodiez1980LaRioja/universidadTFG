@@ -53,6 +53,8 @@ public:
     void exitConnection();
     int getMeasurementsNotSended(Measurement *notSended); // return -1 on fail
     int setMeasurementsToSended(Measurement *sended, int len);
+    int DeleteLastMeasurements();
+    int DeleteLastActions();
 };
 
 #endif

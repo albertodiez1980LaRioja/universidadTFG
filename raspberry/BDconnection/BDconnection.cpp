@@ -317,7 +317,6 @@ int BDconnection::setMeasurementsToSended(Measurement *sended, int len)
         strcat(query, aux);
     }
     strcat(query, ");");
-    printf("Sentencia final: %s\n", query);
     res = PQexecParams(this->conn,
                        query,
                        0,
@@ -329,10 +328,54 @@ int BDconnection::setMeasurementsToSended(Measurement *sended, int len)
 
     if (PQresultStatus(res) != PGRES_COMMAND_OK)
     {
-        fprintf(stderr, "SELECT failed: %s", PQerrorMessage(conn));
+        fprintf(stderr, "UPDATE failed: %s", PQerrorMessage(conn));
         PQclear(res);
         return -1;
     }
 
+    return 0;
+}
+
+int BDconnection::DeleteLastMeasurements()
+{
+    PGresult *res;
+    char query[400] = "DELETE FROM public.sensors WHERE (date_time < now() - interval '1 month') and to_send = false;";
+    res = PQexecParams(this->conn,
+                       query,
+                       0,
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                       1);
+
+    if (PQresultStatus(res) != PGRES_COMMAND_OK)
+    {
+        fprintf(stderr, "DELETE failed: %s", PQerrorMessage(conn));
+        PQclear(res);
+        return -1;
+    }
+    return 0;
+}
+
+int BDconnection::DeleteLastActions()
+{
+    PGresult *res;
+    char query[400] = "DELETE FROM public.actions WHERE (date_time < now() - interval '1 month') and date_time != (select max(date_time) from public.actions);";
+    res = PQexecParams(this->conn,
+                       query,
+                       0,
+                       NULL,
+                       NULL,
+                       NULL,
+                       NULL,
+                       1);
+
+    if (PQresultStatus(res) != PGRES_COMMAND_OK)
+    {
+        fprintf(stderr, "DELETE failed: %s", PQerrorMessage(conn));
+        PQclear(res);
+        return -1;
+    }
     return 0;
 }
