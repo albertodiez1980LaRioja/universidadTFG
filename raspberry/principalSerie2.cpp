@@ -77,7 +77,7 @@ int main(void)
     assert(arduinoConnection.getIniciated(), strdup("Conexión de arduino no inicializada\n"));
     CallSensors callSensorsArduino(&arduinoConnection);
     CallOutputs callOutputsArduino(&arduinoConnection);
-    BDconnection connectionBBDD((char *)"dbname = raspberryTest");
+    BDconnection connectionBBDD((char *)"dbname = postgres");
     assert(connectionBBDD.getConnection(), strdup("No se puede conectar a la base de datos\n")); // connect to bbdd
     char *identifier = strdup(""), *pass = strdup(""), *URL = strdup("");
     int secondsActualizationArduino = 0, secondsActualizationServer = 0;
