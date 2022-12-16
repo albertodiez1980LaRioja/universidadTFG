@@ -53,7 +53,7 @@ bool PostMeasurement::call(Measurement measurement)
         CURLMcode mc = curl_multi_perform(multi_handle, &still_running);
         if (!mc && still_running)
             /* wait for activity, timeout or "nothing" */
-            mc = curl_multi_poll(multi_handle, NULL, 0, 1000, NULL);
+            mc = curl_multi_wait(multi_handle, NULL, 0, 1000, NULL);
         if (mc)
         {
             fprintf(stderr, "curl_multi_poll() failed, code %d.\n", (int)mc);
@@ -120,7 +120,7 @@ bool PostMeasurement::callMultiMeasurement(Measurement *measurements, int length
     {
         CURLMcode mc = curl_multi_perform(multi_handle, &still_running);
         if (!mc && still_running)
-            mc = curl_multi_poll(multi_handle, NULL, 0, 1000, NULL);
+            mc = curl_multi_wait(multi_handle, NULL, 0, 1000, NULL);
         if (mc)
         {
             fprintf(stderr, "curl_multi_poll() failed, code %d.\n", (int)mc);
