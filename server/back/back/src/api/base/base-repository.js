@@ -14,16 +14,6 @@ class BaseRepository {
             if (modelParams.indexOf(param) > -1) {
                 ret[param] = params[param];
             }
-            /*else if (param.includes('ORDERDESC')) {
-                let initkey = param.substring(0, param.length - 9);
-                console.log('initkey', initkey);
-                ret[initkey] = [[initkey, 'DESC'],];
-            }
-            else if (param.includes('ORDER')) {
-                let initkey = param.substring(0, param.length - 5);
-                console.log('initkey', initkey);
-                ret[initkey] = [[initkey, 'ASC'],];
-            }*/
             else if (param.includes('FINISH')) {
                 let initkey = param.substring(0, param.length - 6);
                 if (keysParams.indexOf(initkey + 'BEGIN') > -1) {

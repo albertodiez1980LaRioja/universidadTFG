@@ -4,6 +4,10 @@
             (action)="tableEvent($event)">
         </app-table>
     </mat-tab>
-    <mat-tab [label]="this.tabs[1]"> Mapa </mat-tab>
-    <mat-tab [label]="this.tabs[2]"> Lugar </mat-tab>
+    <mat-tab [label]="this.tabs[1]">
+        <app-map></app-map>
+    </mat-tab>
+    <mat-tab [label]="this.tabs[2]">
+        <app-place-measurements></app-place-measurements>
+    </mat-tab>
 </mat-tab-group>

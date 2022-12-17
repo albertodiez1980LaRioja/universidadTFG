@@ -20,7 +20,7 @@ export class PlacesComponent implements OnInit {
     matTab: MatTabsModule,) { }
 
   selected = new FormControl(0);
-  tabs = ['Datos', 'Mapa', 'Lugar'];
+  tabs = ['Datos', 'Mapa', 'Mediciones de lugar'];
 
   addTab(selectAfterAdding: boolean) {
     //this.tabs.push('New');

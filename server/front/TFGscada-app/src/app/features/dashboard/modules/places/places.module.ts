@@ -8,11 +8,15 @@ import { PlacesComponent } from './places.component';
 
 import { MatTabsModule } from '@angular/material/tabs';
 import { TableModule } from 'src/app/shared/component/table/table.module';
+import { PlaceMeasurementsComponent } from './place-measurements/place-measurements.component';
+import { MapComponent } from './map/map.component';
 
 
 @NgModule({
   declarations: [
     PlacesComponent,
+    PlaceMeasurementsComponent,
+    MapComponent,
     //TableComponent
   ],
   imports: [
