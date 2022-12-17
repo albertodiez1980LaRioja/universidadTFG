@@ -14,6 +14,16 @@ class BaseRepository {
             if (modelParams.indexOf(param) > -1) {
                 ret[param] = params[param];
             }
+            /*else if (param.includes('ORDERDESC')) {
+                let initkey = param.substring(0, param.length - 9);
+                console.log('initkey', initkey);
+                ret[initkey] = [[initkey, 'DESC'],];
+            }
+            else if (param.includes('ORDER')) {
+                let initkey = param.substring(0, param.length - 5);
+                console.log('initkey', initkey);
+                ret[initkey] = [[initkey, 'ASC'],];
+            }*/
             else if (param.includes('FINISH')) {
                 let initkey = param.substring(0, param.length - 6);
                 if (keysParams.indexOf(initkey + 'BEGIN') > -1) {
@@ -43,7 +53,21 @@ class BaseRepository {
 
     async get(req, res, include = undefined, transaction = undefined) {
         try {
-            let params = { where: this.validateParams(req.query) };
+            let keysParams = Object.keys(req.query);
+            let order = [];
+            keysParams.forEach(param => {
+                if (param.includes('ORDERDESC')) {
+                    let initkey = param.substring(0, param.length - 9);
+                    console.log('initkey', initkey);
+                    order = [[initkey, 'DESC'],];
+                }
+                else if (param.includes('ORDER')) {
+                    let initkey = param.substring(0, param.length - 5);
+                    console.log('initkey', initkey);
+                    order = [[initkey, 'ASC'],];
+                }
+            });
+            let params = { where: this.validateParams(req.query), order };
             if (include != undefined)
                 params.include = include;
             if (transaction != undefined)
