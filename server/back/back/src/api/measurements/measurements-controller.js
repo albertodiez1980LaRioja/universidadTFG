@@ -12,10 +12,19 @@ class MeasurementController extends BaseController {
         this.router = RouterPlace;
         this.router.get('/:latitude,:longitude,:date_time', this.getOneEntity.bind(this));
         this.router.get('', this.get.bind(this));
+        this.router.get('/multiple', this.multipleGet.bind(this));
         this.router.patch('/:latitude,:longitude,:date_time', this.update.bind(this));
         this.router.delete('/:latitude,:longitude,:date_time', this.delete.bind(this));
         this.router.post('', this.create.bind(this));
         this.router.post('/multiple', this.multiple.bind(this));
+    }
+
+    multipleGet = async function (req, res) {
+        const data = await this.service.getMultiple();
+        res.status(500).json({
+            message: 'OK ',
+            data: data
+        });
     }
 
     multiple = async function (req, res) {

@@ -1,5 +1,7 @@
 const { BaseRepository } = require("../base/base-repository");
-import { Sequelize, DataTypes } from "sequelize";
+import { QueryTypes } from "sequelize";
+import { sequelize } from "../../database/database";
+
 
 class MeasurementRepository extends BaseRepository {
     constructor(model, options = {}) {
@@ -20,6 +22,10 @@ class MeasurementRepository extends BaseRepository {
                 });
             }
         }
+    }
+
+    getMultiple = async function () {
+        return sequelize.query('select * from public.measurements where ("placeId",date_time) in (select "placeId",max(date_time) from public.measurements m2 group by "placeId")', { type: QueryTypes.SELECT });
     }
 
     existsMeasurement = async function (measurement) {
