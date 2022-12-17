@@ -43,21 +43,23 @@ class BaseRepository {
 
     async get(req, res, include = undefined, transaction = undefined) {
         try {
+            let limit = 10000;
             let keysParams = Object.keys(req.query);
             let order = [];
             keysParams.forEach(param => {
                 if (param.includes('ORDERDESC')) {
                     let initkey = param.substring(0, param.length - 9);
-                    console.log('initkey', initkey);
                     order = [[initkey, 'DESC'],];
                 }
                 else if (param.includes('ORDER')) {
                     let initkey = param.substring(0, param.length - 5);
-                    console.log('initkey', initkey);
                     order = [[initkey, 'ASC'],];
                 }
+                else if (param.includes('LIMIT')) {
+                    limit = req.query[param];
+                }
             });
-            let params = { where: this.validateParams(req.query), order };
+            let params = { where: this.validateParams(req.query), order, limit: limit };
             if (include != undefined)
                 params.include = include;
             if (transaction != undefined)
