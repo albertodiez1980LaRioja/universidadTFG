@@ -24,8 +24,10 @@ class MeasurementRepository extends BaseRepository {
         }
     }
 
-    getMultiple = async function () {
-        return sequelize.query('select * from public.measurements where ("placeId",date_time) in (select "placeId",max(date_time) from public.measurements m2 group by "placeId")', { type: QueryTypes.SELECT });
+    getMultiple = async function (req, res) {
+        if (req.query.placeId == undefined)
+            return sequelize.query('select * from public.measurements where ("placeId",date_time) in (select "placeId",max(date_time) from public.measurements m2 group by "placeId")', { type: QueryTypes.SELECT });
+        return sequelize.query('select * from public.measurements where ("placeId",date_time) in (select "placeId",max(date_time) from public.measurements m2 where "placeId"=' + req.query.placeId + ' group by "placeId")', { type: QueryTypes.SELECT });
     }
 
     existsMeasurement = async function (measurement) {

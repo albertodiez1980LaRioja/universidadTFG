@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { PlacesService } from './places.service';
 import { placesConfig, dialogConfig } from './places.config';
-import { IPlace } from './places-interfaces';
+import { IMeasurement, IPlace } from './places-interfaces';
 import { FormControl } from '@angular/forms';
 
 
@@ -15,9 +15,11 @@ export class PlacesComponent implements OnInit {
   placesConfig = placesConfig;
   dialogConfig = dialogConfig;
   placesDate: IPlace[] = [];
+  lastMeasurements: IMeasurement[] = [];
 
   constructor(public placesService: PlacesService,
-    matTab: MatTabsModule,) { }
+    matTab: MatTabsModule,) {
+  }
 
   selected = new FormControl(0);
   tabs = ['Datos', 'Mapa', 'Mediciones de lugar'];
@@ -35,7 +37,9 @@ export class PlacesComponent implements OnInit {
     this.selected.setValue(1);
   }
 
-  fetchPlaces() {
+
+
+  async fetchPlaces() {
     this.placesService.get().subscribe({
       next: (response: any) => {
         console.log('respuesta: ', response);
@@ -52,6 +56,7 @@ export class PlacesComponent implements OnInit {
         console.log('Ha ocurrido un error: ', err);
       }
     });
+
   }
 
 

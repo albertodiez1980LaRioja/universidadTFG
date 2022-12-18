@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 
 // App own modules and services imports
 import { IUser } from '../features/dashboard/modules/users/users-interfaces';
+import { rotuteToBack } from '../shared/route';
 //import { IResponse } from '@shared/interfaces/api.interfaces';
 
 // Module inner imports
@@ -49,11 +50,11 @@ export class AuthService {
     }
 
     authenticateUser(user_name: string, pass: string) {
-        return this.http.post('http://localhost:3000/api/persons/authenticate', { user_name, pass });
+        return this.http.post('http://' + rotuteToBack + '/api/persons/authenticate', { user_name, pass });
     }
 
     validateToken(token: string) {
-        return this.http.post('http://localhost:3000/api/persons/validateToken', { token });
+        return this.http.post('http://' + rotuteToBack + '/api/persons/validateToken', { token });
     }
 
     set user(user: IUser) {

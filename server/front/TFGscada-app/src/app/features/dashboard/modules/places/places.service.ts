@@ -13,9 +13,18 @@ import { IPlace } from './places-interfaces';
   providedIn: 'root'
 })
 export class PlacesService {
-  apiUrl = 'http://localhost:3000/api/places';
+  apiUrl = 'http://192.168.0.15:3000/api/places';
+
+  apiUrlGetLastMeasurement = "http://192.168.0.15:3000/api/measurements/multiple";
 
   constructor(private http: HttpClient) { }
+
+  getLastMeasurements(placeId: string | undefined) {
+    if (placeId == undefined)
+      return this.http.get<HttpResponse<any>>(this.apiUrlGetLastMeasurement);
+    else
+      return this.http.get<HttpResponse<any>>(this.apiUrlGetLastMeasurement + '?placeId=' + placeId);
+  }
 
   get(): Observable<HttpResponse<IPlace>> {
     return this.http.get<HttpResponse<IPlace>>(this.apiUrl);

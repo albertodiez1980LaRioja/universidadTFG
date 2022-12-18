@@ -20,8 +20,8 @@ class MeasurementController extends BaseController {
     }
 
     multipleGet = async function (req, res) {
-        const data = await this.service.getMultiple();
-        res.status(500).json({
+        const data = await this.service.getMultiple(req, res);
+        res.status(200).json({
             message: 'OK ',
             data: data
         });

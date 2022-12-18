@@ -6,7 +6,7 @@ const config = require('../../../config/config');
 class MeasurementService extends BaseService {
 
     getMultiple = async function (req, res) {
-        const ret = await this.repository.getMultiple();
+        const ret = await this.repository.getMultiple(req, res);
         return ret;
     }
 

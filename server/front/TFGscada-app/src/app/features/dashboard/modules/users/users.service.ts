@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { IUser } from './users-interfaces';
+import { rotuteToBack } from '../../../../shared/route';
 
 // Module inner imports
 //import { IService } from './services.interfaces';
@@ -13,7 +14,7 @@ import { IUser } from './users-interfaces';
   providedIn: 'root'
 })
 export class UsersService {
-  apiUrl = 'http://localhost:3000/api/persons';
+  apiUrl = 'http://' + rotuteToBack + '/api/persons';
 
   constructor(private http: HttpClient) { }
 
