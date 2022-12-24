@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-outputs',
@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./outputs.component.scss']
 })
 export class OutputsComponent implements OnInit {
-
+  @Input() IdPlace: any = 1;
   constructor() { }
 
   ngOnInit(): void {

@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { IPlace } from './places-interfaces';
+import { rotuteToBack } from '../../../../shared/route';
 
 // Module inner imports
 //import { IService } from './services.interfaces';
@@ -13,9 +14,9 @@ import { IPlace } from './places-interfaces';
   providedIn: 'root'
 })
 export class PlacesService {
-  apiUrl = 'http://192.168.0.15:3000/api/places';
+  apiUrl = 'http://' + rotuteToBack + '/api/places';
 
-  apiUrlGetLastMeasurement = "http://192.168.0.15:3000/api/measurements/multiple";
+  apiUrlGetLastMeasurement = 'http://' + rotuteToBack + '/api/measurements/multiple';
 
   constructor(private http: HttpClient) { }
 

@@ -21,6 +21,13 @@ export interface IMeasurement {
     obstacle: string;
     light: string;
     fire: string;
-
 }
 
+export interface IOutput {
+    date: Date;
+    placeId: number;
+    personId: number;
+    outputId: number;
+    value: boolean;
+    hasSended: boolean;
+}

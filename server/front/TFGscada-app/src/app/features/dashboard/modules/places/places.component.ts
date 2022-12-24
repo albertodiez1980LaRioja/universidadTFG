@@ -22,7 +22,7 @@ export class PlacesComponent implements OnInit {
   }
 
   selected = new FormControl(0);
-  tabs = ['Datos', 'Mapa', 'Mediciones de lugar'];
+  tabs = ['Datos', 'Mapa', 'Mediciones de lugar', 'Salidas'];
 
   addTab(selectAfterAdding: boolean) {
     //this.tabs.push('New');
