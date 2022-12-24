@@ -14,7 +14,7 @@ class ActionRepository extends BaseRepository {
         let ret = await sequelize.query(' select * from PUBLIC.actions where (date,"outputId") in ( ' +
             'SELECT max("date"), "outputId"' +
             'FROM public.actions where "placeId"= ' + idPlace.toString() +
-            'group by "outputId")', { type: QueryTypes.SELECT });
+            'group by "outputId") order by "outputId"', { type: QueryTypes.SELECT });
         //console.log(ret);
         return ret;
         /*return this.model.findAll({

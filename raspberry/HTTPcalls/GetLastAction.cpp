@@ -50,10 +50,13 @@ size_t GetLastAction::handle_impl(void *buffer, size_t size, size_t nmemb)
     int numActions = json_object_array_length(data);
     int pow = 1;
     for (int i = 0; i < numActions; i++)
+        this->actions[i] = false;
+    for (int i = 0; i < numActions; i++)
     {
         struct json_object *date;
         struct json_object *output;
         struct json_object *value;
+
         action = json_object_array_get_idx(data, i);
         if (action != NULL)
         {
@@ -61,17 +64,30 @@ size_t GetLastAction::handle_impl(void *buffer, size_t size, size_t nmemb)
                 json_object_object_get_ex(action, "outputId", &output) &&
                 json_object_object_get_ex(action, "value", &value))
             {
-
-                if (strcmp("true", json_object_get_string(value)) == 0)
+                int index = json_object_get_int(output);
+                if (index > 0 && index <= numActions)
                 {
-                    this->actions[i] = true;
-                    GetLastAction::action = GetLastAction::action + pow;
+                    if (strcmp("true", json_object_get_string(value)) == 0)
+                    {
+                        this->actions[i - 1] = true;
+                        GetLastAction::action = GetLastAction::action + pow;
+                    }
+                    else
+                        this->actions[i - 1] = false;
                 }
-                else
-                    this->actions[i] = false;
             }
         }
         pow = pow * 2;
+    }
+    pow = 1;
+    GetLastAction::action = 0;
+    for (int i = 0; i < numActions; i++)
+    {
+        if (this->actions[i])
+        {
+            GetLastAction::action = GetLastAction::action + pow;
+            pow = pow * 2;
+        }
     }
     if (numActions > 0)
         GetLastAction::success = true;

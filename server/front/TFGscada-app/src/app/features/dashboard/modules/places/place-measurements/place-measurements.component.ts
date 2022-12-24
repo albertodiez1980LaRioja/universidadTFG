@@ -61,10 +61,7 @@ export class PlaceMeasurementsComponent implements OnInit {
             element.fire = 'Si';
           const dateSplit = element.date_time.toString().split(" ");
           const timezoneAbbr = dateSplit[dateSplit.length - 1];
-          console.log(timezoneAbbr);
-
         });
-        console.log('mediciones', this.lastMeasurements);
         this.readed = true;
       },
       error: (err: any) => {

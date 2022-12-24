@@ -25,15 +25,23 @@ class ActionController extends BaseController {
         try {
             const decoded = jwt.verify(token, config.secret);
             if (decoded) {
-                req.params.id_place = decoded.place.id;
+                if (decoded.place)
+                    req.params.id_place = decoded.place.id;
+                else
+                    req.params.id_place = req.query.id_place;
+                if (req.params.id_place == undefined) {
+                    console.log(req);
+                    req.params.id_place = 1;
+                }
                 let ret = await this.service.getByPlace(req, res, next);
                 res.json({ data: ret });
             }
             else {
-                return res.status(401).send('Invalid token');
+                return res.status(401).send('Invalid token !is place');
             }
-        } catch {
-            return res.status(401).send('Invalid token');
+        } catch (err) {
+            console.log('error', err);
+            return res.status(500).send('Invalid token');
         }
     }
 

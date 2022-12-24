@@ -19,6 +19,9 @@ const Action = sequelize.define('actions', {
         type: Sequelize.INTEGER,
         primaryKey: true,
     },
+    sended: {
+        type: Sequelize.BOOLEAN
+    },
 
     value: {
         type: Sequelize.BOOLEAN

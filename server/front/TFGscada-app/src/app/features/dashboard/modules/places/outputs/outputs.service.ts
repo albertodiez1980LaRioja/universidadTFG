@@ -14,19 +14,25 @@ import { rotuteToBack } from '../../../../../shared/route';
   providedIn: 'root'
 })
 export class OutputsService {
-  apiUrl = 'http://' + rotuteToBack + '/api/places';
+  apiUrl = 'http://' + rotuteToBack + '/api/actions/place/place';
 
-  apiUrlGet = 'http://' + rotuteToBack + '/api/places';
+  apiUrlPost = 'http://' + rotuteToBack + '/api/actions';
+
+  apiUrlPostOutputs = 'http://' + rotuteToBack + '/api/outputs';
 
 
   constructor(private http: HttpClient) { }
 
-  get(): Observable<HttpResponse<IOutput>> {
-    return this.http.get<HttpResponse<IOutput>>(this.apiUrl);
+  get(idPlace: number): Observable<HttpResponse<IOutput>> {
+    return this.http.get<HttpResponse<IOutput>>(this.apiUrl + '?id_place=' + idPlace.toString());
   }
 
-  save(place: IOutput): Observable<HttpResponse<IOutput>> {
-    return this.http.post<HttpResponse<IOutput>>(this.apiUrl, place);
+  getOutputs(): Observable<HttpResponse<IOutput>> {
+    return this.http.get<HttpResponse<IOutput>>(this.apiUrlPostOutputs);
+  }
+
+  post(place: IOutput): Observable<HttpResponse<IOutput>> {
+    return this.http.post<HttpResponse<IOutput>>(this.apiUrlPost, place);
   }
 
 }

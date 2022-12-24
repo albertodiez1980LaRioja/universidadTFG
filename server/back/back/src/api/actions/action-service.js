@@ -15,7 +15,7 @@ class ActionService extends BaseService {
         }
         let outputs = [];
         for (let i = 0; i < returned.length; i++) {
-            let actions = (await this.repository.getLastActionByPlace(req.params.id_place, returned[i].dataValues.id));
+            let actions = await this.repository.getLastActionByPlace(req.params.id_place, returned[i].dataValues.id);
             if (actions.length > 0) {
                 outputs.push(actions[i]);
             }

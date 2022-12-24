@@ -14,7 +14,7 @@ module.exports = async function (req, res, next) {
         else {
             let token = req.body.token || req.query.token || req.headers["x-access-token"];
             if (!token) {
-                return res.status(401).send('Invalid token');
+                return res.status(401).send('Invalid token, void');
 
             }
             if (['/api/actions/place/place', '/api/places/actualization'].includes(req.originalUrl)
@@ -30,15 +30,23 @@ module.exports = async function (req, res, next) {
                             }
                         });
                         if (!place || place === undefined) {
-                            return res.status(401).send('Invalid token');
+                            console.log('Se busca la persona: ', decoded);
+                            const user = await Person.findAll({
+                                where: {
+                                    user_name: decoded.usuario.user_name, pass: decoded.usuario.pass
+                                }
+                            });
+                            if (!user || user === undefined) {
+                                return res.status(401).send('Invalid token person');
+                            }
                         }
                     }
                     if (!decoded) {
-                        return res.status(401).send('Invalid token');
+                        return res.status(401).send('Invalid token person');
                     }
                 }
                 catch {
-                    return res.status(401).send('Invalid token');
+                    return res.status(401).send('Invalid token error');
                 }
             }
             else {

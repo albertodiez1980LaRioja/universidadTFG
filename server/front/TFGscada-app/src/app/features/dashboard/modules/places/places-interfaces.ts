@@ -29,5 +29,5 @@ export interface IOutput {
     personId: number;
     outputId: number;
     value: boolean;
-    hasSended: boolean;
+    sended: boolean;
 }

@@ -51,7 +51,8 @@ int main()
         assert(connectionBBDD.DeleteLastActions() != -1, strdup("Fallo al eliminar las últimas acciones\n"));
         assert(connectionBBDD.DeleteLastMeasurements() != -1, strdup("Fallo al eliminar las últimas mediciones\n"));
         numRows = connectionBBDD.getMeasurementsNotSended(measurements);
-        printf("Número de mediciones para enviar: %d\n", numRows);
+        if (numRows > 0)
+            printf("Número de mediciones para enviar: %d\n", numRows);
         if (numRows > 0)
         {
             postMeasurementServer.callMultiMeasurement(measurements, numRows);

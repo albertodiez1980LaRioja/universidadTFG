@@ -1,1 +1,9 @@
-<p>outputs works!</p>
+<div class="container">
+    <div *ngFor="let output of outputs; index as i; first as isFirst" class="output">
+        <span>{{ this.outputsLabels[i] }}</span>
+        <mat-slide-toggle class=" example-margin" [color]="color" [checked]="output.value" [disabled]="disabled"
+            (change)="change($event,i)">
+        </mat-slide-toggle>
+
+    </div>
+</div>

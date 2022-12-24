@@ -11,6 +11,8 @@ import { TableModule } from 'src/app/shared/component/table/table.module';
 import { PlaceMeasurementsComponent } from './place-measurements/place-measurements.component';
 import { MapComponent } from './map/map.component';
 import { OutputsComponent } from './outputs/outputs.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 
 
 @NgModule({
@@ -24,7 +26,7 @@ import { OutputsComponent } from './outputs/outputs.component';
   imports: [
     CommonModule,
     PlacesRoutingModule,
-    MatTabsModule, TableModule
+    MatTabsModule, TableModule, MatSlideToggleModule
   ]
 })
 export class PlacesModule { }
