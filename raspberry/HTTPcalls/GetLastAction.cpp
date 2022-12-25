@@ -69,11 +69,10 @@ size_t GetLastAction::handle_impl(void *buffer, size_t size, size_t nmemb)
                 {
                     if (strcmp("true", json_object_get_string(value)) == 0)
                     {
-                        this->actions[i - 1] = true;
-                        GetLastAction::action = GetLastAction::action + pow;
+                        this->actions[index - 1] = true;
                     }
                     else
-                        this->actions[i - 1] = false;
+                        this->actions[index - 1] = false;
                 }
             }
         }
