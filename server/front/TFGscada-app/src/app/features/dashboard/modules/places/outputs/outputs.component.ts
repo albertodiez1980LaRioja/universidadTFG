@@ -51,7 +51,7 @@ export class OutputsComponent implements OnInit {
       next: (response: any) => {
         console.log('llegados', response.data);
         for (let i = 0; i < this.outputs.length; i++) {
-          const aux = response.data.find((element: IOutput) => element.outputId == (i + 1));
+          const aux = response.data.find((element: IOutput) => element != null && element.outputId == (i + 1));
           if (aux) {
             this.outputs[aux.outputId - 1] = aux;
           }
