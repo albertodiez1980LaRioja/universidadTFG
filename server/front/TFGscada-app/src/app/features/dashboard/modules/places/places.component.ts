@@ -24,17 +24,17 @@ export class PlacesComponent implements OnInit {
   selected = new FormControl(0);
   tabs = ['Datos', 'Mapa', 'Mediciones de lugar', 'Salidas'];
 
-  addTab(selectAfterAdding: boolean) {
-    //this.tabs.push('New');
+  tabSelected = 1;
+  placeSelected: IPlace | undefined;
 
-    //if (selectAfterAdding) {
+  addTab(selectAfterAdding: boolean) {
     this.selected.setValue(this.tabs.length - 1);
-    //}
   }
 
   ngOnInit(): void {
     this.fetchPlaces();
     this.selected.setValue(1);
+    this.tabSelected = 1;
   }
 
 
@@ -42,23 +42,15 @@ export class PlacesComponent implements OnInit {
   async fetchPlaces() {
     this.placesService.get().subscribe({
       next: (response: any) => {
-        console.log('respuesta: ', response);
         this.placesDate = response.data;
-        console.log('lugares', this.placesDate);
-        /*this.usersDate.forEach(user => {
-          if (user.roles < this.roleText.length)
-            user.roleText = this.roleText[user.roles];
-          else
-            user.roleText = 'Desconocido';
-        });*/
       },
       error: (err) => {
         console.log('Ha ocurrido un error: ', err);
       }
     });
-
   }
 
+  disableOutput = true;
 
   async tableEvent($event: any) {
     console.log('Evento de la tabla: ', $event);
@@ -104,14 +96,9 @@ export class PlacesComponent implements OnInit {
         });*/
         break;
       case 'View':
-        /*this.dialogConfig.action = 'view';
-        this.dialogConfig.editable = false;
-        for (let i = 0; i < this.dialogConfig.columns.length; i++) {
-          this.dialogConfig.columns[i].value = $event.row[this.dialogConfig.columns[i].prop];
-        }
-        const dialogRef2 = this.dialog.open(DialogComponent, {
-          data: this.dialogConfig,
-        });*/
+        this.disableOutput = false;
+        this.placeSelected = $event.row;
+        this.tabSelected = 4;
         break;
 
     }

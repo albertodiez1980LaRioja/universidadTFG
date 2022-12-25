@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IUser } from '../../users/users-interfaces';
-import { IOutput } from '../places-interfaces';
+import { IOutput, IPlace } from '../places-interfaces';
 import { OutputsService } from './outputs.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { OutputsService } from './outputs.service';
   styleUrls: ['./outputs.component.scss']
 })
 export class OutputsComponent implements OnInit {
-  @Input() idPlace: any = 1;
+  @Input() place: IPlace | undefined;
   outputs: IOutput[] = [];
   outputsLabels: string[] = [];
   color = 'primary';
@@ -22,9 +22,12 @@ export class OutputsComponent implements OnInit {
     let userJson: IUser = JSON.parse(localStorage.getItem('user') as string) as IUser;
     this.outputsService.getOutputs().subscribe({
       next: (result: any) => {
+        let idPlace = 1;
+        if (this.place != undefined)
+          idPlace = this.place.id;
         const outputAux: IOutput = {
           date: new Date(),
-          placeId: this.idPlace,
+          placeId: idPlace,
           personId: userJson.id,
           outputId: 0,
           value: false,
@@ -42,25 +45,25 @@ export class OutputsComponent implements OnInit {
         console.log(err);
       }
     });
-
-
   }
 
   fetchOutputs() {
-    this.outputsService.get(this.idPlace).subscribe({
-      next: (response: any) => {
-        console.log('llegados', response.data);
-        for (let i = 0; i < this.outputs.length; i++) {
-          const aux = response.data.find((element: IOutput) => element != null && element.outputId == (i + 1));
-          if (aux) {
-            this.outputs[aux.outputId - 1] = aux;
+    if (this.place != undefined) {
+      this.outputsService.get(this.place.id).subscribe({
+        next: (response: any) => {
+          console.log('llegados', response.data);
+          for (let i = 0; i < this.outputs.length; i++) {
+            const aux = response.data.find((element: IOutput) => element != null && element.outputId == (i + 1));
+            if (aux) {
+              this.outputs[aux.outputId - 1] = aux;
+            }
           }
+        },
+        error: (error: any) => {
+          console.log('Fail: ');
         }
-      },
-      error: (error: any) => {
-        console.log('Fail: ');
-      }
-    });
+      });
+    }
   }
 
   change($event: any, i: number) {

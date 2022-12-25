@@ -1,3 +1,8 @@
+<div class="data">
+    <h1>Nombre: {{ place?.identifier }}</h1>
+    <h1>Dirección: {{ place?.address }}</h1>
+</div>
+
 <div class="container">
     <div *ngFor="let output of outputs; index as i; first as isFirst" class="output">
         <span>{{ this.outputsLabels[i] }}</span>

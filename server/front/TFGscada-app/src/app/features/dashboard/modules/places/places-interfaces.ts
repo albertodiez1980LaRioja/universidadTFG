@@ -3,6 +3,10 @@ export interface IPlace {
     latitude: number;
     longitude: number;
     address: string;
+    identifier: string;
+    actualizationTime: number;
+    pass: string;
+    persons: any;
 }
 
 export interface IMeasurement {

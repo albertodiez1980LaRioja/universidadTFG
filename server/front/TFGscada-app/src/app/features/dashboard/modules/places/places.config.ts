@@ -9,6 +9,8 @@ export const placesConfig: ITableConfig = {
         { name: 'Latitud', prop: 'latitude', type: 'text' },
         { name: 'Longitud', prop: 'longitude', type: 'text' },
         { name: 'Dirección', prop: 'address', type: 'text' },
+        { name: 'Identificador', prop: 'identifier', type: 'text' },
+        { name: 'Tiempo de actualización', prop: 'actualizationTime', type: 'text' },
     ],
 
     actions: [

@@ -151,7 +151,6 @@ export class UsersComponent implements OnInit {
   }
 
   async tableEvent($event: any) {
-    console.log('Evento de la tabla: ', $event);
     switch ($event.action) {
       case 'Update':
         this.dialogConfig.action = 'update';
