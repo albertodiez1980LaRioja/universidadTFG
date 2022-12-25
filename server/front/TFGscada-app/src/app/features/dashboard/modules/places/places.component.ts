@@ -103,6 +103,10 @@ export class PlacesComponent implements OnInit {
 
     }
   }
+  clickSearch($event: any) { }
 
+  clearFilter($event: any) { }
+
+  addPlace() { }
 
 }

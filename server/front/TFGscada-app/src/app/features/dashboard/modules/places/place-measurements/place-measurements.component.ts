@@ -77,4 +77,7 @@ export class PlaceMeasurementsComponent implements OnInit {
   tableEvent(e: any) {
 
   }
+
+
+
 }

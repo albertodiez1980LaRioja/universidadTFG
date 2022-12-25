@@ -1,5 +1,18 @@
 <mat-tab-group animationDuration="0ms" [(selectedIndex)]="tabSelected">
     <mat-tab [label]="this.tabs[0]">
+        <div class="tab">
+            <div class="sub-tab">
+                <button mat-raised-button (click)="clickSearch($event)">
+                    <mat-icon>search</mat-icon>
+                </button>
+                <button mat-raised-button (click)="clearFilter($event)">
+                    <mat-icon>close</mat-icon>
+                </button>
+                <button mat-raised-button (click)="addPlace()">
+                    <mat-icon>person_add</mat-icon>
+                </button>
+            </div>
+        </div>
         <app-table #tablePlaces [config]="placesConfig" [data]="placesDate" [isLoadingTable]="false"
             (action)="tableEvent($event)">
         </app-table>

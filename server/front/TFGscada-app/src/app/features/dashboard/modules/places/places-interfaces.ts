@@ -1,3 +1,6 @@
+
+import { IUser } from '../../../dashboard/modules/users/users-interfaces';
+
 export interface IPlace {
     id: number;
     latitude: number;
@@ -6,7 +9,7 @@ export interface IPlace {
     identifier: string;
     actualizationTime: number;
     pass: string;
-    persons: any;
+    persons: IUser;
 }
 
 export interface IMeasurement {
