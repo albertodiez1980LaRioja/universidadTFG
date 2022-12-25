@@ -86,8 +86,8 @@ size_t GetLastAction::handle_impl(void *buffer, size_t size, size_t nmemb)
         if (this->actions[i])
         {
             GetLastAction::action = GetLastAction::action + pow;
-            pow = pow * 2;
         }
+        pow = pow * 2;
     }
     if (numActions > 0)
         GetLastAction::success = true;
