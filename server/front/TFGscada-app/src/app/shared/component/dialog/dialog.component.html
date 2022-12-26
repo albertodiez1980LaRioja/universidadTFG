@@ -17,6 +17,31 @@
                 </mat-select>
                 <input matInput *ngIf="column.type == 'combo' && !editable" type="{{column.type}}"
                     formControlName="{{ column.prop }}" [readonly]="!editable">
+
+                <div class="example-chip-list" appearance="fill" *ngIf="column.type == 'chip'">
+                    <mat-label>{{column.arrayShows != undefined ? column.name:''}}</mat-label>
+                    <mat-chip-list #chipGrid aria-label="Fruit selection">
+                        <mat-chip *ngFor="let value of column.chipsSelecteds; index as i;"
+                            (removed)="remove(value,column)">
+                            {{ value }}
+                            <button matChipRemove [attr.aria-label]="'remove '">
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                        </mat-chip>
+                    </mat-chip-list>
+
+                    <input placeholder="{{column.arrayShows != undefined ? column.name:''}}" #fruitInput
+                        [formControl]="fruitCtrl" [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event,column)"
+                        formControlName="{{ column.prop }}" />
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event,column)">
+                        <mat-option *ngFor="let value of filteredChips | async" [value]="value">
+                            {{ value }}
+                        </mat-option>
+                    </mat-autocomplete>
+                </div>
+
+
             </mat-form-field>
         </div>
     </form>

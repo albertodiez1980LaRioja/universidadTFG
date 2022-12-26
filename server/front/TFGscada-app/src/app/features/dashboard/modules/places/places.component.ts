@@ -4,6 +4,9 @@ import { PlacesService } from './places.service';
 import { placesConfig, dialogConfig } from './places.config';
 import { IMeasurement, IPlace } from './places-interfaces';
 import { FormControl } from '@angular/forms';
+import { DialogComponent } from 'src/app/shared/component/dialog/dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { UsersService } from '../users/users.service';
 
 
 @Component({
@@ -18,7 +21,8 @@ export class PlacesComponent implements OnInit {
   lastMeasurements: IMeasurement[] = [];
 
   constructor(public placesService: PlacesService,
-    matTab: MatTabsModule,) {
+    public matTab: MatTabsModule, private dialog: MatDialog,
+    public usersService: UsersService) {
   }
 
   selected = new FormControl(0);
@@ -43,6 +47,13 @@ export class PlacesComponent implements OnInit {
     this.placesService.get().subscribe({
       next: (response: any) => {
         this.placesDate = response.data;
+        for (let i = 0; i < response.data.length; i++) {
+          console.log('lugar', response.data[i]);
+          this.placesDate[i].personsNames = [];
+          for (let i2 = 0; i2 < response.data[i].persons.length; i2++) {
+            this.placesDate[i].personsNames.push(response.data[i].persons[i2].name);
+          }
+        }
       },
       error: (err) => {
         console.log('Ha ocurrido un error: ', err);
@@ -107,6 +118,38 @@ export class PlacesComponent implements OnInit {
 
   clearFilter($event: any) { }
 
-  addPlace() { }
+  addPlace() {
+    let column = this.dialogConfig.columns.filter((element) => element.prop == 'persons');
+    if (column != undefined && column.length > 0) {
+      column[0].chipsSelecteds = [];
+      this.usersService.getUsers().subscribe({
+        next: (response: any) => {
+          console.log('respuesta: ', response);
+          column[0].chipsToSelect = [];
+          response.data.forEach((user: any) => {
+            if (user.name)
+              column[0].chipsToSelect?.push(user.name);
+          });
+          this.dialogConfig.action = 'insert';
+          const dialogRef = this.dialog.open(DialogComponent, {
+            data: this.dialogConfig,
+          });
+          dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+            console.log(result);
+          });
+        },
+        error: (err) => {
+          console.log('Ha ocurrido un error: ', err);
+        }
+      });
+    }
+    else {
+      const dialogRef = this.dialog.open(DialogComponent, {
+        data: this.dialogConfig,
+      });
+    }
+
+  }
 
 }

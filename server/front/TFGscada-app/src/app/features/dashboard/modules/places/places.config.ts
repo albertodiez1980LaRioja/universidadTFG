@@ -11,6 +11,7 @@ export const placesConfig: ITableConfig = {
         { name: 'Dirección', prop: 'address', type: 'text' },
         { name: 'Identificador', prop: 'identifier', type: 'text' },
         { name: 'Tiempo de actualización', prop: 'actualizationTime', type: 'text' },
+        { name: 'Usuarios', prop: 'personsNames', type: 'list' },
     ],
 
     actions: [
@@ -35,8 +36,6 @@ export const placesConfig: ITableConfig = {
             icon: 'remove_red_eye',
             tooltip: 'View',
         },
-
-
     ],
 };
 
@@ -47,6 +46,10 @@ export const dialogConfig: IDialogConfig = {
         { name: 'Latitud', prop: 'latitude', type: 'text' },
         { name: 'Longitud', prop: 'longitude', type: 'text' },
         { name: 'Dirección', prop: 'address', type: 'text' },
+        { name: 'Identificador', prop: 'identifier', type: 'text' },
+        { name: 'Contraseña', prop: 'pass', type: 'password', canSearch: false },
+        { name: 'Tiempo de actualización', prop: 'actualizationTime', type: 'combo', arrayValues: [2, 5, 10, 20, 30, 60], arrayShows: ['2', '5', '10', '20', '30', '60'] },
+        { name: 'Personas', prop: 'persons', type: 'chip', chipsToSelect: ['2', '5', '10', '20', '30', '60'], chipsSelecteds: ['2', '5', '10', '20', '30', '60'] },
     ],
     title: 'Datos del usuario',
     action: 'insert'

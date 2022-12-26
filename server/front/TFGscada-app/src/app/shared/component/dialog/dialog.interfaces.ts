@@ -1,3 +1,6 @@
+import { FormControl } from "@angular/forms";
+import { Observable } from "rxjs";
+
 export interface IDialogConfig {
     columns: IDialogColumn[];
     title: string;
@@ -23,4 +26,10 @@ export interface IDialogColumn {
     arrayValues?: any[];
     arrayShows?: string[];
     value?: any;
+    // to chips
+    chipsSelecteds?: string[];
+    chipsToSelect?: string[];
+    auxCtrl?: FormControl;
+    filteredElements?: Observable<string[]>;
+
 }

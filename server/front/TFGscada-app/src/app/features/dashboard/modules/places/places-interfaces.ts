@@ -9,7 +9,8 @@ export interface IPlace {
     identifier: string;
     actualizationTime: number;
     pass: string;
-    persons: IUser;
+    persons: IUser[];
+    personsNames: string[];
 }
 
 export interface IMeasurement {

@@ -35,6 +35,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { AuthInterceptor } from './shared/interceptor/AuthInterceptor';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
+
 
 export function tokenGetter() {
   return localStorage.getItem("access_token");
@@ -72,7 +75,7 @@ export function tokenGetter() {
     CommonModule,
     MatButtonModule,
     MatTableModule, MatCheckboxModule, MatProgressSpinnerModule,
-    MatSortModule
+    MatSortModule, MatAutocompleteModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
