@@ -1,8 +1,33 @@
 const { BaseService } = require("../base/base-service");
+const { O_pService } = require("../o_p/o_p-service");
+import O_P from "../o_p/o_p-model";
 import { sequelize } from "../../database/database";
 const bcrypt = require('bcrypt');
 
 class PlaceService extends BaseService {
+
+    create = async function (req, res) {
+        const ret = await this.repository.create(req, res);
+        if (req.body.idPersons) {
+            for (let i = 0; i < req.body.idPersons.length; i++) {
+                let aux = {};
+                aux = {
+                    personId: req.body.idPersons[i],
+                    placeId: ret.id,
+                    priority: 1
+                };
+                try {
+                    O_P.create(aux);
+                } catch (err) {
+                    res.status(500).json({
+                        message: 'Something goes wrong: ' + err,
+                        data: {}
+                    });
+                }
+            }
+        }
+        return ret;
+    }
 
     get = async function (req, res) {
         let ret = await this.repository.get(req, res, sequelize.model('persons'));
@@ -31,4 +56,4 @@ class PlaceService extends BaseService {
 
 }
 
-exports.PlaceService = (repository) => new PlaceService(repository);
+exports.PlaceService = (repository) => new PlaceService(repository); 

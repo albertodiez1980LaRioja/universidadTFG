@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 // App own modules and services
 
 import { Observable } from 'rxjs';
-import { IPlace } from './places-interfaces';
+import { IOP, IPlace } from './places-interfaces';
 import { rotuteToBack } from '../../../../shared/route';
 
 // Module inner imports
@@ -15,6 +15,7 @@ import { rotuteToBack } from '../../../../shared/route';
 })
 export class PlacesService {
   apiUrl = 'http://' + rotuteToBack + '/api/places';
+  apiUrlOP = 'http://' + rotuteToBack + '/api/o_p';
 
   apiUrlGetLastMeasurement = 'http://' + rotuteToBack + '/api/measurements/multiple';
 
@@ -37,6 +38,10 @@ export class PlacesService {
 
   save(place: IPlace): Observable<HttpResponse<IPlace>> {
     return this.http.post<HttpResponse<IPlace>>(this.apiUrl, place);
+  }
+
+  saveOP(op: IOP): Observable<HttpResponse<IPlace>> {
+    return this.http.post<HttpResponse<IPlace>>(this.apiUrlOP, op);
   }
 
   delete(placeId: IPlace): Observable<HttpResponse<IPlace>> {

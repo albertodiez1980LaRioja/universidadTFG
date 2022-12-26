@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { PlacesService } from './places.service';
 import { placesConfig, dialogConfig } from './places.config';
-import { IMeasurement, IPlace } from './places-interfaces';
+import { IMeasurement, IOP, IPlace } from './places-interfaces';
 import { FormControl } from '@angular/forms';
 import { DialogComponent } from 'src/app/shared/component/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -127,26 +127,46 @@ export class PlacesComponent implements OnInit {
           console.log('respuesta: ', response);
           column[0].chipsToSelect = [];
           response.data.forEach((user: any) => {
-            if (user.name)
+            if (user.name) {
               column[0].chipsToSelect?.push(user.name);
+            }
           });
           this.dialogConfig.action = 'insert';
           const dialogRef = this.dialog.open(DialogComponent, {
             data: this.dialogConfig,
           });
           dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed');
-            console.log(result);
+
+            let personsIds: number[] = [];
+            if (column[0].chipsSelecteds)
+              for (let i = 0; i < column[0].chipsSelecteds.length; i++) {
+                const id = response.data.filter((element: any) => column[0].chipsSelecteds && element.name == column[0].chipsSelecteds[i]);
+                if (id != undefined && id.length > 0) {
+                  personsIds.push(id[0].id);
+                }
+              }
+            console.log('The dialog was closed', column[0].chipsSelecteds, personsIds);
+            result.idPersons = personsIds;
+            if (result) {
+              delete result.id;
+              console.log(result);
+              this.placesService.save(result).subscribe({
+                next: async (result: any) => {
+                  let ops: IOP[] = [];
+                  console.log('guardado', result);
+                  // hay que guardar cada tabla intermedia
+                  this.fetchPlaces();
+                },
+                error: (err: any) => {
+                  console.log(err);
+                }
+              });;
+            }
           });
         },
         error: (err) => {
           console.log('Ha ocurrido un error: ', err);
         }
-      });
-    }
-    else {
-      const dialogRef = this.dialog.open(DialogComponent, {
-        data: this.dialogConfig,
       });
     }
 

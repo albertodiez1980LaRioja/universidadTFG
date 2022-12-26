@@ -13,6 +13,12 @@ export interface IPlace {
     personsNames: string[];
 }
 
+export interface IOP {
+    personId: number;
+    placeId: number;
+    priority: number;
+}
+
 export interface IMeasurement {
     id: number;
     date_time: Date;
