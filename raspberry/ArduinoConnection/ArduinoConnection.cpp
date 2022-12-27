@@ -1,5 +1,7 @@
 #include "ArduinoConnection.hpp"
 
+char *ArduinoConnection::name = NULL;
+
 int ArduinoConnection::open_serial_port(char *name)
 {
     int fd, bits;
@@ -78,11 +80,13 @@ int ArduinoConnection::read_from_serial(char *buf, int lon)
     }
 }
 
+/*
 ArduinoConnection::ArduinoConnection(char *name)
 {
     this->iniciated = false;
     this->fd = this->open_serial_port(name);
 }
+*/
 
 void delay(float millis)
 {

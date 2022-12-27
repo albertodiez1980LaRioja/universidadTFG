@@ -23,6 +23,7 @@ class ArduinoConnection
     int open_serial_port(char *name);
     int fd;
     bool iniciated;
+    static char *name;
 
 public:
     int read_from_serial(char *buf, int lon);
@@ -30,10 +31,24 @@ public:
     {
         return write(this->fd, buf, lon);
     }
-    ArduinoConnection(char *name);
+    // ArduinoConnection(char *name);
+    ArduinoConnection()
+    {
+        this->iniciated = false;
+        this->fd = this->open_serial_port(ArduinoConnection::name);
+    }
     bool getIniciated()
     {
         return this->iniciated;
+    }
+    static ArduinoConnection *GetInstance()
+    {
+        static ArduinoConnection instance;
+        return &instance;
+    }
+    static void setName(char *nameIn)
+    {
+        ArduinoConnection::name = nameIn;
     }
 };
 

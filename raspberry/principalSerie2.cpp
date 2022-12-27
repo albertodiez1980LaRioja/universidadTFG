@@ -73,10 +73,11 @@ int main(void)
     int numRows = 0;
     char dateString[200];
     Measurement measurement;
-    ArduinoConnection arduinoConnection((char *)"/dev/ttyACM0");
-    assert(arduinoConnection.getIniciated(), strdup("Conexión de arduino no inicializada\n"));
-    CallSensors callSensorsArduino(&arduinoConnection);
-    CallOutputs callOutputsArduino(&arduinoConnection);
+    // ArduinoConnection arduinoConnection((char *)"/dev/ttyACM0");
+    ArduinoConnection::setName((char *)"/dev/ttyACM0");
+    assert(ArduinoConnection::GetInstance()->getIniciated(), strdup("Conexión de arduino no inicializada\n"));
+    CallSensors callSensorsArduino(ArduinoConnection::GetInstance());
+    CallOutputs callOutputsArduino(ArduinoConnection::GetInstance());
     BDconnection connectionBBDD((char *)"dbname = postgres");
     assert(connectionBBDD.getConnection(), strdup("No se puede conectar a la base de datos\n")); // connect to bbdd
     char *identifier = strdup(""), *pass = strdup(""), *URL = strdup("");
@@ -177,6 +178,7 @@ int main(void)
 
     // to compile serial
     // gcc -Wall -o principalSerie2 principalSerie2.cpp HTTPcalls/PostMeasurement.cpp HTTPcalls/GetActualizationTime.cpp HTTPcalls/GetLastAction.cpp HTTPcalls/HTTPcall.cpp BDconnection/BDconnection.cpp ArduinoConnection/ArduinoCall.cpp ArduinoConnection/ArduinoConnection.cpp ArduinoConnection/CallOutputs.cpp ArduinoConnection/CallSensors.cpp  -I/usr/include/postgresql -lpq -lcurl -ljson-c
+    // g++ -Wall -o principalSerie2 principalSerie2.cpp HTTPcalls/PostMeasurement.cpp HTTPcalls/GetActualizationTime.cpp HTTPcalls/GetLastAction.cpp HTTPcalls/HTTPcall.cpp BDconnection/BDconnection.cpp ArduinoConnection/ArduinoCall.cpp ArduinoConnection/ArduinoConnection.cpp ArduinoConnection/CallOutputs.cpp ArduinoConnection/CallSensors.cpp  -I/usr/include/postgresql -lpq -lcurl -ljson-c
 
     // link para VPN
     // https://www.geeknetic.es/Guia/1998/Como-usar-y-configurar-OpenVPN.html
