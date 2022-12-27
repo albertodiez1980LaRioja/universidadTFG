@@ -6,6 +6,23 @@ const bcrypt = require('bcrypt');
 
 class PlaceService extends BaseService {
 
+    update = async function (req, res) {
+        let ret = await this.repository.update(req, res);
+        if (req.body.persons) {
+            let personsBBDD = await O_P.findAll({ where: { placeId: req.body.id } });
+            console.log('usuarios', personsBBDD);
+            for (let i = 0; i < req.body.persons.length; i++) {
+                console.log(personsBBDD[0].dataValues);
+                let aux = personsBBDD.filter((element) => element.dataValues.personId == req.body.persons[i].personId)
+                if (aux == undefined) {
+                    console.log('Se va a incluir', req.body.pesons[i]);
+                    await O_P.create(req.body.pesons[i]);
+                }
+            }
+        }
+        return ret;
+    }
+
     create = async function (req, res) {
         const ret = await this.repository.create(req, res);
         if (req.body.idPersons) {

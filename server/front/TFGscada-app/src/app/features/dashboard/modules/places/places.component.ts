@@ -7,6 +7,7 @@ import { FormControl } from '@angular/forms';
 import { DialogComponent } from 'src/app/shared/component/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UsersService } from '../users/users.service';
+import { IUser } from '../users/users-interfaces';
 
 
 @Component({
@@ -37,6 +38,7 @@ export class PlacesComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchPlaces();
+    this.fetchUsers();
     this.selected.setValue(1);
     this.tabSelected = 1;
   }
@@ -67,11 +69,23 @@ export class PlacesComponent implements OnInit {
     console.log('Evento de la tabla: ', $event);
     switch ($event.action) {
       case 'Update':
-        /*this.dialogConfig.action = 'update';
+        this.dialogConfig.action = 'update';
         this.dialogConfig.editable = true;
         for (let i = 0; i < this.dialogConfig.columns.length; i++) {
           this.dialogConfig.columns[i].value = $event.row[this.dialogConfig.columns[i].prop];
         }
+
+        let column = this.dialogConfig.columns.filter((element) => element.prop == 'persons');
+        if (column && column.length > 0) {
+          column[0].chipsToSelect = [];
+          column[0].chipsSelecteds = [];
+          for (let i = 0; i < $event.row['persons'].length; i++) {
+            column[0].chipsSelecteds.push($event.row['persons'][i].name);
+          }
+          for (let i = 0; i < this.users.length; i++)
+            column[0].chipsToSelect?.push(this.users[i].name);
+        }
+
         const dialogRef = this.dialog.open(DialogComponent, {
           data: this.dialogConfig,
         });
@@ -83,28 +97,40 @@ export class PlacesComponent implements OnInit {
             const keys = Object.keys(result);
             if (user['pass'] == undefined || user['pass'] == '')
               delete user['pass'];
-            for (let i = 0; i < keys.length; i++) {
-              if (keys[i] == 'roleText') {
-                user['roles'] = this.roleText.indexOf(result[keys[i]]);
+            let personsIds: number[] = [];
+            user.persons = [];
+            if (column[0].chipsSelecteds)
+              for (let i = 0; i < column[0].chipsSelecteds.length; i++) {
+                const id = this.users.filter((element: any) => column[0].chipsSelecteds && element.name == column[0].chipsSelecteds[i]);
+                if (id != undefined && id.length > 0) {
+                  personsIds.push(id[0].id);
+                  user.persons.push(id[0]);
+                }
               }
-            }
-            await this.usersService.updateUser(user).toPromise().then((result: any) => {
-              console.log(result);
+            user.idPersons = personsIds;
+            console.log('se envia', user);
+            this.placesService.update((user)).subscribe({
+              next: (response: any) => {
+                this.fetchPlaces();
+              },
+              error: (err: any) => {
+                console.log('Error: ', err);
+              }
             });
-            this.fetchUsers();
+
           }
-        });*/
+        });
         break;
       case 'Delete':
-        /*this.usersService.deleteUser($event.row.id).subscribe({
+        this.placesService.delete($event.row.id).subscribe({
           next: (result: any) => {
             console.log(result);
-            this.fetchUsers();
+            this.fetchPlaces();
           },
           error: (err: any) => {
             console.log(err);
           }
-        });*/
+        });
         break;
       case 'View':
         this.disableOutput = false;
@@ -118,13 +144,25 @@ export class PlacesComponent implements OnInit {
 
   clearFilter($event: any) { }
 
+  users: IUser[] = [];
+
+  fetchUsers() {
+    this.usersService.getUsers().subscribe({
+      next: (response: any) => {
+        this.users = response.data;
+      },
+      error: (err: any) => {
+        console.log('No se han podido cargar los usuarios');
+      }
+    });
+  }
+
   addPlace() {
     let column = this.dialogConfig.columns.filter((element) => element.prop == 'persons');
     if (column != undefined && column.length > 0) {
       column[0].chipsSelecteds = [];
       this.usersService.getUsers().subscribe({
         next: (response: any) => {
-          console.log('respuesta: ', response);
           column[0].chipsToSelect = [];
           response.data.forEach((user: any) => {
             if (user.name) {
@@ -145,16 +183,13 @@ export class PlacesComponent implements OnInit {
                   personsIds.push(id[0].id);
                 }
               }
-            console.log('The dialog was closed', column[0].chipsSelecteds, personsIds);
             result.idPersons = personsIds;
             if (result) {
               delete result.id;
               console.log(result);
               this.placesService.save(result).subscribe({
                 next: async (result: any) => {
-                  let ops: IOP[] = [];
                   console.log('guardado', result);
-                  // hay que guardar cada tabla intermedia
                   this.fetchPlaces();
                 },
                 error: (err: any) => {

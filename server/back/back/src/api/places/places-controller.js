@@ -12,13 +12,13 @@ class PlaceController extends BaseController {
         super(service, options);
 
         this.router = RouterPlace;
-        this.router.get('/:latitude,:longitude', this.getOneEntity.bind(this));
+        this.router.get('/:id', this.getOneEntity.bind(this));
         this.router.get('', this.get.bind(this));
-        this.router.patch('/:latitude,:longitude', this.update.bind(this));
-        this.router.delete('/:latitude,:longitude', this.delete.bind(this));
+        this.router.patch('/:id', this.update.bind(this));
+        this.router.delete('/:id', this.delete.bind(this));
         this.router.post('', this.create.bind(this));
         this.router.post('/authenticate', this.authenticate.bind(this));
-        this.router.get('/actualization', this.sendActualization.bind(this));
+        this.router.get('/actualization/actualization', this.sendActualization.bind(this));
     }
 
     authenticate = async function (req, res, next) {
@@ -64,7 +64,10 @@ class PlaceController extends BaseController {
                 pass = decoded.place.place;
             }
             req.params.identifier = identifier;
+            console.log('identificador', identifier)
+
             const place = await this.service.getOneEntity(req, res);
+            //const place = undefined;
             if (!place || place === undefined) {
                 res.status(500).json({
                     message: 'Place not found '

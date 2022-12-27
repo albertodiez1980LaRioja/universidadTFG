@@ -103,6 +103,7 @@ class BaseRepository {
             let params = { where: this.validateParams(req.params) };
             if (transaction != undefined)
                 params.transaction = transaction;
+            console.log(params);
             const filas = await this.model.findOne(params);
             return filas;
         } catch (err) {

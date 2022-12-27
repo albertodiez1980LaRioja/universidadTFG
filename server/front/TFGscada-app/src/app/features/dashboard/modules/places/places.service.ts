@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 // App own modules and services
@@ -14,6 +14,8 @@ import { rotuteToBack } from '../../../../shared/route';
   providedIn: 'root'
 })
 export class PlacesService {
+  private header = new HttpHeaders({ 'content-type': 'application/json' });
+
   apiUrl = 'http://' + rotuteToBack + '/api/places';
   apiUrlOP = 'http://' + rotuteToBack + '/api/o_p';
 
@@ -32,8 +34,9 @@ export class PlacesService {
     return this.http.get<HttpResponse<IPlace>>(this.apiUrl);
   }
 
-  update(place: IPlace): Observable<HttpResponse<IPlace>> {
-    return this.http.patch<HttpResponse<IPlace>>(this.apiUrl + '/' + place.id, place);
+  update(place: any): Observable<HttpResponse<IPlace>> {
+    console.log('se envia en el update', place);
+    return this.http.patch<HttpResponse<IPlace>>(this.apiUrl + '/' + place.id, place, { headers: this.header });
   }
 
   save(place: IPlace): Observable<HttpResponse<IPlace>> {

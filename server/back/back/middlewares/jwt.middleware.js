@@ -8,6 +8,7 @@ import Place from '../src/api/places/places-model';
 
 module.exports = async function (req, res, next) {
     if (config.isApiSecured != 'false') {
+
         if (config.routesWhitelist.includes(req.originalUrl)) {
 
         }
@@ -15,13 +16,11 @@ module.exports = async function (req, res, next) {
             let token = req.body.token || req.query.token || req.headers["x-access-token"];
             if (!token) {
                 return res.status(401).send('Invalid token, void');
-
             }
-            if (['/api/actions/place/place', '/api/places/actualization'].includes(req.originalUrl)
+            if (['/api/actions/place/place', '/api/places/actualization/actualization'].includes(req.originalUrl)
                 || (['/api/measurements'].includes(req.originalUrl) && req.method == 'POST')) {
                 try {
                     //if (req.method == 'POST')
-                    console.log(req.body);
                     const decoded = jwt.verify(token, config.secret);
                     if (decoded) {
                         const place = await Place.findAll({

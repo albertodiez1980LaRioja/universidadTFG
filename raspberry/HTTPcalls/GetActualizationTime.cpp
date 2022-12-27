@@ -33,7 +33,7 @@ bool GetActualizationTime::call()
     char auxURL[2000];
     int still_running;
     struct curl_slist *headers = NULL;
-    sprintf(auxURL, "%s%s", this->url, "/api/places/actualization");
+    sprintf(auxURL, "%s%s", this->url, "/api/places/actualization/actualization");
     curl_easy_setopt(this->curl, CURLOPT_URL, auxURL);
     curl_easy_setopt(this->curl, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(this->curl, CURLOPT_WRITEFUNCTION, &GetActualizationTime::handle);
