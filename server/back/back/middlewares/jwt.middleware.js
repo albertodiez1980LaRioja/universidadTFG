@@ -18,7 +18,7 @@ module.exports = async function (req, res, next) {
                 return res.status(401).send('Invalid token, void');
             }
             if (['/api/actions/place/place', '/api/places/actualization/actualization'].includes(req.originalUrl)
-                || (['/api/measurements'].includes(req.originalUrl) && req.method == 'POST')) {
+                || (['/api/measurements', '/api/measurements/multiple'].includes(req.originalUrl) && req.method == 'POST')) {
                 try {
                     //if (req.method == 'POST')
                     const decoded = jwt.verify(token, config.secret);
