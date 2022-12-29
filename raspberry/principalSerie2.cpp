@@ -91,7 +91,7 @@ int main(void)
     PostMeasurement postMeasurementServer(identifier, pass, URL);
 
     // set the last action
-    int lastAction = connectionBBDD.getLastAction();
+    int lastAction = 0;
     assert(lastAction != -1, strdup("Fallo al leer la tabla de las acciones"));
     getLastActionServer.call();
     getActualizationTimeServer.call();
@@ -113,6 +113,11 @@ int main(void)
         printf("La ultima accion del servidor: %d %d %d %d %d\n",
                getLastActionServer.getAllAction(), getLastActionServer.getAction(0), getLastActionServer.getAction(1),
                getLastActionServer.getAction(2), getLastActionServer.getAction(3));
+        lastAction = getLastActionServer.getAllAction();
+    }
+    else
+    {
+        lastAction = connectionBBDD.getLastAction();
     }
     callOutputsArduino.callToArduino(lastAction);
     time_t seconds = time(NULL);

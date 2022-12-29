@@ -49,5 +49,5 @@
 </mat-dialog-content>
 <mat-dialog-actions class="center">
     <button mat-raised-button mat-dialog-close *ngIf="editable">Cancelar</button>
-    <button mat-raised-button (click)="save()">Aceptar</button>
+    <button mat-raised-button (click)="save()" [disabled]="this.form.status != 'VALID'">Aceptar</button>
 </mat-dialog-actions>
