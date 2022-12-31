@@ -9,19 +9,20 @@
 .container {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
   margin: auto;
-  max-width: 14em;
+  max-width: 24em;
+  min-width: 20em;
   margin-top: 5em;
   transform: scale(1.5);
   margin-bottom: 3em;
 }
 
 .output {
+  width: 100%;
   display: flex;
   align-items: stretch;
   justify-content: space-between;
-  max-width: 12em;
   margin: .2em;
 }
 
@@ -43,4 +44,12 @@
   position: absolute;
   left: 21px;
   top: -5px;
+}
+
+.sended {
+  width: 33%;
+}
+
+.label {
+  width: 33%;
 }

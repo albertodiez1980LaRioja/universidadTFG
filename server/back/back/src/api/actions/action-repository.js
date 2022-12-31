@@ -4,7 +4,21 @@ const { QueryTypes } = require('sequelize');
 const { BaseRepository } = require("../base/base-repository");
 
 class ActionRepository extends BaseRepository {
-    getLastActionByPlace = async function (idPlace, idOutput) {
+
+    setSended = async function (returned) {
+        for (let i = 0; i < returned.length; i++) {
+            console.log(returned[i]);
+            await this.model.update({ sended: true },
+                {
+                    where: {
+                        date: returned[i].date, placeId: returned[i].placeId,
+                        personId: returned[i].personId, outputId: returned[i].outputId
+                    }
+                });
+        }
+    }
+
+    getLastActionByPlace = async function (idPlace) {
         /*
             select * from PUBLIC.actions where (date,"outputId") in (
             SELECT max("date"), "outputId"

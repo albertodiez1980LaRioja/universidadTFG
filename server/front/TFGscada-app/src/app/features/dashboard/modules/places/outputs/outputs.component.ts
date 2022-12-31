@@ -40,6 +40,18 @@ export class OutputsComponent implements OnInit {
           this.outputs.push({ ...outputAux });
         }
         this.fetchOutputs();
+        const funcion = () => {
+          setTimeout(async () => {
+            if (this.readed) {
+              this.readed = false;
+              this.fetchOutputs();
+            }
+            else
+              console.log('No se ha terminado de actulizar de la vez anterior');
+            setTimeout(funcion, 1000);
+          }, 1000);
+        };
+        setTimeout(funcion, 1000);
       },
       error: (err: any) => {
         console.log(err);
@@ -47,20 +59,24 @@ export class OutputsComponent implements OnInit {
     });
   }
 
+  readed = false;
+
   fetchOutputs() {
+    this.readed = false;
     if (this.place != undefined) {
       this.outputsService.get(this.place.id).subscribe({
         next: (response: any) => {
-          console.log('llegados', response.data);
           for (let i = 0; i < this.outputs.length; i++) {
             const aux = response.data.find((element: IOutput) => element != null && element.outputId == (i + 1));
             if (aux) {
               this.outputs[aux.outputId - 1] = aux;
             }
           }
+          this.readed = true;
         },
         error: (error: any) => {
           console.log('Fail: ');
+          this.readed = true;
         }
       });
     }
@@ -69,6 +85,7 @@ export class OutputsComponent implements OnInit {
   change($event: any, i: number) {
     this.outputs[i].date = new Date();
     this.outputs[i].value = $event.checked;
+    this.outputs[i].sended = false;
     this.outputsService.post(this.outputs[i]).subscribe({
       next: (response: any) => {
         this.fetchOutputs();

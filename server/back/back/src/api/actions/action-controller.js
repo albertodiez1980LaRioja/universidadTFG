@@ -24,16 +24,20 @@ class ActionController extends BaseController {
         let token = req.body.token || req.query.token || req.headers["x-access-token"];
         try {
             const decoded = jwt.verify(token, config.secret);
+            let isPlace = false;
             if (decoded) {
-                if (decoded.place)
+                if (decoded.place) {
                     req.params.id_place = decoded.place.id;
-                else
+                    isPlace = true;
+                }
+                else {
                     req.params.id_place = req.query.id_place;
+                }
                 if (req.params.id_place == undefined) {
                     console.log(req);
                     req.params.id_place = 1;
                 }
-                let ret = await this.service.getByPlace(req, res, next);
+                let ret = await this.service.getByPlace(req, res, isPlace);
                 res.json({ data: ret });
             }
             else {

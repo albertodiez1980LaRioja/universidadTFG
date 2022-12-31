@@ -22,10 +22,10 @@ export class PlaceMeasurementsComponent implements OnInit {
   async ngOnInit() {
     await this.getMeasurements();
     const funcion = () => {
-      setTimeout(() => {
+      setTimeout(async () => {
         if (this.readed) {
           this.readed = false;
-          this.getMeasurements();
+          await this.getMeasurements();
         }
         else
           console.log('No se ha terminado de actulizar de la vez anterior');
