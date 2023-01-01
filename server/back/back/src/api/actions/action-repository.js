@@ -7,7 +7,6 @@ class ActionRepository extends BaseRepository {
 
     setSended = async function (returned) {
         for (let i = 0; i < returned.length; i++) {
-            console.log(returned[i]);
             await this.model.update({ sended: true },
                 {
                     where: {

@@ -25,7 +25,6 @@ class PlaceController extends BaseController {
         try {
             // Check credentials. If correct, user entity is returned
             const { identifier, pass } = req.body;
-            console.log(identifier, pass);
             const place = await this.service.authenticate(identifier, pass);
             if (!place || place === undefined) {
                 res.status(500).json({

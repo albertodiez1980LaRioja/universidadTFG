@@ -42,6 +42,7 @@ export class PlacesComponent implements OnInit {
     this.fetchUsers();
     this.selected.setValue(1);
     this.tabSelected = 1;
+
   }
 
 
@@ -51,7 +52,6 @@ export class PlacesComponent implements OnInit {
       next: (response: any) => {
         this.placesDate = response.data;
         for (let i = 0; i < response.data.length; i++) {
-          console.log('lugar', response.data[i]);
           this.placesDate[i].personsNames = [];
           for (let i2 = 0; i2 < response.data[i].persons.length; i2++) {
             this.placesDate[i].personsNames.push(response.data[i].persons[i2].name);
@@ -64,7 +64,8 @@ export class PlacesComponent implements OnInit {
     });
   }
 
-  disableOutput = true;
+  //disableOutput = true;
+  disableOutput = false;
 
   async tableEvent($event: any) {
     console.log('Evento de la tabla: ', $event);
@@ -134,7 +135,7 @@ export class PlacesComponent implements OnInit {
         });
         break;
       case 'View':
-        this.disableOutput = false;
+        //this.disableOutput = false;
         this.placeSelected = $event.row;
         this.tabSelected = 4;
         break;

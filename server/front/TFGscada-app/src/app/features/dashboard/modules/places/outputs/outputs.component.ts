@@ -10,21 +10,29 @@ import { OutputsService } from './outputs.service';
 })
 export class OutputsComponent implements OnInit {
   @Input() place: IPlace | undefined;
+  @Input() allPlaces: IPlace[] | undefined;
   outputs: IOutput[] = [];
   outputsLabels: string[] = [];
   color = 'primary';
   checked = true;
   disabled = false;
 
+
   constructor(public outputsService: OutputsService) { }
 
   ngOnInit(): void {
+    console.log('Todos los lugares', this.allPlaces);
     let userJson: IUser = JSON.parse(localStorage.getItem('user') as string) as IUser;
     this.outputsService.getOutputs().subscribe({
       next: (result: any) => {
         let idPlace = 1;
         if (this.place != undefined)
           idPlace = this.place.id;
+        else if (this.allPlaces != undefined && this.allPlaces.length > 0) {
+          this.place = this.allPlaces[0];
+          idPlace = this.place.id;
+        }
+        this.selected = this.place?.id.toString();
         const outputAux: IOutput = {
           date: new Date(),
           placeId: idPlace,
@@ -60,12 +68,21 @@ export class OutputsComponent implements OnInit {
   }
 
   readed = false;
+  selected: any;
 
   fetchOutputs() {
     this.readed = false;
+    //this.place.id = id;
+    if (this.place?.id != this.selected) {
+      this.place = this.allPlaces?.find((element) => element.id == this.selected);
+    }
     if (this.place != undefined) {
       this.outputsService.get(this.place.id).subscribe({
         next: (response: any) => {
+          for (let i = 0; i < this.outputs.length; i++) {
+            this.outputs[i].sended = false;
+            this.outputs[i].value = false;
+          }
           for (let i = 0; i < this.outputs.length; i++) {
             const aux = response.data.find((element: IOutput) => element != null && element.outputId == (i + 1));
             if (aux) {

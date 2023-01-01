@@ -43,7 +43,6 @@ class PersonController extends BaseController {
             }
             delete decoded.usuario.pass;
             req.user = decoded;
-            console.log(decoded);
             res.json({
                 ok: true,
                 usuario: req.user,

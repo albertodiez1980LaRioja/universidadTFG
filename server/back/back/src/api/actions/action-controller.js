@@ -34,7 +34,6 @@ class ActionController extends BaseController {
                     req.params.id_place = req.query.id_place;
                 }
                 if (req.params.id_place == undefined) {
-                    console.log(req);
                     req.params.id_place = 1;
                 }
                 let ret = await this.service.getByPlace(req, res, isPlace);

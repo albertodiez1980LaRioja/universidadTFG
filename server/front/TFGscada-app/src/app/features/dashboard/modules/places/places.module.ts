@@ -28,6 +28,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSelectModule } from '@angular/material/select';
 
 
 
@@ -46,7 +47,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatButtonModule, MatCardModule, MatIconModule, MatMenuModule, MatSliderModule,
     MatToolbarModule, MatInputModule, MatPaginatorModule, MatTooltipModule,
     MatChipsModule, MatTableModule, MatCheckboxModule, MatProgressSpinnerModule,
-    MatSortModule, FormsModule, MatDialogModule, TableModule
+    MatSortModule, FormsModule, MatDialogModule, TableModule, MatSelectModule
   ]
 })
 export class PlacesModule { }
