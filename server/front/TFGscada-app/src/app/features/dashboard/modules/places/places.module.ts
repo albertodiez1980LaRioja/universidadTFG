@@ -30,6 +30,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { MeasurementsGraphComponent } from './measurements-graph/measurements-graph.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -49,7 +51,8 @@ import { MeasurementsGraphComponent } from './measurements-graph/measurements-gr
     MatButtonModule, MatCardModule, MatIconModule, MatMenuModule, MatSliderModule,
     MatToolbarModule, MatInputModule, MatPaginatorModule, MatTooltipModule,
     MatChipsModule, MatTableModule, MatCheckboxModule, MatProgressSpinnerModule,
-    MatSortModule, FormsModule, MatDialogModule, TableModule, MatSelectModule
+    MatSortModule, FormsModule, MatDialogModule, TableModule, MatSelectModule,
+    NgxChartsModule, BrowserAnimationsModule
   ]
 })
 export class PlacesModule { }
