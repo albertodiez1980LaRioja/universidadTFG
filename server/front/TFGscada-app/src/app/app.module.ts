@@ -36,6 +36,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { AuthInterceptor } from './shared/interceptor/AuthInterceptor';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { LineChartModule, NgxChartsModule } from '@swimlane/ngx-charts';
 
 
 
@@ -75,7 +76,7 @@ export function tokenGetter() {
     CommonModule,
     MatButtonModule,
     MatTableModule, MatCheckboxModule, MatProgressSpinnerModule,
-    MatSortModule, MatAutocompleteModule
+    MatSortModule, MatAutocompleteModule, LineChartModule, NgxChartsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
