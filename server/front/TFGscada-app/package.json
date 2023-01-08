@@ -22,6 +22,7 @@
     "@angular/router": "^14.0.0",
     "@auth0/angular-jwt": "^5.0.2",
     "@material/form-field": "^14.0.0",
+    "@swimlane/ngx-charts": "^20.1.2",
     "ngx-mat-errors": "^14.0.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
