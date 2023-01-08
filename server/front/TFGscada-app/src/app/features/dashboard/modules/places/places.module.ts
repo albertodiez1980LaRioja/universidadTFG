@@ -29,6 +29,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
+import { MeasurementsGraphComponent } from './measurements-graph/measurements-graph.component';
 
 
 
@@ -38,6 +39,7 @@ import { MatSelectModule } from '@angular/material/select';
     PlaceMeasurementsComponent,
     MapComponent,
     OutputsComponent,
+    MeasurementsGraphComponent,
     //TableComponent
   ],
   imports: [

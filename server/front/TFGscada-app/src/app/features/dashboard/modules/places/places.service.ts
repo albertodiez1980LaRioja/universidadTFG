@@ -23,6 +23,10 @@ export class PlacesService {
 
   constructor(private http: HttpClient) { }
 
+  getMeasurementsRange(placeId: string, begin: Date, end: Date) {
+    return this.http.get<HttpResponse<any>>('');
+  }
+
   getLastMeasurements(placeId: string | undefined) {
     if (placeId == undefined)
       return this.http.get<HttpResponse<any>>(this.apiUrlGetLastMeasurement);
