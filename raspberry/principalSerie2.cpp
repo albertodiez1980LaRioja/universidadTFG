@@ -79,6 +79,7 @@ int main(void)
     CallSensors callSensorsArduino(ArduinoConnection::GetInstance());
     CallOutputs callOutputsArduino(ArduinoConnection::GetInstance());
     BDconnection connectionBBDD((char *)"dbname = postgres");
+    // BDconnection connectionBBDD((char *)"dbname = raspberryTest");
     assert(connectionBBDD.getConnection(), strdup("No se puede conectar a la base de datos\n")); // connect to bbdd
     char *identifier = strdup(""), *pass = strdup(""), *URL = strdup("");
     int secondsActualizationArduino = 0, secondsActualizationServer = 0;
