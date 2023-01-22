@@ -1,24 +1,59 @@
-<div class="grap-container">
-    <!-- [view]="view" -->
-    <ngx-charts-line-chart [animations]="false" [legend]="legend" [showXAxisLabel]="showXAxisLabel"
-        [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis" [xAxisLabel]="xAxisLabel"
-        [yAxisLabel]="yAxisLabel" [results]="multi" (select)="onSelect($event)" (activate)="onActivate($event)"
-        (deactivate)="onDeactivate($event)" [xAxisTickFormatting]="dateTickFormatting">
-    </ngx-charts-line-chart>
-</div>
+<div class="container">
+    <div class="controls">
+        <mat-form-field appearance="fill">
+            <mat-label>Identificador del lugar</mat-label>
+            <mat-select [(value)]="selected" (selectionChange)="fetchOutputs()">
+                <mat-option *ngFor="let place of this.allPlaces" value="{{place.id}}">{{place.identifier}}</mat-option>
+            </mat-select>
+        </mat-form-field>
 
-<div class="grap-container">
-    <ngx-charts-line-chart [animations]="false" [legend]="legend" [showXAxisLabel]="showXAxisLabel"
-        [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis" [xAxisLabel]="xAxisLabel"
-        [yAxisLabel]="yAxisLabel" [results]="DHT11" (select)="onSelect($event)" (activate)="onActivate($event)"
-        (deactivate)="onDeactivate($event)" [xAxisTickFormatting]="dateTickFormatting">
-    </ngx-charts-line-chart>
-</div>
+        <label id="example-radio-group-label">¿Hacer en tiempo real?</label>
+        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="realTime">
+            <mat-radio-button class="example-radio-button" *ngFor="let season of ['Si','No']" [value]="season">
+                {{season}}
+            </mat-radio-button>
+        </mat-radio-group>
 
-<div class="grap-container">
-    <ngx-charts-line-chart [animations]="false" [legend]="legend" [showXAxisLabel]="showXAxisLabel"
-        [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis" [xAxisLabel]="xAxisLabel"
-        [yAxisLabel]="yAxisLabel" [results]="binarios" (select)="onSelect($event)" (activate)="onActivate($event)"
-        (deactivate)="onDeactivate($event)" [xAxisTickFormatting]="dateTickFormatting">
-    </ngx-charts-line-chart>
+        <div *ngIf="realTime != 'Si'" class="date">
+            <label for="birthdaytime">Escoge una fecha</label>
+            <input type="datetime-local" id="birthdaytime" name="birthdaytime" [(ngModel)]="dateInit">
+            <button class="button" mat-raised-button (click)="clicked()">Ver mediciones</button>
+        </div>
+
+
+    </div>
+
+    <div *ngIf="loading" class="spinner">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <div *ngIf="!loading">
+        <div class="grap-container">
+            <!-- [view]="view" -->
+            <ngx-charts-line-chart [animations]="false" [legend]="legend" [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis" [xAxisLabel]="xAxisLabel"
+                [yAxisLabel]="yAxisLabel" [results]="multi" (select)="onSelect($event)" (activate)="onActivate($event)"
+                (deactivate)="onDeactivate($event)" [xAxisTickFormatting]="dateTickFormatting" [view]="view"
+                [rangeFillOpacity]="0">
+            </ngx-charts-line-chart>
+        </div>
+
+        <div class="grap-container">
+            <ngx-charts-line-chart [animations]="false" [legend]="legend" [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis" [xAxisLabel]="xAxisLabel"
+                [yAxisLabel]="yAxisLabel" [results]="DHT11" (select)="onSelect($event)" (activate)="onActivate($event)"
+                (deactivate)="onDeactivate($event)" [xAxisTickFormatting]="dateTickFormatting" [view]="view"
+                [rangeFillOpacity]="0">
+            </ngx-charts-line-chart>
+        </div>
+
+        <div class="grap-container">
+            <ngx-charts-line-chart [animations]="false" [legend]="legend" [showXAxisLabel]="showXAxisLabel"
+                [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis" [yAxis]="yAxis" [xAxisLabel]="xAxisLabel"
+                [yAxisLabel]="yAxisLabel" [results]="binarios" (select)="onSelect($event)"
+                (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"
+                [xAxisTickFormatting]="dateTickFormatting" [view]="view" [rangeFillOpacity]="0">
+            </ngx-charts-line-chart>
+        </div>
+    </div>
 </div>

@@ -31,6 +31,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { MeasurementsGraphComponent } from './measurements-graph/measurements-graph.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MatRadioModule, MAT_RADIO_DEFAULT_OPTIONS } from '@angular/material/radio';
 
 
 
@@ -51,7 +52,11 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     MatToolbarModule, MatInputModule, MatPaginatorModule, MatTooltipModule,
     MatChipsModule, MatTableModule, MatCheckboxModule, MatProgressSpinnerModule,
     MatSortModule, FormsModule, MatDialogModule, TableModule, MatSelectModule,
-    NgxChartsModule
-  ]
+    NgxChartsModule, MatRadioModule
+  ],
+  providers: [{
+    provide: MAT_RADIO_DEFAULT_OPTIONS,
+    useValue: { color: 'primary' },
+  }]
 })
 export class PlacesModule { }
