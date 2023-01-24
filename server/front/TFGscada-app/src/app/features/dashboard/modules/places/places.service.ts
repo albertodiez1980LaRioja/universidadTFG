@@ -24,7 +24,8 @@ export class PlacesService {
   constructor(private http: HttpClient) { }
 
   getMeasurementsRange(placeId: string, begin: Date, end: Date) {
-    return this.http.get<HttpResponse<any>>('http://' + rotuteToBack + '/api/measurements?placeId=' + placeId + '&date_timeFINISH=' + end.toString() + '&date_timeBEGIN=' + begin.toString() + '&date_timeORDERDESC=0&LIMIT=100000');
+    //return this.http.get<HttpResponse<any>>('http://' + rotuteToBack + '/api/measurements?placeId=' + placeId + '&date_timeFINISH=' + end.toString() + '&date_timeBEGIN=' + begin.toString() + '&date_timeORDERDESC=0&LIMIT=100000');
+    return this.http.get<HttpResponse<any>>('http://' + rotuteToBack + '/api/measurements?placeId=' + placeId + '&date_timeFINISH=' + end.toString() + '&date_timeORDERDESC=0&LIMIT=1000');
   }
 
   getLastMeasurements(placeId: string | undefined) {
