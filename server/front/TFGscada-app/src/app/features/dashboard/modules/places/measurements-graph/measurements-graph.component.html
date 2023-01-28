@@ -1,5 +1,9 @@
 <div class="container">
-    <div class="controls">
+    <div class="controls" *ngIf="!loading">
+        <div class="showTime">
+            <div>Poniendo mediciones hasta el momento:</div>
+            <div>{{ this.maxDate | date: 'd/M/yyyy, H:mm:ss':'GMT' }}</div>
+        </div>
         <mat-form-field appearance="fill">
             <mat-label>Identificador del lugar</mat-label>
             <mat-select [(value)]="selected" (selectionChange)="fetchOutputs()">

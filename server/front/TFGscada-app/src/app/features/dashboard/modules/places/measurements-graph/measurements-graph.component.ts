@@ -42,6 +42,7 @@ export class MeasurementsGraphComponent implements OnInit {
   dateTickFormatting(val: any): string {
     if (val instanceof Date) {
       return val.toISOString().substring(11, 19);
+      //return val.toISOString();
     }
     return '';
   }
@@ -74,6 +75,9 @@ export class MeasurementsGraphComponent implements OnInit {
 
   allPlaces: IPlace[] = [];
 
+  maxDate = new Date();
+  minDate = new Date();
+
   fetchData() {
     console.log('Se actualizan los datos');
     let actualDate = new Date();
@@ -93,9 +97,18 @@ export class MeasurementsGraphComponent implements OnInit {
       next: (response: any) => {
         let max_dates = 100;
         let aux: any;
-        console.log(response);
         if (max_dates > response.data.length)
           max_dates = response.data.length;
+        if (max_dates > 0) {
+          this.maxDate = response.data[0].date_time;
+          this.minDate = response.data[0].date_time;
+          for (let i = 1; i < max_dates; i++) {
+            if (this.maxDate < response.data[i].date_time)
+              this.maxDate = response.data[i].date_time;
+            if (this.minDate > response.data[i].date_time)
+              this.minDate = response.data[i].date_time;
+          }
+        }
         let init = response.data.length - 30;
         this.pushData(this.multi, 'Personas', 'has_persons', 1023, 0, max_dates, response);
         this.pushData(this.multi, 'Sonido', 'has_sound', 1023, 0, max_dates, response);
