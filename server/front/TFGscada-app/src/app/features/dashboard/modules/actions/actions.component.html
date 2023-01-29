@@ -1,1 +1,6 @@
 <p>actions works!</p>
+
+
+<app-table #tablePlaces [config]="actionsConfig" [data]="outputs" [isLoadingTable]="false"
+    (action)="tableEvent($event)">
+</app-table>
