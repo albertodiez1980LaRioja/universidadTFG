@@ -17,7 +17,7 @@ export class MeasurementsGraphComponent implements OnInit {
   multi = multi;
   DHT11 = DHT11;
   binarios = binarios;
-  view: any[number] = [1600, 200];
+  view: any[number] = [1500, 200];
 
   // options
   legend: boolean = true;

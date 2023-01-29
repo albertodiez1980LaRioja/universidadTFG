@@ -61,3 +61,4 @@ int main()
 
 // para compilar:
 // gcc -Wall -o pruebaCurl2 pruebaCurl2.cpp HTTPcalls/PostMeasurement.cpp HTTPcalls/GetActualizationTime.cpp HTTPcalls/GetLastAction.cpp HTTPcalls/HTTPcall.cpp -I/usr/include/postgresql -lpq -lcurl -ljson-c
+// g++ -Wall -o pruebaCurl2 pruebaCurl2.cpp HTTPcalls/PostMeasurement.cpp HTTPcalls/GetActualizationTime.cpp HTTPcalls/GetLastAction.cpp HTTPcalls/HTTPcall.cpp -I/usr/include/postgresql -lpq -lcurl -ljson-c

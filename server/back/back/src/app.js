@@ -15,6 +15,7 @@ import RouterAction from './api/actions/action-controller';
 const jwt = require('../middlewares/jwt.middleware');
 import { sequelize } from "./database/database";
 import config from '../config/config';
+let SimulatePlaces = require('./simulatePlaces');
 
 // initialization
 var app = express();
@@ -85,7 +86,10 @@ if (config.createDatabase != 'false') {
 else
     sequelize.sync({ force: false }); // sync all tables
 
-
+if (config.simulate_places) {
+    console.log('Se van a simular lugares', SimulatePlaces);
+    new SimulatePlaces().createInterval();
+}
 
 app.disable('etag');
 
