@@ -16,6 +16,7 @@ import { rotuteToBack } from '../../../../shared/route';
 export class ActionsService {
   private header = new HttpHeaders({ 'content-type': 'application/json' });
 
+
   apiUrl = 'http://' + rotuteToBack + '/api/places';
   apiUrlOP = 'http://' + rotuteToBack + '/api/o_p';
 

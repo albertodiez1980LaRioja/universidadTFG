@@ -19,8 +19,13 @@ export class ActionsComponent implements OnInit {
   placesDate: IPlace[] = [];
   outputBase: IOutputBase[] = [];
   outputs: IAction[] = [];
+  outputsView: IAction[] = [];
   actionsConfig = actionsConfig;
   roleText = RoleText;
+  selectedPlace = 'TODOS';
+  selectedUser = 'TODOS';
+  selectedOutput = 'TODOS';
+
 
   constructor(public usersService: UsersService,
     public placesService: PlacesService,
@@ -72,6 +77,21 @@ export class ActionsComponent implements OnInit {
     });
   }
 
+  changeFilter() {
+    console.log('Haciendo filtros con:', this.selectedOutput, this.selectedPlace, this.selectedUser);
+    this.outputsView = [...this.outputs];
+    if (this.selectedOutput != 'TODOS') {
+      this.outputsView = this.outputsView.filter((element) => element.outputId.toString() == this.selectedOutput);
+    }
+    if (this.selectedPlace != 'TODOS') {
+      this.outputsView = this.outputsView.filter((element) => element.placeId.toString() == this.selectedPlace);
+    }
+    if (this.selectedUser != 'TODOS') {
+      this.outputsView = this.outputsView.filter((element) => element.personId.toString() == this.selectedUser);
+    }
+
+  }
+
   fetchOutputs() {
     this.outputsService.getOutputs().subscribe({
       next: (result: any) => {
@@ -94,6 +114,7 @@ export class ActionsComponent implements OnInit {
               this.outputs[i].placeName = place?.identifier;
               this.outputs[i].userNick = user?.user_name;
             }
+            this.outputsView = this.outputs;
             console.log('outputs', this.outputs);
           },
           error: (err: any) => {
