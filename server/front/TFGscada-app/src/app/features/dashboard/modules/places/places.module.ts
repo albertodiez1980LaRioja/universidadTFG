@@ -32,6 +32,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MeasurementsGraphComponent } from './measurements-graph/measurements-graph.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatRadioModule, MAT_RADIO_DEFAULT_OPTIONS } from '@angular/material/radio';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -52,7 +53,7 @@ import { MatRadioModule, MAT_RADIO_DEFAULT_OPTIONS } from '@angular/material/rad
     MatToolbarModule, MatInputModule, MatPaginatorModule, MatTooltipModule,
     MatChipsModule, MatTableModule, MatCheckboxModule, MatProgressSpinnerModule,
     MatSortModule, FormsModule, MatDialogModule, TableModule, MatSelectModule,
-    NgxChartsModule, MatRadioModule
+    NgxChartsModule, MatRadioModule, ReactiveFormsModule
   ],
   providers: [{
     provide: MAT_RADIO_DEFAULT_OPTIONS,

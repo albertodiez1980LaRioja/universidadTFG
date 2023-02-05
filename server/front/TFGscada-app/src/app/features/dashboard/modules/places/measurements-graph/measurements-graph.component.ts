@@ -1,10 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { binarios, DHT11, multi } from './data';
 import { PlacesService } from '../places.service';
-import { Subject } from 'rxjs';
 import { IPlace } from '../places-interfaces';
+
 
 @Component({
   selector: 'app-measurements-graph',
@@ -78,14 +76,14 @@ export class MeasurementsGraphComponent implements OnInit {
   maxDate = new Date();
   minDate = new Date();
 
+
+
   fetchData() {
     console.log('Se actualizan los datos');
     let actualDate = new Date();
     let initDate = new Date();
     initDate.setHours(initDate.getHours() - 1);
-    let id = '1';
-    if (this.selected)
-      id = this.selected.toString();
+    let id = this.selected.toString();
     if (this.realTime == 'Si')
       this.dateSelectedByUser = false;
     if (this.dateSelectedByUser) {
@@ -141,6 +139,9 @@ export class MeasurementsGraphComponent implements OnInit {
     this.placesService.get().subscribe({
       next: (response: any) => {
         this.allPlaces = response.data;
+        if (this.allPlaces.length > 0) {
+          this.selected = this.allPlaces[0].id.toString();
+        }
         console.log(this.allPlaces);
       },
       error: (err) => {
@@ -179,6 +180,7 @@ export class MeasurementsGraphComponent implements OnInit {
   interval$: any;
 
   ngOnInit() {
+
     console.log('input', this.inputMultiple);
     if (this.inputMultiple) {
       this.fetchPlaces();

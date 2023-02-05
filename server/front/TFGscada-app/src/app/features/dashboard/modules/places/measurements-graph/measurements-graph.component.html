@@ -6,11 +6,10 @@
         </div>
         <mat-form-field appearance="fill">
             <mat-label>Identificador del lugar</mat-label>
-            <mat-select [(value)]="selected" (selectionChange)="fetchOutputs()">
+            <mat-select [(value)]="selected" (selectionChange)="fetchOutputs()" placeholder="Mode">
                 <mat-option *ngFor="let place of this.allPlaces" value="{{place.id}}">{{place.identifier}}</mat-option>
             </mat-select>
         </mat-form-field>
-
         <label id="example-radio-group-label">¿Hacer en tiempo real?</label>
         <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="realTime">
             <mat-radio-button class="example-radio-button" *ngFor="let season of ['Si','No']" [value]="season">

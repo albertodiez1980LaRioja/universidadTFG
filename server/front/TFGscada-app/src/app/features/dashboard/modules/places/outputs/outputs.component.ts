@@ -107,6 +107,7 @@ export class OutputsComponent implements OnInit {
     this.outputs[i].date = new Date();
     this.outputs[i].value = $event.checked;
     this.outputs[i].sended = false;
+    this.outputs[i].placeId = this.selected;
     this.outputsService.post(this.outputs[i]).subscribe({
       next: (response: any) => {
         this.fetchOutputs();
