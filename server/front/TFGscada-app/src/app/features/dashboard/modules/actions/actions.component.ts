@@ -78,7 +78,6 @@ export class ActionsComponent implements OnInit {
   }
 
   changeFilter() {
-    console.log('Haciendo filtros con:', this.selectedOutput, this.selectedPlace, this.selectedUser);
     this.outputsView = [...this.outputs];
     if (this.selectedOutput != 'TODOS') {
       this.outputsView = this.outputsView.filter((element) => element.outputId.toString() == this.selectedOutput);
@@ -96,9 +95,6 @@ export class ActionsComponent implements OnInit {
     this.outputsService.getOutputs().subscribe({
       next: (result: any) => {
         this.outputBase = result.data;
-        console.log('output base:', this.outputBase);
-        console.log('los usuarios:', this.usersDate);
-        console.log('los lugares:', this.placesDate);
         this.actionService.getMeasurementsRange(new Date()).subscribe({
           next: (result: any) => {
             this.outputs = result.data;
@@ -115,7 +111,6 @@ export class ActionsComponent implements OnInit {
               this.outputs[i].userNick = user?.user_name;
             }
             this.outputsView = this.outputs;
-            console.log('outputs', this.outputs);
           },
           error: (err: any) => {
             console.log('Ha ocurrido un error: ', err);

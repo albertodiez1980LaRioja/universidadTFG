@@ -35,6 +35,9 @@ Sensor.asociate = function () {
 
     const alarms = sequelize.model('alarms');
     this.hasMany(alarms, { foreignKey: 'sensorId' });
+
+    const rangeAlarms = sequelize.model('range_alarm');
+    this.hasMany(rangeAlarms, { foreignKey: 'idSensor' });
 }
 
 export default Sensor;  

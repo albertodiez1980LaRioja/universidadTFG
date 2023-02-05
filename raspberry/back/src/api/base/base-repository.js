@@ -130,7 +130,7 @@ class BaseRepository {
         } catch (err) {
             if (transaction != undefined)
                 await transaction.rollback();
-
+            console.log('Error on create', errbcrypt.compareSync(plainPassword, place.pass)bcrypt.compareSync(plainPassword, place.pass));
             res.status(500).json({
                 message: 'Something goes wrong: ' + err,
                 data: {}

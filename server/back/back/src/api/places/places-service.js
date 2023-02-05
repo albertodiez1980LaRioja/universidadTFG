@@ -29,6 +29,7 @@ class PlaceService extends BaseService {
     }
 
     create = async function (req, res) {
+        req.body.pass = bcrypt.hashSync(req.body.pass, 10);
         const ret = await this.repository.create(req, res);
         if (req.body.idPersons) {
             for (let i = 0; i < req.body.idPersons.length; i++) {
@@ -53,26 +54,21 @@ class PlaceService extends BaseService {
 
     get = async function (req, res) {
         let ret = await this.repository.get(req, res, sequelize.model('persons'));
+        console.log('ha llegado', ret);
         for (let i = 0; i < ret.length; i++) {
-            for (let i2 = 0; i2 < ret[i].dataValues.persons.length; i2++) {
-                delete ret[i].dataValues.persons[i2].dataValues.pass;
-                delete ret[i].dataValues.persons[i2].dataValues.user_name;
-                delete ret[i].dataValues.persons[i2].dataValues.address;
-                delete ret[i].dataValues.persons[i2].dataValues.roles;
-                delete ret[i].dataValues.persons[i2].dataValues.id;
-                delete ret[i].dataValues.persons[i2].dataValues.dni;
-                delete ret[i].dataValues.persons[i2].dataValues.o_p.dataValues.personId;
-            }
+            delete ret[i].dataValues.pass;
         }
         return ret;
     }
 
-    authenticate = async function (username, plainPassword) {
-        if (username == undefined || plainPassword == undefined)
+    authenticate = async function (identifier, plainPassword) {
+        if (identifier == undefined || plainPassword == undefined)
             return undefined;
-        const place = await this.repository.read({ username }, { scope: null });
+
+        const place = await this.repository.read({ identifier: identifier }, { scope: null });
         if (!place || place == undefined) return;
-        const match = await bcrypt.compareSync(plainPassword, place.pass);
+        //const match = bcrypt.compareSync(plainPassword, place.pass);
+        const match = plainPassword == place.pass;
         return match ? place : undefined;
     }
 

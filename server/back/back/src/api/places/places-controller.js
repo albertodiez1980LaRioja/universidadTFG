@@ -27,6 +27,7 @@ class PlaceController extends BaseController {
             const { identifier, pass } = req.body;
             const place = await this.service.authenticate(identifier, pass);
             if (!place || place === undefined) {
+                console.log('No encontrado: ', identifier, pass);
                 res.status(500).json({
                     message: 'Place not found '
                 });
@@ -40,7 +41,7 @@ class PlaceController extends BaseController {
             }, config.secret, {
                 expiresIn: config.tokenCaducity
             });
-            delete place.dataValues.pass;
+            delete place.pass;
             res.json({
                 ok: true,
                 //place: place,

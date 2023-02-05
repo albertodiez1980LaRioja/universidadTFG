@@ -16,11 +16,14 @@ export class OutputsComponent implements OnInit {
   color = 'primary';
   checked = true;
   disabled = false;
+  doNext = true;
 
 
   constructor(public outputsService: OutputsService) { }
 
+
   ngOnInit(): void {
+    this.doNext = true;
     console.log('Todos los lugares', this.allPlaces);
     let userJson: IUser = JSON.parse(localStorage.getItem('user') as string) as IUser;
     this.outputsService.getOutputs().subscribe({
@@ -56,7 +59,8 @@ export class OutputsComponent implements OnInit {
             }
             else
               console.log('No se ha terminado de actulizar de la vez anterior');
-            setTimeout(funcion, 1000);
+            if (this.doNext)
+              setTimeout(funcion, 1000);
           }, 1000);
         };
         setTimeout(funcion, 1000);
@@ -111,6 +115,10 @@ export class OutputsComponent implements OnInit {
         console.log(err);
       }
     });;
+  }
+
+  ngOnDestroy() {
+    this.doNext = false;
   }
 
 }

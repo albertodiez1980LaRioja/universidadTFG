@@ -12,11 +12,13 @@ import OutputService from './api/outputs/output-model';
 import RouterAlarm from './api/alarms/alarms-controller';
 import RouterOutput from './api/outputs/output-controller';
 import RouterAction from './api/actions/action-controller';
+import RangeAlarmController from './api/range-alarm/range-alarm-controller';
+import RangeAlarmModel from './api/range-alarm/range-alarm-model';
 const jwt = require('../middlewares/jwt.middleware');
 import { sequelize } from "./database/database";
 import config from '../config/config';
 let SimulatePlaces = require('./simulatePlaces');
-
+let AlarmGestor = require('./api/alarms/alarms-generate');
 // initialization
 var app = express();
 
@@ -35,43 +37,47 @@ if (config.createDatabase != 'false') {
         // add the sensors data
         console.log('add sensor data', SensorService);
         SensorService.create({
-            name: 'HC-SR501', description: 'Detector de personas por infrarrojos',
+            id: 1, name: 'HC-SR501', description: 'Detector de personas por infrarrojos',
             range_low: 0, range_hight: 1
         });
         SensorService.create({
-            name: 'Sensor de vibración', description: "Sensor de vibración",
+            id: 2, name: 'Sensor de vibración', description: "Sensor de vibración",
             range_low: 0, range_hight: 1
         });
         SensorService.create({
-            name: 'Sensor de sonido', description: 'Sensor de sonido',
+            id: 3, name: 'Sensor de sonido', description: 'Sensor de sonido',
             range_low: 0, range_hight: 1
         });
         SensorService.create({
-            name: 'Sensor de obstaculos', description: 'Detector de personas por infrarrojos',
+            id: 4, name: 'Sensor de obstaculos', description: 'Detector de personas por infrarrojos',
             range_low: 0, range_hight: 1
         });
         SensorService.create({
-            name: 'Sensor de gas MQ2', description: 'Detector de gas inflamable',
+            id: 5, name: 'Sensor de gas MQ2', description: 'Detector de gas inflamable',
             range_low: 0, range_hight: 1
         });
         SensorService.create({
-            name: 'Sensor de lluvia', description: 'Sensor de lluvia',
+            id: 6, name: 'Sensor de lluvia', description: 'Sensor de lluvia',
             range_low: 0, range_hight: 1
         });
         SensorService.create({
-            name: 'Sensor de aceite', description: 'Sensor de aceite',
+            id: 7, name: 'Sensor de aceite', description: 'Sensor de aceite',
             range_low: 0, range_hight: 1
         });
         SensorService.create({
-            name: 'DHT11', description: 'Detector de temperatura y humedad ambiente',
+            id: 8, name: 'DHT11_temperatura', description: 'Detector de temperatura',
             range_low: 0, range_hight: 1
         });
         SensorService.create({
-            name: 'Sensibilidad lumínica', description: 'Detector de sensibilidad lumínica',
+            id: 9, name: 'DHT11_humedad', description: 'Detector de humedad ambiente',
             range_low: 0, range_hight: 1
         });
         SensorService.create({
-            name: 'Sensor de incendios', description: 'Sensor de incencios',
+            id: 10, name: 'Sensibilidad lumínica', description: 'Detector de sensibilidad lumínica',
+            range_low: 0, range_hight: 1
+        });
+        SensorService.create({
+            id: 11, name: 'Sensor de incendios', description: 'Sensor de incencios',
             range_low: 0, range_hight: 1
         });
 
@@ -79,6 +85,22 @@ if (config.createDatabase != 'false') {
         OutputService.create({ name: 'Segundo' });
         OutputService.create({ name: 'Tercero' });
         OutputService.create({ name: 'Cuarto' });
+
+        RangeAlarmModel.create({
+            idSensor: 5, name: 'Gas detectado',
+            description: 'Se ha detectado un nivel alto de gas inflamable',
+            range_low: 300, range_high: 1024
+        });
+        RangeAlarmModel.create({
+            idSensor: 8, name: 'Temperatura excesiva',
+            description: 'La temperatura es demasiado alta',
+            range_low: 50, range_high: 200
+        });
+        RangeAlarmModel.create({
+            idSensor: 11, name: 'Fuego detectado',
+            description: 'Se ha detectado fuego en el sensor de fuego',
+            range_low: 1, range_high: 1
+        });
 
     }
     );
@@ -90,6 +112,8 @@ if (config.simulate_places) {
     console.log('Se van a simular lugares', SimulatePlaces);
     new SimulatePlaces().createInterval();
 }
+
+new AlarmGestor().createInterval();
 
 app.disable('etag');
 
@@ -128,5 +152,7 @@ app.use('/api/sensors', RouterSensor.router);
 app.use('/api/alarms', RouterAlarm.router);
 app.use('/api/outputs', RouterOutput.router);
 app.use('/api/actions', RouterAction.router);
+app.use('/api/range_alarm', RangeAlarmController.router);
+
 
 export default app;  

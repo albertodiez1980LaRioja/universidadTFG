@@ -176,12 +176,14 @@ export class MeasurementsGraphComponent implements OnInit {
 
   }
 
+  interval$: any;
+
   ngOnInit() {
     console.log('input', this.inputMultiple);
     if (this.inputMultiple) {
       this.fetchPlaces();
     }
-    setInterval(() => {
+    this.interval$ = setInterval(() => {
       this.fetchData();
     }, 3000);
 
@@ -197,6 +199,11 @@ export class MeasurementsGraphComponent implements OnInit {
 
   onDeactivate(data: any): void {
     console.log('Deactivate', JSON.parse(JSON.stringify(data)));
+  }
+
+  ngOnDestroy() {
+    if (this.interval$)
+      clearInterval(this.interval$);
   }
 
 }

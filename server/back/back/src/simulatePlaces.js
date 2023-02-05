@@ -11,13 +11,13 @@ let SimulatePlaces = class {
     async intervalFunc() {
         const host = 'http://localhost';
         const port = 3000;
-        if (this.places == undefined) {
-            const aux = await Place.findAll();
-            this.places = [];
-            for (let i = 0; i < aux.length; i++)
-                if (aux[i].id != 1)
-                    this.places.push(aux[i].dataValues);
-        }
+        //if (this.places == undefined) {
+        const aux = await Place.findAll();
+        this.places = [];
+        for (let i = 0; i < aux.length; i++)
+            if (aux[i].id != 1)
+                this.places.push(aux[i].dataValues);
+        //}
         // insert good value
         let measurement = await Measurement.findAll({
             where: { placeId: 1 },
@@ -51,6 +51,7 @@ let SimulatePlaces = class {
             }).catch((error) => { console.log(error); });
         }
     }
+
     createInterval() {
         setInterval(this.intervalFunc, 5000);
     }

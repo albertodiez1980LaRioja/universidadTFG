@@ -10,6 +10,7 @@ import { measurementsConfig } from './measurements.config';
 })
 export class PlaceMeasurementsComponent implements OnInit {
   @Input() lastMeasurements: any;
+  doNext = true;
 
   measurementsConfig = measurementsConfig;
 
@@ -20,6 +21,7 @@ export class PlaceMeasurementsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.doNext = true;
     await this.getMeasurements();
     const funcion = () => {
       setTimeout(async () => {
@@ -29,7 +31,8 @@ export class PlaceMeasurementsComponent implements OnInit {
         }
         else
           console.log('No se ha terminado de actulizar de la vez anterior');
-        setTimeout(funcion, 1000);
+        if (this.doNext)
+          setTimeout(funcion, 1000);
       }, 1000);
     };
     setTimeout(funcion, 1000);
@@ -78,6 +81,9 @@ export class PlaceMeasurementsComponent implements OnInit {
 
   }
 
+  ngOnDestroy() {
+    this.doNext = false;
+  }
 
 
 }
