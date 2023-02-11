@@ -79,7 +79,6 @@ export class MeasurementsGraphComponent implements OnInit {
 
 
   fetchData() {
-    console.log('Se actualizan los datos');
     let actualDate = new Date();
     let initDate = new Date();
     initDate.setHours(initDate.getHours() - 1);

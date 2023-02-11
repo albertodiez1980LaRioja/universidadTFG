@@ -38,6 +38,12 @@ Place.asociate = function () {
         foreignKey: 'placeId'
     });*/
 
+    const alarms = sequelize.model('alarms');
+    console.log('Se hacen las asociaciones del lugar y a la alarma');
+    this.hasMany(alarms, {
+        foreignKey: 'placeId'
+    });
+
     const measurements = sequelize.model('measurements');
     this.hasMany(measurements, {
         foreignKey: 'placeId'

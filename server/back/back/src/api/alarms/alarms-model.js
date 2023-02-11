@@ -19,7 +19,7 @@ const Alarm = sequelize.define('alarms', {
         type: Sequelize.INTEGER, allowNull: true
     },
     date_finish: {
-        type: DataTypes.DATE, allowNull: false,
+        type: DataTypes.DATE, allowNull: true,
     },
 
 
@@ -35,9 +35,9 @@ Alarm.asociate = function () {
         foreignKey: 'operatorId'
     });
 
-    const measurements = sequelize.model('measurements');
-    this.belongsTo(measurements, {
-        foreignKey: 'measurementId'
+    const place = sequelize.model('places');
+    this.belongsTo(place, {
+        foreignKey: 'placeId'
     });
 
 

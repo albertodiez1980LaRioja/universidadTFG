@@ -43,12 +43,6 @@ const Measurement = sequelize.define('measurements', {
 });
 
 Measurement.asociate = function () {
-    const alarms = sequelize.model('alarms');
-    console.log('Se hacen las asociaciones de la medicion a la alarma');
-    this.hasMany(alarms, {
-        foreignKey: 'measurementId'
-    });
-
     const places = sequelize.model('places');
     this.belongsTo(places, { foreignKey: 'placeId' });
 }

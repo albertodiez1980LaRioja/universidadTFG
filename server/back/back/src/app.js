@@ -38,7 +38,7 @@ if (config.createDatabase != 'false') {
         console.log('add sensor data', SensorService);
         SensorService.create({
             id: 1, name: 'HC-SR501', description: 'Detector de personas por infrarrojos',
-            range_low: 0, range_hight: 1
+            range_low: 0, range_hight: 1024
         });
         SensorService.create({
             id: 2, name: 'Sensor de vibración', description: "Sensor de vibración",
@@ -46,7 +46,7 @@ if (config.createDatabase != 'false') {
         });
         SensorService.create({
             id: 3, name: 'Sensor de sonido', description: 'Sensor de sonido',
-            range_low: 0, range_hight: 1
+            range_low: 0, range_hight: 1024
         });
         SensorService.create({
             id: 4, name: 'Sensor de obstaculos', description: 'Detector de personas por infrarrojos',
@@ -54,23 +54,23 @@ if (config.createDatabase != 'false') {
         });
         SensorService.create({
             id: 5, name: 'Sensor de gas MQ2', description: 'Detector de gas inflamable',
-            range_low: 0, range_hight: 1
+            range_low: 0, range_hight: 1024
         });
         SensorService.create({
             id: 6, name: 'Sensor de lluvia', description: 'Sensor de lluvia',
-            range_low: 0, range_hight: 1
+            range_low: 0, range_hight: 1024
         });
         SensorService.create({
             id: 7, name: 'Sensor de aceite', description: 'Sensor de aceite',
-            range_low: 0, range_hight: 1
+            range_low: 0, range_hight: 1024
         });
         SensorService.create({
             id: 8, name: 'DHT11_temperatura', description: 'Detector de temperatura',
-            range_low: 0, range_hight: 1
+            range_low: 0, range_hight: 100
         });
         SensorService.create({
             id: 9, name: 'DHT11_humedad', description: 'Detector de humedad ambiente',
-            range_low: 0, range_hight: 1
+            range_low: 0, range_hight: 100
         });
         SensorService.create({
             id: 10, name: 'Sensibilidad lumínica', description: 'Detector de sensibilidad lumínica',
@@ -101,7 +101,11 @@ if (config.createDatabase != 'false') {
             description: 'Se ha detectado fuego en el sensor de fuego',
             range_low: 1, range_high: 1
         });
-
+        RangeAlarmModel.create({
+            idSensor: 4, name: 'Obstaculo detectado',
+            description: 'Se ha detectado un obstaculo en el sensor',
+            range_low: 1, range_high: 1
+        });
     }
     );
 }
