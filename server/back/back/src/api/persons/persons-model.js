@@ -24,7 +24,9 @@ Person.asociate = function () {
     const alarms = sequelize.model('alarms');
     console.log('Se hacen las asociaciones de la persona');
     this.hasMany(alarms, {
-        foreignKey: 'operatorId'
+        foreignKey: 'operatorId',
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
     });
 
     const places = sequelize.model('places');

@@ -12,7 +12,7 @@ const Alarm = sequelize.define('alarms', {
         //primaryKey: true,
     },
     sensorId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER, allowNull: true
         //primaryKey: true,
     },
     operatorId: {
@@ -32,12 +32,17 @@ Alarm.asociate = function () {
     const persons = sequelize.model('persons');
     console.log('Se hacen las asociaciones de la alarma a la persona');
     this.belongsTo(persons, {
-        foreignKey: 'operatorId'
+        foreignKey: 'operatorId',
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
+
     });
 
     const place = sequelize.model('places');
     this.belongsTo(place, {
-        foreignKey: 'placeId'
+        foreignKey: 'placeId',
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE'
     });
 
 
