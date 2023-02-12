@@ -1,1 +1,4 @@
 <p>alarms works!</p>
+<app-table #tableAlarms [config]="alarmsConfig" [data]="alarms" [isLoadingTable]="isLoadingTable"
+    (action)="tableEvent($event)">
+</app-table>

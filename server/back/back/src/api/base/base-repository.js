@@ -29,7 +29,7 @@ class BaseRepository {
             else if (param.includes('BEGIN')) {
                 let initkey = param.substring(0, param.length - 5);
                 if (keysParams.indexOf(initkey + 'FINISH') < 0) {
-                    ret[initkey] = { [Sequelize.Op.gte]: params[param] }
+                    ret[initkey] = { [Sequelize.Op.gte]: params[param] };
                 }
             }
         }

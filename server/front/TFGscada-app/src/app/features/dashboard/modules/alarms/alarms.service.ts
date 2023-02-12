@@ -1,5 +1,6 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { IAlarm } from './alarms-interfaces';
 
 // App own modules and services
 
@@ -12,20 +13,19 @@ import { rotuteToBack } from '../../../../shared/route';
 @Injectable({
   providedIn: 'root'
 })
-export class OutputsService {
-  apiUrl = 'http://' + rotuteToBack + '/api/actions/place/place';
-
-  apiUrlPost = 'http://' + rotuteToBack + '/api/actions';
-
-  apiUrlPostOutputs = 'http://' + rotuteToBack + '/api/outputs';
-
+export class AlarmsService {
+  apiUrl = 'http://' + rotuteToBack + '/api/alarms';
 
   constructor(private http: HttpClient) { }
+  get(dateInit: Date, date_finish: Date, limit: number): Observable<HttpResponse<any>> {
+    const aux = this.apiUrl + '?LIMIT=' +
+      limit.toString() + '&date_timeORDERDESC=0&date_timeFINISH=' +
+      dateInit.toISOString() + '&date_timeBEGIN=' + date_finish.toISOString();
+    console.log('url: ', aux);
+    return this.http.get<HttpResponse<any>>(aux);
+  }
+
   /*
-    get(idPlace: number): Observable<HttpResponse<IOutput>> {
-      return this.http.get<HttpResponse<IOutput>>(this.apiUrl + '?id_place=' + idPlace.toString());
-    }
-  
     getOutputs(): Observable<HttpResponse<IOutput>> {
       return this.http.get<HttpResponse<IOutput>>(this.apiUrlPostOutputs);
     }
