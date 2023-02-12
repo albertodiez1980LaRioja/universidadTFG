@@ -49,7 +49,7 @@ if (config.createDatabase != 'false') {
             range_low: 0, range_hight: 1024
         });
         SensorService.create({
-            id: 4, name: 'Sensor de obstaculos', description: 'Detector de personas por infrarrojos',
+            id: 4, name: 'Sensor de obstaculos', description: 'Detector de un obstaculo delante del sensor',
             range_low: 0, range_hight: 1
         });
         SensorService.create({

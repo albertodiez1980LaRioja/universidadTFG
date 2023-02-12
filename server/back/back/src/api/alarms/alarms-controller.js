@@ -10,10 +10,10 @@ class AlarmsController extends BaseController {
         super(service, options);
 
         this.router = RouterPlace;
-        this.router.get('/:latitude,:longitude,:date_time,:id_sensor', this.getOneEntity.bind(this));
+        this.router.get('/:id', this.getOneEntity.bind(this));
         this.router.get('', this.get.bind(this));
-        this.router.patch('/:latitude,:longitude,:date_time,:id_sensor', this.update.bind(this));
-        this.router.delete('/:latitude,:longitude,:date_time,:id_sensor', this.delete.bind(this));
+        this.router.patch('/:id', this.update.bind(this));
+        this.router.delete('/:id', this.delete.bind(this));
         this.router.post('', this.create.bind(this));
     }
 

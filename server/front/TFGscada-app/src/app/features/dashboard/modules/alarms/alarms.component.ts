@@ -33,7 +33,6 @@ export class AlarmsComponent implements OnInit {
     const init = new Date();
     let end = new Date(init);
     end.setMonth(end.getMonth() - 1);
-    this.isLoadingTable = true;
     forkJoin([this.alarmsService.get(init, end, 1000),
     this.sensorsService.get(),
     this.usersService.getUsers(),
@@ -43,21 +42,41 @@ export class AlarmsComponent implements OnInit {
         const sensors: ISensor[] = response[1].data;
         const users: IUser[] = response[2].data;
         const places: IPlace[] = response[3].data;
-        console.log('multiple:', response);
         this.alarms.forEach((alarm) => {
           alarm.sensor = sensors.find((sensor) => sensor.id == alarm.sensorId);
+          if (alarm.sensor)
+            alarm.sensorDescription = alarm.sensor.description;
           alarm.operator = users.find((person) => person.id == alarm.operatorId); // may be undefined
+          if (alarm.operator)
+            alarm.operatorDescription = alarm.operator.name;
           alarm.place = places.find((place) => place.id == alarm.placeId);
+          if (alarm.place)
+            alarm.placeDescription = alarm.place.identifier;
         });
-        console.log('Alarmas: ', this.alarms);
         this.isLoadingTable = false;
+        setTimeout(this.fetchData.bind(this), 5000);
       },
       error: (err) => {
         console.log('Error on multiple:', err);
+        setTimeout(this.fetchData.bind(this), 5000);
       }
     });
   }
 
-  tableEvent($event: any) { }
+  tableEvent($event: any) {
+    console.log('evento', $event);
+    if ($event.action == 'Acusar') {
+      console.log('Se ha pulsado en acusar');
+      this.alarmsService.update($event.row.id, { operatorId: 1 }).subscribe({
+        next: (result) => {
+          console.log(result);
+          this.fetchData();
+        },
+        error: (err) => {
+          console.log('Error on update alarm', err);
+        }
+      });
+    }
+  }
 
 }

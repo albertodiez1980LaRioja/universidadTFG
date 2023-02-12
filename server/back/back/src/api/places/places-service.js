@@ -54,7 +54,6 @@ class PlaceService extends BaseService {
 
     get = async function (req, res) {
         let ret = await this.repository.get(req, res, sequelize.model('persons'));
-        console.log('ha llegado', ret);
         for (let i = 0; i < ret.length; i++) {
             delete ret[i].dataValues.pass;
         }

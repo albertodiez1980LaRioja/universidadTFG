@@ -215,7 +215,7 @@
                 <tr mat-header-row class="header" *matHeaderRowDef="displayedColumns; sticky: config.stickyHeader"></tr>
                 <tr mat-row (click)="rowClicked.emit(row)"
                     (contextmenu)="contextMenu.emit({ event: $event, object: row })"
-                    [class]="areRowClickable ? 'clickable table-row' : 'table-row'"
+                    [class]="areRowClickable ? 'clickable-table-row' : 'table-row'"
                     *matRowDef="let row; columns: displayedColumns"></tr>
 
                 <tr class="mat-row" *matNoDataRow>

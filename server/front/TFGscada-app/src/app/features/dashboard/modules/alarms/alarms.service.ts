@@ -25,6 +25,10 @@ export class AlarmsService {
     return this.http.get<HttpResponse<any>>(aux);
   }
 
+  update(id: string, alarm: any) {
+    return this.http.patch<HttpResponse<IAlarm>>(this.apiUrl + '/' + id, alarm);
+  }
+
   /*
     getOutputs(): Observable<HttpResponse<IOutput>> {
       return this.http.get<HttpResponse<IOutput>>(this.apiUrlPostOutputs);

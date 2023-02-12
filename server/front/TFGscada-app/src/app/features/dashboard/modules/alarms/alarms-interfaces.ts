@@ -10,6 +10,9 @@ export interface IAlarm {
     operatorId: number;
     date_finish: Date;
     placeId: number;
+    sensorDescription: string | undefined;
+    operatorDescription: string | undefined;
+    placeDescription: string | undefined;
     sensor: ISensor | undefined;
     operator: IUser | undefined;
     place: IPlace | undefined;

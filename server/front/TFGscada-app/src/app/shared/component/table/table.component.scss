@@ -1,5 +1,3 @@
-//@use '@angular/material' as mat;
-//@import '../../../../variables.scss';
 
 ::ng-deep .mat-sort-header-container {
   justify-content: center;
@@ -13,14 +11,11 @@ tr {
 }
 
 .table-row:hover {
-  //background-color: mat.get-color-from-palette($primary, 50);
-  background-color: white;
+  background-color: #fafafa;
 }
 
-.action-buttons {
-  // width: 100%;
-  // display: flex;
-  // justify-content: space-evenly;
+.clickable-table-row:hover{
+  background-color: #fafafa;
 }
 
 .cell {
@@ -28,7 +23,6 @@ tr {
     margin: 0;
   }
   &:hover {
-    //background-color: mat.get-color-from-palette($primary, 100);
     background-color: white;
   }
   .cell-content {
@@ -44,7 +38,6 @@ tr {
   }
 }
 .header {
-  //background-color: mat.get-color-from-palette($primary);
   background-color: gray;
   .header-cell {
     font-size: 1rem;
@@ -52,6 +45,10 @@ tr {
     text-align: center;
     color: white;
   }
+  .header-cell:hover{
+    background-color: #fafafa;
+  }
+
 }
 
 .align-start {
@@ -109,8 +106,11 @@ td.mat-footer-cell:first-of-type {
   padding-left: 1rem;
 }
 
+td.mat-cell:hover{
+  background-color: #fafafa;
+}
+
 ::ng-deep .mat-sort-header-arrow {
-  //color: mat.get-color-from-palette($accent);
   color:black;
 }
 

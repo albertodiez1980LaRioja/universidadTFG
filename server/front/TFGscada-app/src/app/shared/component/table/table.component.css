@@ -11,7 +11,11 @@ tr {
 }
 
 .table-row:hover {
-  background-color: white;
+  background-color: #fafafa;
+}
+
+.clickable-table-row:hover {
+  background-color: #fafafa;
 }
 
 .cell p {
@@ -43,6 +47,10 @@ tr {
   font-weight: 500;
   text-align: center;
   color: white;
+}
+
+.header .header-cell:hover {
+  background-color: #fafafa;
 }
 
 .align-start {
@@ -101,6 +109,10 @@ th.mat-header-cell:first-of-type,
 td.mat-cell:first-of-type,
 td.mat-footer-cell:first-of-type {
   padding-left: 1rem;
+}
+
+td.mat-cell:hover {
+  background-color: #fafafa;
 }
 
 ::ng-deep .mat-sort-header-arrow {
