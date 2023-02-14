@@ -19,6 +19,12 @@ export class AlarmsComponent implements OnInit {
   alarms: IAlarm[] = [];
   isLoadingTable = true;
   alarmsConfig = alarmsConfig;
+  sensors: ISensor[] = [];
+  users: IUser[] = [];
+  places: IPlace[] = [];
+  selectedUser: any;
+  selectedPlace: any;
+  selectedSensor: any;
 
   constructor(private alarmsService: AlarmsService,
     private sensorsService: SensorsService,
@@ -39,17 +45,20 @@ export class AlarmsComponent implements OnInit {
     this.placesService.get()]).subscribe({
       next: (response: any) => {
         this.alarms = response[0].data;
-        const sensors: ISensor[] = response[1].data;
-        const users: IUser[] = response[2].data;
-        const places: IPlace[] = response[3].data;
+        this.sensors = response[1].data;
+        this.users = response[2].data;
+        this.places = response[3].data;
+        this.sensors.sort(function (a, b) { return a.id - b.id; });
+        this.users.sort(function (a, b) { return a.id - b.id; });
+        this.places.sort(function (a, b) { return a.id - b.id; });
         this.alarms.forEach((alarm) => {
-          alarm.sensor = sensors.find((sensor) => sensor.id == alarm.sensorId);
+          alarm.sensor = this.sensors.find((sensor) => sensor.id == alarm.sensorId);
           if (alarm.sensor)
             alarm.sensorDescription = alarm.sensor.description;
-          alarm.operator = users.find((person) => person.id == alarm.operatorId); // may be undefined
+          alarm.operator = this.users.find((person) => person.id == alarm.operatorId); // may be undefined
           if (alarm.operator)
             alarm.operatorDescription = alarm.operator.name;
-          alarm.place = places.find((place) => place.id == alarm.placeId);
+          alarm.place = this.places.find((place) => place.id == alarm.placeId);
           if (alarm.place)
             alarm.placeDescription = alarm.place.identifier;
         });
@@ -77,6 +86,10 @@ export class AlarmsComponent implements OnInit {
         }
       });
     }
+  }
+
+  changeFilter() {
+
   }
 
 }

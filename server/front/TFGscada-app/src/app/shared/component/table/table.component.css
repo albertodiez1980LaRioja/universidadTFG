@@ -49,10 +49,6 @@ tr {
   color: white;
 }
 
-.header .header-cell:hover {
-  background-color: #fafafa;
-}
-
 .align-start {
   justify-content: flex-start;
   text-align: start;

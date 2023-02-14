@@ -22,6 +22,9 @@ import { MatSortModule } from '@angular/material/sort';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatNativeDateModule } from '@angular/material/core';
+
 
 
 
@@ -35,7 +38,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatButtonModule, MatCardModule, MatIconModule, MatMenuModule, MatSliderModule,
     MatToolbarModule, MatInputModule, MatPaginatorModule, MatTooltipModule,
     MatChipsModule, MatTableModule, MatCheckboxModule, MatProgressSpinnerModule,
-    MatSortModule, FormsModule, MatDialogModule, TableModule, MatFormFieldModule
+    MatSortModule, FormsModule, MatDialogModule, TableModule, MatFormFieldModule,
+    MatSelectModule,
+    MatNativeDateModule,
   ]
 })
 export class AlarmsModule { }
