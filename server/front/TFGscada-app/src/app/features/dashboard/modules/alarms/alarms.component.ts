@@ -71,10 +71,7 @@ export class AlarmsComponent implements OnInit {
         this.users.sort(function (a, b) { return a.id - b.id; });
         this.places.sort(function (a, b) { return a.id - b.id; });
         this.alarms.forEach((alarm) => {
-          if (alarm.date_finish)
-            alarm.date_finish = new Date(alarm.date_finish);
-          else
-            alarm.date_finish = undefined;
+
           alarm.date_time = new Date(alarm.date_time);
           alarm.sensor = this.sensors.find((sensor) => sensor.id == alarm.sensorId);
           if (alarm.sensor)
@@ -85,6 +82,17 @@ export class AlarmsComponent implements OnInit {
           alarm.place = this.places.find((place) => place.id == alarm.placeId);
           if (alarm.place)
             alarm.placeDescription = alarm.place.identifier;
+          if (alarm.date_finish) {
+            alarm.date_finish = new Date(alarm.date_finish);
+            alarm.color = '#90EE90'; // green
+          }
+          else {
+            alarm.date_finish = undefined;
+            if (alarm.operator)
+              alarm.color = '#FFFAA0'; // yellow
+            else
+              alarm.color = '#FAA0A0'; // red
+          }
         });
         this.isLoadingTable = false;
         this.changeFilter();

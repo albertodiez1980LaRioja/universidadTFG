@@ -23,7 +23,7 @@ tr {
     margin: 0;
   }
   &:hover {
-    background-color: white;
+    //background-color: white;
   }
   .cell-content {
     width: 100%;
@@ -103,7 +103,7 @@ td.mat-footer-cell:first-of-type {
 }
 
 td.mat-cell:hover{
-  background-color: #fafafa;
+  //background-color: #fafafa;
 }
 
 ::ng-deep .mat-sort-header-arrow {

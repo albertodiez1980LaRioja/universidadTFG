@@ -22,10 +22,6 @@ tr {
   margin: 0;
 }
 
-.cell:hover {
-  background-color: white;
-}
-
 .cell .cell-content {
   width: 100%;
   display: flex;
@@ -105,10 +101,6 @@ th.mat-header-cell:first-of-type,
 td.mat-cell:first-of-type,
 td.mat-footer-cell:first-of-type {
   padding-left: 1rem;
-}
-
-td.mat-cell:hover {
-  background-color: #fafafa;
 }
 
 ::ng-deep .mat-sort-header-arrow {

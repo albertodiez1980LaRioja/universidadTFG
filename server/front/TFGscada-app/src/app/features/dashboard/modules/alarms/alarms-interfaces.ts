@@ -16,5 +16,6 @@ export interface IAlarm {
     sensor: ISensor | undefined;
     operator: IUser | undefined;
     place: IPlace | undefined;
+    color: string | undefined;
 }
 
