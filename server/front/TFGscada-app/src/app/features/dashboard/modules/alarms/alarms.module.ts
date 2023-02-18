@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 import { AlarmsRoutingModule } from './alarms-routing.module';
 import { AlarmsComponent } from './alarms.component';
@@ -19,18 +19,18 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import { MatNativeDateModule } from '@angular/material/core';
-
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatDatepickerModule, MatDateRangeInput } from '@angular/material/datepicker';
 
 
 
 @NgModule({
   declarations: [
-    AlarmsComponent
+    AlarmsComponent,
   ],
   imports: [
     CommonModule,
@@ -41,6 +41,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatSortModule, FormsModule, MatDialogModule, TableModule, MatFormFieldModule,
     MatSelectModule,
     MatNativeDateModule,
-  ]
+    MatDatepickerModule,
+    ReactiveFormsModule
+  ],
+  providers: [DatePipe, { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }]
 })
 export class AlarmsModule { }

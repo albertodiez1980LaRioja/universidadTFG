@@ -9,6 +9,10 @@ import { UsersService } from '../users/users.service';
 import { IAlarm } from './alarms-interfaces';
 import { AlarmsService } from './alarms.service';
 import { alarmsConfig } from './alarms.config';
+import { FormGroup, FormControl } from '@angular/forms';
+import { DatePipe } from '@angular/common';
+
+
 
 @Component({
   selector: 'app-alarms',
@@ -16,7 +20,19 @@ import { alarmsConfig } from './alarms.config';
   styleUrls: ['./alarms.component.scss']
 })
 export class AlarmsComponent implements OnInit {
+  rangeInit = new FormGroup({
+    start: new FormControl(undefined),
+    end: new FormControl(undefined),
+  });
+  rangeEnd = new FormGroup({
+    start: new FormControl(undefined),
+    end: new FormControl(undefined),
+  });
+
+
+
   alarms: IAlarm[] = [];
+  alarmsView: IAlarm[] = [];
   isLoadingTable = true;
   alarmsConfig = alarmsConfig;
   sensors: ISensor[] = [];
@@ -29,10 +45,13 @@ export class AlarmsComponent implements OnInit {
   constructor(private alarmsService: AlarmsService,
     private sensorsService: SensorsService,
     private usersService: UsersService,
-    private placesService: PlacesService) { }
+    private placesService: PlacesService,
+    private datePipe: DatePipe) { }
 
   ngOnInit(): void {
+    this.clear();
     this.fetchData();
+    this.datePipe.transform(new Date(), 'dd-MM-yy');
   }
 
   fetchData() {
@@ -52,6 +71,8 @@ export class AlarmsComponent implements OnInit {
         this.users.sort(function (a, b) { return a.id - b.id; });
         this.places.sort(function (a, b) { return a.id - b.id; });
         this.alarms.forEach((alarm) => {
+          alarm.date_finish = new Date(alarm.date_finish);
+          alarm.date_time = new Date(alarm.date_time);
           alarm.sensor = this.sensors.find((sensor) => sensor.id == alarm.sensorId);
           if (alarm.sensor)
             alarm.sensorDescription = alarm.sensor.description;
@@ -63,6 +84,7 @@ export class AlarmsComponent implements OnInit {
             alarm.placeDescription = alarm.place.identifier;
         });
         this.isLoadingTable = false;
+        this.changeFilter();
         setTimeout(this.fetchData.bind(this), 5000);
       },
       error: (err) => {
@@ -89,7 +111,40 @@ export class AlarmsComponent implements OnInit {
   }
 
   changeFilter() {
+    console.log(this.rangeInit.controls.start.value);
+    this.alarmsView = [...this.alarms];
+    if (this.rangeInit.controls.start.value && this.rangeInit.controls.end.value) {
+      const begin = new Date(this.rangeInit.controls.start.value);
+      const end = new Date(this.rangeInit.controls.end.value);
+      this.alarmsView = this.alarmsView.filter(alarm => alarm.date_time >= begin
+        && alarm.date_time <= end);
+    }
+    if (this.rangeEnd.controls.start.value && this.rangeEnd.controls.end.value) {
+      const begin = new Date(this.rangeEnd.controls.start.value);
+      const end = new Date(this.rangeEnd.controls.end.value);
+      this.alarmsView = this.alarmsView.filter(alarm => alarm.date_time >= begin
+        && alarm.date_time <= end);
+    }
+    if (this.selectedPlace && this.selectedPlace != '' && this.selectedPlace != 'TODOS') {
+      this.alarmsView = this.alarmsView.filter((alarm) => alarm.place?.id == this.selectedPlace);
+    }
+    if (this.selectedUser && this.selectedUser != '' && this.selectedUser != 'TODOS') {
+      this.alarmsView = this.alarmsView.filter((alarm) => alarm.operator?.id == this.selectedUser);
+    }
+    if (this.selectedSensor && this.selectedSensor != '' && this.selectedSensor != 'TODOS') {
+      this.alarmsView = this.alarmsView.filter((alarm) => alarm.sensor?.id == this.selectedSensor);
+    }
+  }
 
+  clear() {
+    this.rangeInit.controls.start.setValue(undefined);
+    this.rangeInit.controls.end.setValue(undefined);
+    this.rangeEnd.controls.start.setValue(undefined);
+    this.rangeEnd.controls.end.setValue(undefined);
+    this.selectedSensor = 'TODOS';
+    this.selectedPlace = 'TODOS';
+    this.selectedUser = 'TODOS';
+    this.changeFilter();
   }
 
 }

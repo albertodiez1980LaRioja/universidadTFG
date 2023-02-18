@@ -10,6 +10,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-material-components/datetime-picker": "^8.0.0",
     "@angular/animations": "^14.0.0",
     "@angular/cdk": "^14.1.0",
     "@angular/common": "^14.0.0",
@@ -23,6 +24,7 @@
     "@auth0/angular-jwt": "^5.0.2",
     "@material/form-field": "^14.0.0",
     "@swimlane/ngx-charts": "^20.1.2",
+    "@syncfusion/ej2-angular-calendars": "^20.4.48",
     "ngx-mat-errors": "^14.0.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
