@@ -8,7 +8,7 @@ export interface IAlarm {
     date_time: Date;
     sensorId: number;
     operatorId: number;
-    date_finish: Date;
+    date_finish: Date | undefined;
     placeId: number;
     sensorDescription: string | undefined;
     operatorDescription: string | undefined;

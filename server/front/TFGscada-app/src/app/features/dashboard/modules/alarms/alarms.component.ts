@@ -71,7 +71,10 @@ export class AlarmsComponent implements OnInit {
         this.users.sort(function (a, b) { return a.id - b.id; });
         this.places.sort(function (a, b) { return a.id - b.id; });
         this.alarms.forEach((alarm) => {
-          alarm.date_finish = new Date(alarm.date_finish);
+          if (alarm.date_finish)
+            alarm.date_finish = new Date(alarm.date_finish);
+          else
+            alarm.date_finish = undefined;
           alarm.date_time = new Date(alarm.date_time);
           alarm.sensor = this.sensors.find((sensor) => sensor.id == alarm.sensorId);
           if (alarm.sensor)
