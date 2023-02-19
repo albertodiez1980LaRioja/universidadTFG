@@ -1,4 +1,4 @@
-
+@use '@angular/material' as mat;
 .dashboard-container {
   min-height: 90%;
   display: flex;
@@ -87,4 +87,6 @@ mat-toolbar {
   background-color: transparent;
 }
 
-
+.changeLang {
+  margin-right: 2em;
+}

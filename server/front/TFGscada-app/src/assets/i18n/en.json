@@ -1,0 +1,8 @@
+{
+  "dashboard": {
+    "Usuarios": "Users",
+    "Lugares": "Places",
+    "Alarmas": "Alarms",
+    "Acciones": "Actions"
+  }
+}

@@ -4,14 +4,18 @@
       <mat-icon *ngIf="show">menu</mat-icon>
       <mat-icon *ngIf="!show">arrow_back</mat-icon>
     </button>
-    <h3>{{msg}}</h3>
+    <h3>{{msg | translate}}</h3>
     <!--
     <button mat-icon-button id="logout" (click)="logout()">
       <mat-icon>logout</mat-icon>
     </button>
     -->
     <!-- <app-profile-card></app-profile-card> -->
+
     <h3 [style.margin-left]="'auto'" [style.margin-right]="'3em'">{{this.auth.user.user_name}}</h3>
+    <select (change)="changeLanguaje(selectedLang.value)" #selectedLang class="changeLang">
+      <option *ngFor="let language of languages" [value]="language.id">{{ language.show }}</option>
+    </select>
     <button mat-raised-button matTooltip="Deslogear" (click)="logOut()">
       <mat-icon class="logout">launch</mat-icon>
     </button>
@@ -24,10 +28,10 @@
       -->
 
       <mat-nav-list [disableRipple]="true">
-        <mat-list-item *ngFor="let item of sideNavItems" [routerLink]="item.link" (click)="msg=item.text;"
+        <mat-list-item *ngFor="let item of sideNavItems" [routerLink]="item.link" (click)="msg='dashboard.'+item.text;"
           routerLinkActive="active-list-item">
           <mat-icon class="list-item-icon">{{ item.icon }}</mat-icon>
-          <span class="list-item-text">{{ item.text }}</span>
+          <span class="list-item-text">{{ ('dashboard.'+item.text) | translate}}</span>
         </mat-list-item>
       </mat-nav-list>
     </mat-drawer>

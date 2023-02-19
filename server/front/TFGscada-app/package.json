@@ -23,6 +23,8 @@
     "@angular/router": "^14.0.0",
     "@auth0/angular-jwt": "^5.0.2",
     "@material/form-field": "^14.0.0",
+    "@ngx-translate/core": "^14.0.0",
+    "@ngx-translate/http-loader": "^7.0.0",
     "@swimlane/ngx-charts": "^20.1.2",
     "@syncfusion/ej2-angular-calendars": "^20.4.48",
     "ngx-mat-errors": "^14.0.0",
