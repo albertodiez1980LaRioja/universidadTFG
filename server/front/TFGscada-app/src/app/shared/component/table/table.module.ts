@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,6 +25,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtModule } from '@auth0/angular-jwt';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppRoutingModule } from 'src/app/app-routing.module';
 import { tokenGetter } from 'src/app/app.module';
 import { TableComponent } from './table.component';
@@ -40,7 +42,17 @@ import { TableComponent } from './table.component';
         MatButtonModule,
         MatTableModule,
         MatCheckboxModule, MatProgressSpinnerModule,
-        MatSortModule, MatFormFieldModule, MatInputModule
+        MatSortModule, MatFormFieldModule, MatInputModule,
+
+        // ngx-translate and the loader module
+        HttpClientModule,
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+        })
     ],
 
     exports: [
@@ -48,3 +60,8 @@ import { TableComponent } from './table.component';
     ]
 })
 export class TableModule { }
+
+// required for AOT compilation
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+    return new TranslateHttpLoader(http);
+}

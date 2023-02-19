@@ -21,11 +21,11 @@ export class DashboardComponent implements OnInit {
   languages: { id: string, show: string }[] = [{ id: 'es', show: 'español' }, { id: 'en', show: 'english' }];
 
   show = true;
-  msg = 'dashboard.' + this.sideNavItems[0].text;
+  msg = this.sideNavItems[0].text;
 
   constructor(public auth: AuthService, private router: Router,
     private translate: TranslateService) {
-    this.translate.use('es');
+    this.translate.use(this.languages[0].id);
     console.log(this.router.url);
     if (this.router.url == '/dashboard/places')
       this.msg = this.sideNavItems[1].text;
@@ -80,6 +80,19 @@ export class DashboardComponent implements OnInit {
 
   changeLanguaje($event: any) {
     this.translate.use($event);
+    this.auth.setLanguage($event);
+    this.reloadComponent(true, '');
+  }
+
+  reloadComponent(self: boolean, urlToNavigateTo?: string) {
+    //skipLocationChange:true means dont update the url to / when navigating
+    console.log("Current route I am on:", this.router.url);
+    const url = self ? this.router.url : urlToNavigateTo;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([`/${url}`]).then(() => {
+        console.log(`After navigation I am on:${this.router.url}`)
+      })
+    })
   }
 
 }

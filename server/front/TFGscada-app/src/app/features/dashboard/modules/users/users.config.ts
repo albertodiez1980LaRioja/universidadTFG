@@ -6,14 +6,14 @@ export const usersConfig: ITableConfig = {
     sort: true,
     paginator: true,
     columns: [
-        { name: 'Nombre de usuario', prop: 'user_name', type: 'text' },
-        { name: 'Nombre', prop: 'name', type: 'text' },
-        { name: 'Correo electrónico', prop: 'email', type: 'text' },
-        { name: 'Telefono fijo', prop: 'telephone', type: 'text' },
-        { name: 'Telefono móvil', prop: 'celular', type: 'text' },
+        { name: 'usersTable.Username', prop: 'user_name', type: 'text' },
+        { name: 'usersTable.name', prop: 'name', type: 'text' },
+        { name: 'usersTable.correoElectronico', prop: 'email', type: 'text' },
+        { name: 'usersTable.phone', prop: 'telephone', type: 'text' },
+        { name: 'usersTable.celular', prop: 'celular', type: 'text' },
         { name: 'DNI', prop: 'dni', type: 'text' },
-        { name: 'Dirección', prop: 'address', type: 'text' },
-        { name: 'Rol', prop: 'roleText', type: 'text' },
+        { name: 'usersTable.direccion', prop: 'address', type: 'text' },
+        { name: 'usersTable.rol', prop: 'roleText', type: 'text' },
     ],
 
     actions: [

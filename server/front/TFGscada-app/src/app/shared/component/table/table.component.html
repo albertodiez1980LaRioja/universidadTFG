@@ -15,7 +15,7 @@
                     <ng-container *ngIf="column.type === 'text'" [matColumnDef]="column.prop" [sticky]="column.sticky">
                         <th [style.width]="column.width" mat-header-cell *matHeaderCellDef mat-sort-header
                             class="header-cell">
-                            {{ column.name }}
+                            {{ column.name | translate }}
                         </th>
                         <td mat-cell class="cell" *matCellDef="let row">
                             <p *ngIf="!column.editable; else editableTemplate" [class]="column.class">
@@ -44,7 +44,7 @@
                     <ng-container *ngIf="column.type === 'icon'" [matColumnDef]="column.prop" [sticky]="column.sticky">
                         <th [style.width]="column.width" mat-header-cell *matHeaderCellDef mat-sort-header
                             class="header-cell">
-                            {{ column.name }}
+                            {{ column.name | translate }}
                         </th>
                         <td mat-cell class="cell" *matCellDef="let row">
                             <span class="material-icons">{{ row[column.prop] }}</span>
@@ -55,7 +55,7 @@
                         [sticky]="column.sticky">
                         <th [style.width]="column.width" mat-header-cell mat-sort-header *matHeaderCellDef
                             class="header-cell">
-                            {{ column.name }}
+                            {{ column.name | translate}}
                         </th>
                         <td mat-cell class="cell" *matCellDef="let row">
                             <button mat-flat-button [style.width]="column.width"
@@ -86,7 +86,7 @@
                     <ng-container *ngIf="column.type === 'date'" [matColumnDef]="column.prop" [sticky]="column.sticky">
                         <th [style.width]="column.width" mat-header-cell *matHeaderCellDef mat-sort-header
                             class="header-cell">
-                            {{ column.name }}
+                            {{ column.name | translate}}
                         </th>
                         <td mat-cell class="cell" *matCellDef="let row">
                             <p *ngIf="row[column.prop]; else noDate">
@@ -100,7 +100,7 @@
                         [sticky]="column.sticky">
                         <th [style.width]="column.width" mat-header-cell *matHeaderCellDef mat-sort-header
                             class="header-cell">
-                            {{ column.name }}
+                            {{ column.name | translate}}
                         </th>
                         <td mat-cell class="cell" *matCellDef="let row">
                             <p [style.color]="row[column.prop].color" *ngIf="!column.editable; else colorEditable">
@@ -127,7 +127,7 @@
                     </ng-container>
                     <ng-container *ngIf="column.type === 'actions'" matColumnDef="actionButtons">
                         <th [style.width]="column.width" class="header-cell" mat-header-cell *matHeaderCellDef>
-                            Acciones
+                            {{ 'Acciones' | translate }}
                         </th>
                         <td mat-cell *matCellDef="let row">
                             <button *ngFor="let action of row.actions; let i = index" class="action-button"
@@ -142,7 +142,7 @@
                     <ng-container *ngIf="column.type === 'list'" [matColumnDef]="column.prop" [sticky]="column.sticky">
                         <th [style.width]="column.width" mat-header-cell *matHeaderCellDef mat-sort-header
                             class="header-cell">
-                            {{ column.name }}
+                            {{ column.name | translate }}
                         </th>
                         <td mat-cell class="cell" *matCellDef="let row">
                             <mat-chip-list class="chip-list">
@@ -154,7 +154,7 @@
 
                 <ng-container *ngIf="config.actions" matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef class="header-cell">
-                        Acciones
+                        {{ 'Acciones' | translate }}
                     </th>
                     <td mat-cell *matCellDef="let row">
                         <div class="action-buttons">

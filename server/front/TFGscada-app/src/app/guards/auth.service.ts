@@ -24,6 +24,15 @@ interface TokenUser {
 })
 export class AuthService {
     private _user: IUser = {} as IUser;
+    private language: string = 'es';
+
+    setLanguage(lang: string) {
+        this.language = lang;
+    }
+
+    getLanguage() {
+        return this.language;
+    }
 
     constructor(
         private jwtHelper: JwtHelperService,

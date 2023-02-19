@@ -1,8 +1,18 @@
 {
+  "Acciones": "Actions",
   "dashboard": {
     "Usuarios": "Users",
     "Lugares": "Places",
     "Alarmas": "Alarms",
     "Acciones": "Actions"
+  },
+  "usersTable": {
+    "Username": "Username",
+    "name": "Name",
+    "correoElectronico": "Email",
+    "phone": "Phone",
+    "celular": "Mobile phone",
+    "direccion": "Address",
+    "rol": "Role"
   }
 }

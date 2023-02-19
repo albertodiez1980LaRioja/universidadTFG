@@ -7,6 +7,8 @@ import {
   OnChanges,
   OnInit,
   Output,
+  SimpleChange,
+  SimpleChanges,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -15,6 +17,8 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { TranslateService } from '@ngx-translate/core';
+import { AuthService } from 'src/app/guards/auth.service';
 
 // App own modules and services imports
 import { IColumnButton, ITableConfig } from './table.interfaces';
@@ -25,10 +29,18 @@ import { IColumnButton, ITableConfig } from './table.interfaces';
   styleUrls: ['./table.component.scss'],
 })
 export class TableComponent implements OnInit, AfterViewInit, OnChanges {
+  _language: string = 'es';
+
+
   @Input() data: any[] = [];
   @Input() config: ITableConfig = {} as ITableConfig;
   @Input() isLoadingTable = false;
   @Input() areRowClickable = false;
+  @Input()
+  set language(val: string) {
+    this._language = val;
+  }
+
 
   @ViewChild(MatPaginator) paginator: MatPaginator = {} as MatPaginator;
   @ViewChild(MatSort) sort: MatSort = {} as MatSort;
@@ -52,7 +64,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   displayedColumns: string[] = [];
   editing: HTMLDivElement = {} as HTMLDivElement;
 
-  constructor() {
+  constructor(private translate: TranslateService, public auth: AuthService,) {
+    this.translate.use(this.auth.getLanguage());
+    this.auth
     this.dataSource = new MatTableDataSource(this.data);
   }
 
@@ -73,7 +87,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  ngOnChanges(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    this.translate.use(this.auth.getLanguage());
+
     this.displayedColumns = this.config.columns
       .filter((column) => column.type !== 'actions')
       .map((column) => column.prop);
