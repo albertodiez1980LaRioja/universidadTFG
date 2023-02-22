@@ -3,7 +3,7 @@
     <form novalidate [formGroup]="form">
         <div class="columns">
             <mat-form-field *ngFor="let column of columnsShow">
-                <mat-label>{{ column.name }}</mat-label>
+                <mat-label>{{ column.name | translate }}</mat-label>
                 <input matInput *ngIf="column.type == 'text'" type="{{column.type}}" formControlName="{{ column.prop }}"
                     [readonly]="!editable">
                 <input matInput *ngIf="column.type == 'email'" type="{{column.type}}"

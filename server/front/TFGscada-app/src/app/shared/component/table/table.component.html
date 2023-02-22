@@ -164,46 +164,47 @@
                                         [color]="action.themeColor" [style.background-color]="action.backgroundColor"
                                         [style.color]="action.color" mat-button
                                         (click)="buttonAction($event, row, action.name)">
-                                        {{ action.tooltip }}
+                                        {{ (action.tooltip || '') | translate }}
                                         <span class="material-icons">{{ action.icon }}</span>
                                     </button>
                                     <button *ngSwitchCase="'mat-stroked-button'" mat-stroked-button
                                         [color]="action.themeColor" [style.background-color]="action.backgroundColor"
                                         [style.color]="action.color" mat-button
                                         (click)="buttonAction($event, row, action.name)">
-                                        {{ action.tooltip
+                                        {{ (action.tooltip || '') | translate
                                         }}<span class="material-icons">{{ action.icon }}</span>
                                     </button>
                                     <button *ngSwitchCase="'mat-flat-button'" mat-flat-button
                                         [color]="action.themeColor" [style.background-color]="action.backgroundColor"
                                         [style.color]="action.color" mat-button
                                         (click)="buttonAction($event, row, action.name)">
-                                        {{ action.tooltip
+                                        {{ (action.tooltip || '') | translate
                                         }}<span class="material-icons">{{ action.icon }}</span>
                                     </button>
                                     <button *ngSwitchCase="'mat-icon-button'" mat-icon-button
                                         [color]="action.themeColor" [style.background-color]="action.backgroundColor"
                                         [style.color]="action.color" mat-button
                                         (click)="buttonAction($event, row, action.name)">
-                                        <span class="material-icons" [matTooltip]="action.tooltip || ''">{{ action.icon
+                                        <span class="material-icons"
+                                            [matTooltip]="((action.tooltip || '') | translate ) || ''">{{ action.icon
                                             }}</span>
                                     </button>
                                     <button *ngSwitchCase="'mat-fab'" mat-fab [color]="action.themeColor"
                                         [style.background-color]="action.backgroundColor" [style.color]="action.color"
                                         mat-button (click)="buttonAction($event, row, action.name)">
-                                        {{ action.tooltip
+                                        {{ (action.tooltip || '') | translate
                                         }}<span class="material-icons">{{ action.icon }}</span>
                                     </button>
                                     <button *ngSwitchCase="'mat-mini-fab'" mat-mini-fab [color]="action.themeColor"
                                         [style.background-color]="action.backgroundColor" [style.color]="action.color"
                                         mat-button (click)="buttonAction($event, row, action.name)">
-                                        {{ action.tooltip
+                                        {{ (action.tooltip || '') | translate
                                         }}<span class="material-icons">{{ action.icon }}</span>
                                     </button>
                                     <button *ngSwitchDefault mat-button [color]="action.themeColor"
                                         [style.background-color]="action.backgroundColor" [style.color]="action.color"
                                         mat-button (click)="buttonAction($event, row, action.name)">
-                                        {{ action.tooltip
+                                        {{ (action.tooltip || '') | translate
                                         }}<span class="material-icons">{{ action.icon }}</span>
                                     </button>
                                 </ng-container>

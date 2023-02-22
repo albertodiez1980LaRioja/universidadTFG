@@ -13,6 +13,10 @@
     "phone": "Teléfono",
     "celular": "Móvil",
     "direccion": "Dirección",
-    "rol": "Rol"
+    "rol": "Rol",
+    "modificarRegistro": "Modificar registro",
+    "delete": "Borrar",
+    "pass": "Contraseña",
+    "view": "Ver"
   }
 }
