@@ -6,12 +6,12 @@ export const placesConfig: ITableConfig = {
     sort: true,
     paginator: true,
     columns: [
-        { name: 'Latitud', prop: 'latitude', type: 'text' },
-        { name: 'Longitud', prop: 'longitude', type: 'text' },
-        { name: 'Dirección', prop: 'address', type: 'text' },
-        { name: 'Identificador', prop: 'identifier', type: 'text' },
-        { name: 'Tiempo de actualización', prop: 'actualizationTime', type: 'text' },
-        { name: 'Usuarios', prop: 'personsNames', type: 'list' },
+        { name: 'places.placesTable.latitude', prop: 'latitude', type: 'text' },
+        { name: 'places.placesTable.longitude', prop: 'longitude', type: 'text' },
+        { name: 'places.placesTable.direcction', prop: 'address', type: 'text' },
+        { name: 'places.placesTable.identifier', prop: 'identifier', type: 'text' },
+        { name: 'places.placesTable.actualizationTime', prop: 'actualizationTime', type: 'text' },
+        { name: 'places.placesTable.users', prop: 'personsNames', type: 'list' },
     ],
 
     actions: [
@@ -43,14 +43,14 @@ export const dialogConfig: IDialogConfig = {
     editable: true,
     columns: [
         { name: 'id', prop: 'id', type: 'text', canView: false },
-        { name: 'Latitud', prop: 'latitude', type: 'text' },
-        { name: 'Longitud', prop: 'longitude', type: 'text' },
-        { name: 'Dirección', prop: 'address', type: 'text' },
-        { name: 'Identificador', prop: 'identifier', type: 'text' },
-        { name: 'Contraseña', prop: 'pass', type: 'password', canSearch: false },
-        { name: 'Tiempo de actualización', prop: 'actualizationTime', type: 'combo', arrayValues: [2, 5, 10, 20, 30, 60], arrayShows: ['2', '5', '10', '20', '30', '60'] },
-        { name: 'Personas', prop: 'persons', type: 'chip', chipsToSelect: ['2', '5', '10', '20', '30', '60'], chipsSelecteds: ['2', '5', '10', '20', '30', '60'] },
+        { name: 'places.placesTable.latitude', prop: 'latitude', type: 'text' },
+        { name: 'places.placesTable.longitude', prop: 'longitude', type: 'text' },
+        { name: 'places.placesTable.direcction', prop: 'address', type: 'text' },
+        { name: 'places.placesTable.identifier', prop: 'identifier', type: 'text' },
+        { name: 'usersTable.pass', prop: 'pass', type: 'password', canSearch: false },
+        { name: 'places.placesTable.actualizationTime', prop: 'actualizationTime', type: 'combo', arrayValues: [2, 5, 10, 20, 30, 60], arrayShows: ['2', '5', '10', '20', '30', '60'] },
+        { name: 'places.placesTable.users', prop: 'persons', type: 'chip', chipsToSelect: ['2', '5', '10', '20', '30', '60'], chipsSelecteds: ['2', '5', '10', '20', '30', '60'] },
     ],
-    title: 'usersTable.userData',
+    title: 'places.dataSin',
     action: 'insert'
 }

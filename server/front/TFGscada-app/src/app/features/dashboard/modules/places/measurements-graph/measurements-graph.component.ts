@@ -109,6 +109,12 @@ export class MeasurementsGraphComponent implements OnInit {
           }
         }
         let init = response.data.length - 30;
+        this.translate.get('place_measurements.value').subscribe((res: string) => {
+          this.yAxisLabel = res;
+        });
+        this.translate.get('place_measurements.time').subscribe((res: string) => {
+          this.xAxisLabel = res;
+        });
         this.translate.get('place_measurements.personas').subscribe((res: string) => {
           this.multi[0].name = res;
           this.pushData(this.multi, res, 'has_persons', 1023, 0, max_dates, response);

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { IUser } from '../../users/users-interfaces';
 import { IOutput, IPlace } from '../places-interfaces';
 import { OutputsService } from './outputs.service';
-
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-outputs',
   templateUrl: './outputs.component.html',
@@ -19,12 +19,15 @@ export class OutputsComponent implements OnInit {
   doNext = true;
 
 
-  constructor(public outputsService: OutputsService) { }
+  constructor(public outputsService: OutputsService,
+    private translate: TranslateService) { }
+
+
+  msgIdentifier = '';
 
 
   ngOnInit(): void {
     this.doNext = true;
-    console.log('Todos los lugares', this.allPlaces);
     let userJson: IUser = JSON.parse(localStorage.getItem('user') as string) as IUser;
     this.outputsService.getOutputs().subscribe({
       next: (result: any) => {
@@ -47,7 +50,7 @@ export class OutputsComponent implements OnInit {
         for (let i = 0; i < result.data.length; i++) {
           outputAux.outputId = result.data[i].id;
           outputAux.outputId = i + 1;
-          this.outputsLabels.push(result.data[i].name);
+          this.outputsLabels.push('places.outputsSet.' + result.data[i].name);
           this.outputs.push({ ...outputAux });
         }
         this.fetchOutputs();

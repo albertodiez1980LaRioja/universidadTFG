@@ -1,6 +1,6 @@
 <div class="selectPlace">
     <mat-form-field appearance="fill">
-        <mat-label>Identificador del lugar</mat-label>
+        <mat-label>{{ 'places.outputsSet.identifier' | translate }}</mat-label>
         <mat-select [(value)]="selected" (selectionChange)="fetchOutputs()">
             <mat-option *ngFor="let place of this.allPlaces" value="{{place.id}}">{{place.identifier}}</mat-option>
         </mat-select>
@@ -9,18 +9,18 @@
 
 <div>
     <div class="data">
-        <h1>Nombre: {{ place?.identifier }}</h1>
-        <h1>Dirección: {{ place?.address }}</h1>
+        <h1>{{ 'places.placesTable.identifier' | translate }}: {{ place?.identifier }}</h1>
+        <h1>{{ 'places.placesTable.direcction' | translate }}: {{ place?.address }}</h1>
     </div>
 
     <div class="container">
         <div *ngFor="let output of outputs; index as i; first as isFirst" class="output">
-            <span class="label">{{ this.outputsLabels[i] }}</span>
+            <span class="label">{{ this.outputsLabels[i].toString() | translate }}</span>
             <mat-slide-toggle class="example-margin" [color]="color" [checked]="output.value" [disabled]="disabled"
                 (change)="change($event,i)">
             </mat-slide-toggle>
-            <div class="sended">{{output.sended ? 'Enviado':'No enviado' }}</div>
-
+            <div class="sended">{{output.sended ? ('places.outputsSet.sended' |
+                translate):('places.outputsSet.notSended' | translate) }}</div>
         </div>
     </div>
 </div>

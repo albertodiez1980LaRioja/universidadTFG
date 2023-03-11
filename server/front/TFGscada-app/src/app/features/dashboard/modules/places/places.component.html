@@ -1,5 +1,5 @@
 <mat-tab-group animationDuration="0ms" [(selectedIndex)]="tabSelected">
-    <mat-tab [label]="this.tabs[0]">
+    <mat-tab [label]="this.tabs[0] | translate">
         <div class="tab">
             <div class="sub-tab">
                 <button mat-raised-button (click)="clickSearch($event)">
@@ -17,13 +17,13 @@
             (action)="tableEvent($event)">
         </app-table>
     </mat-tab>
-    <mat-tab [label]="this.tabs[1]">
+    <mat-tab [label]="this.tabs[1] | translate">
         <app-measurements-graph [inputMultiple]="true"></app-measurements-graph>
     </mat-tab>
-    <mat-tab [label]="this.tabs[2]">
+    <mat-tab [label]="this.tabs[2] | translate">
         <app-place-measurements [lastMeasurements]="lastMeasurements"></app-place-measurements>
     </mat-tab>
-    <mat-tab [label]="this.tabs[3]" [disabled]="disableOutput">
+    <mat-tab [label]="this.tabs[3] | translate" [disabled]="disableOutput">
         <ng-template matTabContent>
             <app-outputs [place]="this.placeSelected" [allPlaces]="this.placesDate"></app-outputs>
         </ng-template>

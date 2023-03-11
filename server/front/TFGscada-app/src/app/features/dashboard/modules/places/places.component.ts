@@ -32,7 +32,7 @@ export class PlacesComponent implements OnInit {
   }
 
   selected = new FormControl(0);
-  tabs = ['Datos', 'Historial de mediciones', 'Mediciones de lugar', 'Salidas'];
+  tabs = ['places.data', 'places.measurementsHistory', 'places.measurementsPlace', 'places.outputs'];
 
   tabSelected = 1;
   placeSelected: IPlace | undefined;
@@ -42,7 +42,6 @@ export class PlacesComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.translate.use(this.auth.getLanguage());
     this.fetchPlaces();
     this.fetchUsers();
     this.selected.setValue(1);
@@ -298,7 +297,6 @@ export class PlacesComponent implements OnInit {
         }
       });
     }
-
   }
 
 }

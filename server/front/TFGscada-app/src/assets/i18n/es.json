@@ -25,6 +25,8 @@
     "userData": "Datos del usuario"
   },
   "place_measurements": {
+    "value": "Valor",
+    "time": "Tiempo",
     "personas": "Personas",
     "sonido": "Sonido",
     "aceite": "Aceite",
@@ -39,5 +41,29 @@
     "medicionesHastaMomento": "Poniendo mediciones hasta el momento:",
     "identificadorLugar": "Identificador del lugar",
     "hacerTiempoReal": "¿Hacer en tiempo real?"
+  },
+  "places": {
+    "dataSin": "Datos de lugar",
+    "data": "Datos de lugares",
+    "measurementsHistory": "Historial de mediciones",
+    "measurementsPlace": "Mediciones de lugar",
+    "outputs": "Salidas",
+    "placesTable": {
+      "latitude": "Latitud",
+      "longitude": "Longitud",
+      "direcction": "Dirección",
+      "identifier": "Identificador",
+      "actualizationTime": "Tiempo de actualización",
+      "users": "Usuarios"
+    },
+    "outputsSet": {
+      "identifier": "Identificador de lugar",
+      "sended": "Enviado",
+      "notSended": "No enviado",
+      "Primero": "Primero",
+      "Segundo": "Segundo",
+      "Tercero": "Tercero",
+      "Cuarto": "Cuarto"
+    }
   }
 }
