@@ -1,7 +1,7 @@
 export var multi: {
     name: string, series: {
         name: Date, value: number
-            , max: number | undefined, min: number | undefined
+        , max: number | undefined, min: number | undefined
     }[]
 }[] = [
         {
@@ -9,27 +9,27 @@ export var multi: {
             series: []
         },
         {
-            "name": "Sonido",
-            "series": []
+            name: "Sonido",
+            series: []
         },
         {
-            "name": "Aceite",
-            "series": []
+            name: "Aceite",
+            series: []
         },
         {
-            "name": "Gas",
-            "series": []
+            name: "Gas",
+            series: []
         },
         {
-            "name": "Lluvia",
-            "series": []
+            name: "Lluvia",
+            series: []
         },
     ];
 
 export var DHT11: {
     name: string, series: {
         name: Date, value: number
-            , max: number | undefined, min: number | undefined
+        , max: number | undefined, min: number | undefined
     }[]
 }[] = [
         {
@@ -45,7 +45,7 @@ export var DHT11: {
 export var binarios: {
     name: string, series: {
         name: Date, value: number
-            , max: number | undefined, min: number | undefined
+        , max: number | undefined, min: number | undefined
     }[]
 }[] = [
         {

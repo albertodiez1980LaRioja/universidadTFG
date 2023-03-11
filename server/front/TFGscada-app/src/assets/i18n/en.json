@@ -1,5 +1,9 @@
 {
+  "Aceptar": "Ok",
+  "Cancelar": "Cancel",
   "Acciones": "Actions",
+  "Si": "Yes",
+  "No": "No",
   "dashboard": {
     "Usuarios": "Users",
     "Lugares": "Places",
@@ -17,6 +21,23 @@
     "modificarRegistro": "Modify record",
     "delete": "Delete",
     "pass": "Password",
-    "view": "View"
+    "view": "View",
+    "userData": "Data user"
+  },
+  "place_measurements": {
+    "personas": "Persons",
+    "sonido": "Sound",
+    "aceite": "Oil",
+    "gas": "Gas",
+    "lluvia": "Rain",
+    "temperatura": "Temperature",
+    "humedad": "Humidity",
+    "vibracion": "Vibration",
+    "obstaculos": "Obstacle",
+    "luz": "Light",
+    "fuego": "Fire",
+    "medicionesHastaMomento": "Putting measurements so far:",
+    "identificadorLugar": "Place identifier",
+    "hacerTiempoReal": "Do in real time?"
   }
 }

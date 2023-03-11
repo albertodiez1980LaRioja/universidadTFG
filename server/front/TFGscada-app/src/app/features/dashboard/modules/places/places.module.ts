@@ -33,6 +33,9 @@ import { MeasurementsGraphComponent } from './measurements-graph/measurements-gr
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MatRadioModule, MAT_RADIO_DEFAULT_OPTIONS } from '@angular/material/radio';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 
 
@@ -53,7 +56,17 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatToolbarModule, MatInputModule, MatPaginatorModule, MatTooltipModule,
     MatChipsModule, MatTableModule, MatCheckboxModule, MatProgressSpinnerModule,
     MatSortModule, FormsModule, MatDialogModule, TableModule, MatSelectModule,
-    NgxChartsModule, MatRadioModule, ReactiveFormsModule
+    NgxChartsModule, MatRadioModule, ReactiveFormsModule,
+
+    // ngx-translate and the loader module
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [{
     provide: MAT_RADIO_DEFAULT_OPTIONS,
@@ -61,3 +74,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   }]
 })
 export class PlacesModule { }
+
+// required for AOT compilation
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+  return new TranslateHttpLoader(http);
+}

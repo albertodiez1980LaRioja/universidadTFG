@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { binarios, DHT11, multi } from './data';
 import { PlacesService } from '../places.service';
 import { IPlace } from '../places-interfaces';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -33,7 +34,8 @@ export class MeasurementsGraphComponent implements OnInit {
     domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
   };
 
-  constructor(public placesService: PlacesService) {
+  constructor(public placesService: PlacesService,
+    private translate: TranslateService) {
     //Object.assign(this, { multi });
   }
 
@@ -107,19 +109,53 @@ export class MeasurementsGraphComponent implements OnInit {
           }
         }
         let init = response.data.length - 30;
-        this.pushData(this.multi, 'Personas', 'has_persons', 1023, 0, max_dates, response);
-        this.pushData(this.multi, 'Sonido', 'has_sound', 1023, 0, max_dates, response);
-        this.pushData(this.multi, 'Aceite', 'has_oil', 1023, 0, max_dates, response, 1023);
-        this.pushData(this.multi, 'Gas', 'has_gas', 1023, 0, max_dates, response);
-        this.pushData(this.multi, 'Lluvia', 'has_rain', 1023, 0, max_dates, response, 1023);
+        this.translate.get('place_measurements.personas').subscribe((res: string) => {
+          this.multi[0].name = res;
+          this.pushData(this.multi, res, 'has_persons', 1023, 0, max_dates, response);
+        });
+        this.translate.get('place_measurements.sonido').subscribe((res: string) => {
+          this.multi[1].name = res;
+          this.pushData(this.multi, res, 'has_sound', 1023, 0, max_dates, response);
+        });
+        this.translate.get('place_measurements.aceite').subscribe((res: string) => {
+          this.multi[2].name = res;
+          this.pushData(this.multi, res, 'has_oil', 1023, 0, max_dates, response, 1023);
+        });
+        this.translate.get('place_measurements.gas').subscribe((res: string) => {
+          this.multi[3].name = res;
+          this.pushData(this.multi, res, 'has_gas', 1023, 0, max_dates, response);
+        });
+        this.translate.get('place_measurements.lluvia').subscribe((res: string) => {
+          this.multi[4].name = res;
+          this.pushData(this.multi, res, 'has_rain', 1023, 0, max_dates, response, 1023);
+        });
 
-        this.pushData(this.DHT11, 'Temperatura', 'temperature', undefined, undefined, max_dates, response);
-        this.pushData(this.DHT11, 'Humedad', 'humidity', undefined, undefined, max_dates, response);
+        this.translate.get('place_measurements.temperatura').subscribe((res: string) => {
+          this.DHT11[0].name = res;
+          this.pushData(this.DHT11, res, 'temperature', undefined, undefined, max_dates, response);
+        });
+        this.translate.get('place_measurements.humedad').subscribe((res: string) => {
+          this.DHT11[1].name = res;
+          this.pushData(this.DHT11, res, 'humidity', undefined, undefined, max_dates, response);
+        });
 
-        this.pushData(this.binarios, 'Vibración', 'binary_values', 1, 0, max_dates, response, 0, 1);
-        this.pushData(this.binarios, 'Obstáculos', 'binary_values', 2, 0, max_dates, response, 2, 2);
-        this.pushData(this.binarios, 'Luz', 'binary_values', 4, 0, max_dates, response, 4, 4);
-        this.pushData(this.binarios, 'Fuego', 'binary_values', 8, 0, max_dates, response, 8, 8);
+
+        this.translate.get('place_measurements.vibracion').subscribe((res: string) => {
+          this.binarios[0].name = res;
+          this.pushData(this.binarios, res, 'binary_values', 1, 0, max_dates, response, 0, 1);
+        });
+        this.translate.get('place_measurements.obstaculos').subscribe((res: string) => {
+          this.binarios[1].name = res;
+          this.pushData(this.binarios, res, 'binary_values', 2, 0, max_dates, response, 2, 2);
+        });
+        this.translate.get('place_measurements.luz').subscribe((res: string) => {
+          this.binarios[2].name = res;
+          this.pushData(this.binarios, res, 'binary_values', 4, 0, max_dates, response, 4, 4);
+        });
+        this.translate.get('place_measurements.fuego').subscribe((res: string) => {
+          this.binarios[3].name = res;
+          this.pushData(this.binarios, res, 'binary_values', 8, 0, max_dates, response, 8, 8);
+        });
 
         this.binarios = [...this.binarios];
         this.DHT11 = [...this.DHT11];
@@ -180,7 +216,6 @@ export class MeasurementsGraphComponent implements OnInit {
 
   ngOnInit() {
 
-    console.log('input', this.inputMultiple);
     if (this.inputMultiple) {
       this.fetchPlaces();
     }

@@ -9,6 +9,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { UsersService } from '../users/users.service';
 import { IUser } from '../users/users-interfaces';
 import { TableComponent } from 'src/app/shared/component/table/table.component';
+import { TranslateService } from '@ngx-translate/core';
+import { AuthService } from 'src/app/guards/auth.service';
 
 
 @Component({
@@ -24,7 +26,9 @@ export class PlacesComponent implements OnInit {
 
   constructor(public placesService: PlacesService,
     public matTab: MatTabsModule, private dialog: MatDialog,
-    public usersService: UsersService) {
+    public usersService: UsersService,
+    private translate: TranslateService,
+    public auth: AuthService,) {
   }
 
   selected = new FormControl(0);
@@ -38,6 +42,7 @@ export class PlacesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.translate.use(this.auth.getLanguage());
     this.fetchPlaces();
     this.fetchUsers();
     this.selected.setValue(1);

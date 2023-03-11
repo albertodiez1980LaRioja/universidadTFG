@@ -66,7 +66,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
   constructor(private translate: TranslateService, public auth: AuthService,) {
     this.translate.use(this.auth.getLanguage());
-    this.auth
     this.dataSource = new MatTableDataSource(this.data);
   }
 
