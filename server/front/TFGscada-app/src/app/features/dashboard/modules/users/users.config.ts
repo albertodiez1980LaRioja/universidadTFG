@@ -57,6 +57,6 @@ export const dialogConfig: IDialogConfig = {
         { name: 'usersTable.pass', prop: 'pass', type: 'password', canSearch: false },
         { name: 'usersTable.rol', prop: 'roleText', type: 'combo', arrayValues: [0, 1, 2], arrayShows: ['Administrador', 'Operario', 'Usuario'] },
     ],
-    title: 'Datos del usuario',
+    title: 'usersTable.userData',
     action: 'insert'
 }

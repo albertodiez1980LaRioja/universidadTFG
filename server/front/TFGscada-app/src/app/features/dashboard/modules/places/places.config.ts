@@ -51,6 +51,6 @@ export const dialogConfig: IDialogConfig = {
         { name: 'Tiempo de actualización', prop: 'actualizationTime', type: 'combo', arrayValues: [2, 5, 10, 20, 30, 60], arrayShows: ['2', '5', '10', '20', '30', '60'] },
         { name: 'Personas', prop: 'persons', type: 'chip', chipsToSelect: ['2', '5', '10', '20', '30', '60'], chipsSelecteds: ['2', '5', '10', '20', '30', '60'] },
     ],
-    title: 'Datos del usuario',
+    title: 'usersTable.userData',
     action: 'insert'
 }

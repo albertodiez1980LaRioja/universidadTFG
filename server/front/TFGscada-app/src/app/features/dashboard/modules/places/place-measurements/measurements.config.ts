@@ -58,6 +58,6 @@ export const dialogConfig: IDialogConfig = {
         { name: 'Longitud', prop: 'longitude', type: 'text' },
         { name: 'Dirección', prop: 'address', type: 'text' },
     ],
-    title: 'Datos del usuario',
+    title: 'usersTable.userData',
     action: 'insert'
 }

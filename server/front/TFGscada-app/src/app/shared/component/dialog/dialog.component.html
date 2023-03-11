@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>{{ data.title }}</h2>
+<h2 mat-dialog-title>{{ data.title | translate }}</h2>
 <mat-dialog-content>
     <form novalidate [formGroup]="form">
         <div class="columns">
@@ -48,6 +48,8 @@
 
 </mat-dialog-content>
 <mat-dialog-actions class="center">
-    <button mat-raised-button mat-dialog-close *ngIf="editable">Cancelar</button>
-    <button mat-raised-button (click)="save()" [disabled]="this.form.status != 'VALID'">Aceptar</button>
+    <button mat-raised-button mat-dialog-close *ngIf="editable">
+        {{ 'Cancelar' | translate }}</button>
+    <button mat-raised-button (click)="save()" [disabled]="this.form.status != 'VALID'">
+        {{ 'Aceptar' | translate }}</button>
 </mat-dialog-actions>
