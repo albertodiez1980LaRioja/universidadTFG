@@ -1,13 +1,5 @@
 <div class="select">
     <mat-form-field appearance="fill">
-        <mat-label>{{ 'actions.identificador' | translate }}</mat-label>
-        <mat-select [(value)]="selectedPlace" (selectionChange)="changeFilter()">
-            <mat-option value="{{ 'TODOS' }}">{{ 'alarms.all' | translate }}</mat-option>
-            <mat-option *ngFor="let place of this.placesDate" value="{{place.id}}">{{place.identifier}}</mat-option>
-        </mat-select>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill">
         <mat-label>{{ 'actions.usuario' | translate }}</mat-label>
         <mat-select [(value)]="selectedUser" (selectionChange)="changeFilter()">
             <mat-option value="{{ 'TODOS' }}">{{ 'alarms.all' | translate }}</mat-option>
@@ -19,9 +11,18 @@
         <mat-label>{{ 'actions.salida' | translate }}</mat-label>
         <mat-select [(value)]="selectedOutput" (selectionChange)="changeFilter()">
             <mat-option value="{{ 'TODOS' }}">{{ 'alarms.all' | translate }}</mat-option>
-            <mat-option *ngFor="let out of this.outputBase" value="{{out.id}}">{{out.name}}</mat-option>
+            <mat-option *ngFor="let out of this.outputBase" value="{{out.id}}">{{out.name | translate }}</mat-option>
         </mat-select>
     </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>{{ 'actions.identificador' | translate }}</mat-label>
+        <mat-select [(value)]="selectedPlace" (selectionChange)="changeFilter()">
+            <mat-option value="{{ 'TODOS' }}">{{ 'alarms.all' | translate }}</mat-option>
+            <mat-option *ngFor="let place of this.placesDate" value="{{place.id}}">{{place.identifier}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
 </div>
 
 
