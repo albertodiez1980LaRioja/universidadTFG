@@ -108,10 +108,8 @@ export class AlarmsComponent implements OnInit {
   tableEvent($event: any) {
     console.log('evento', $event);
     if ($event.action == 'Acusar') {
-      console.log('Se ha pulsado en acusar');
       this.alarmsService.update($event.row.id, { operatorId: 1 }).subscribe({
         next: (result) => {
-          console.log(result);
           this.fetchData();
         },
         error: (err) => {
@@ -121,18 +119,37 @@ export class AlarmsComponent implements OnInit {
     }
   }
 
+  setDateInit(date: Date) {
+    date.setHours(0);
+    date.setMinutes(0);
+    date.setSeconds(0);
+    date.setMilliseconds(0);
+  }
+
+  setDateEnd(date: Date) {
+    date.setHours(23);
+    date.setMinutes(59);
+    date.setSeconds(59);
+    date.setMilliseconds(0);
+  }
+
+
   changeFilter() {
     console.log(this.rangeInit.controls.start.value);
     this.alarmsView = [...this.alarms];
     if (this.rangeInit.controls.start.value && this.rangeInit.controls.end.value) {
       const begin = new Date(this.rangeInit.controls.start.value);
+      this.setDateInit(begin);
       const end = new Date(this.rangeInit.controls.end.value);
+      this.setDateEnd(end);
       this.alarmsView = this.alarmsView.filter(alarm => alarm.date_time >= begin
         && alarm.date_time <= end);
     }
     if (this.rangeEnd.controls.start.value && this.rangeEnd.controls.end.value) {
       const begin = new Date(this.rangeEnd.controls.start.value);
       const end = new Date(this.rangeEnd.controls.end.value);
+      this.setDateInit(begin);
+      this.setDateEnd(end);
       this.alarmsView = this.alarmsView.filter(alarm => alarm.date_time >= begin
         && alarm.date_time <= end);
     }

@@ -19,7 +19,7 @@
                         </th>
                         <td mat-cell class="cell" *matCellDef="let row">
                             <p *ngIf="!column.editable; else editableTemplate" [class]="column.class">
-                                {{ row[column.prop] }}
+                                {{ column.translate ? (row[column.prop] | translate): (row[column.prop]) }}
                             </p>
                             <ng-template #editableTemplate>
                                 <div #editable (click)="setEditable(editable)">
@@ -76,7 +76,7 @@
                     <ng-container *ngIf="column.type === 'checkbox'" [matColumnDef]="column.prop"
                         [sticky]="column.sticky">
                         <th [style.width]="column.width" mat-header-cell *matHeaderCellDef mat-sort-header
-                            class="header-cell"></th>
+                            class="header-cell">{{ column.name | translate}}</th>
                         <td mat-cell class="cell" *matCellDef="let row">
                             <mat-checkbox [(ngModel)]="row[column.prop]" color="primary" (change)="check()">
                             </mat-checkbox>

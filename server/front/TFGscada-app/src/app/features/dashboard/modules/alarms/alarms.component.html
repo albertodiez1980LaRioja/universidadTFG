@@ -1,6 +1,6 @@
 <div class="select">
     <mat-form-field class="example-form-field" appearance="fill">
-        <mat-label>Rango para la fecha de inicio</mat-label>
+        <mat-label>{{ 'alarms.dateInitRange' | translate }}</mat-label>
         <mat-date-range-input [formGroup]="rangeInit" [rangePicker]="campaignOnePicker">
             <input matStartDate placeholder=" Start date" formControlName="start" (dateChange)="changeFilter()">
             <input matEndDate placeholder="End date" formControlName="end" (dateChange)="changeFilter()">
@@ -9,7 +9,7 @@
         <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
     </mat-form-field>
     <mat-form-field class="example-form-field" appearance="fill">
-        <mat-label>Rango para la fecha de fin</mat-label>
+        <mat-label>{{ 'alarms.dateEndRange' | translate }}</mat-label>
         <mat-date-range-input [formGroup]="rangeEnd" [rangePicker]="campaignOnePicker2">
             <input matStartDate placeholder=" Start date" formControlName="start" (dateChange)="changeFilter()">
             <input matEndDate placeholder="End date" formControlName="end" (dateChange)="changeFilter()">
@@ -19,23 +19,23 @@
     </mat-form-field>
 
     <mat-form-field appearance="fill">
-        <mat-label>Sensor</mat-label>
+        <mat-label>{{ 'alarms.sensor' | translate }}</mat-label>
         <mat-select [(value)]="selectedSensor" (selectionChange)="changeFilter()">
-            <mat-option value="{{ 'TODOS' }}">TODOS</mat-option>
+            <mat-option value="{{ 'TODOS' }}">{{ 'alarms.all' | translate }}</mat-option>
             <mat-option *ngFor="let sensor of this.sensors" value="{{sensor.id}}">{{sensor.name}}</mat-option>
         </mat-select>
     </mat-form-field>
     <mat-form-field appearance="fill">
-        <mat-label>Usuario</mat-label>
+        <mat-label>{{ 'alarms.user' | translate }}</mat-label>
         <mat-select [(value)]="selectedUser" (selectionChange)="changeFilter()">
-            <mat-option value="{{ 'TODOS' }}">TODOS</mat-option>
+            <mat-option value="{{ 'TODOS' }}">{{ 'alarms.all' | translate }}</mat-option>
             <mat-option *ngFor="let user of this.users" value="{{user.id}}">{{user.name}}</mat-option>
         </mat-select>
     </mat-form-field>
     <mat-form-field appearance="fill">
-        <mat-label>Identificador del lugar</mat-label>
+        <mat-label>{{ 'alarms.identifierPlace' | translate }}</mat-label>
         <mat-select [(value)]="selectedPlace" (selectionChange)="changeFilter()">
-            <mat-option value="{{ 'TODOS' }}">TODOS</mat-option>
+            <mat-option value="{{ 'TODOS' }}">{{ 'alarms.all' | translate }}</mat-option>
             <mat-option *ngFor="let place of this.places" value="{{place.id}}">{{place.identifier}}</mat-option>
         </mat-select>
     </mat-form-field>
@@ -43,11 +43,7 @@
     <button mat-fab color="primary" aria-label="Clear" (click)="clear()">
         <mat-icon>undo</mat-icon>
     </button>
-
-
-
 </div>
-
 
 <app-table #tableAlarms [config]="alarmsConfig" [data]="alarmsView" [isLoadingTable]="isLoadingTable"
     (action)="tableEvent($event)">

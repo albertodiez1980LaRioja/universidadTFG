@@ -16,6 +16,7 @@ export interface ITableColumn {
     editable?: boolean;
     width?: string;
     disabled?: boolean;
+    translate?: boolean;
 }
 
 interface IAction {

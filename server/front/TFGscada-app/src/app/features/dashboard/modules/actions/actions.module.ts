@@ -25,6 +25,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 
 
@@ -40,7 +43,20 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     MatToolbarModule, MatInputModule, MatPaginatorModule, MatTooltipModule,
     MatChipsModule, MatTableModule, MatCheckboxModule, MatProgressSpinnerModule,
     MatSortModule, FormsModule, MatDialogModule, TableModule, MatSelectModule,
-    NgxChartsModule, MatRadioModule
+    NgxChartsModule, MatRadioModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
+
   ]
 })
 export class ActionsModule { }
+
+// required for AOT compilation
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+  return new TranslateHttpLoader(http);
+}

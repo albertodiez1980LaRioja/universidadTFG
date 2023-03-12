@@ -6,11 +6,11 @@ export const alarmsConfig: ITableConfig = {
     sort: true,
     paginator: true,
     columns: [
-        { name: 'Fecha de inicio', prop: 'date_time', type: 'date', datePipe: 'd/M/yy, H:mm:ss a' },
-        { name: 'Finalizado', prop: 'date_finish', type: 'date', datePipe: 'd/M/yy, H:mm:ss a' },
-        { name: 'Sensor', prop: 'sensorDescription', type: 'text' },
-        { name: 'Operador encargado', prop: 'operatorDescription', type: 'text' },
-        { name: 'Lugar', prop: 'placeDescription', type: 'text' },
+        { name: 'alarms.dateInit', prop: 'date_time', type: 'date', datePipe: 'd/M/yy, H:mm:ss a' },
+        { name: 'alarms.finished', prop: 'date_finish', type: 'date', datePipe: 'd/M/yy, H:mm:ss a' },
+        { name: 'alarms.sensor', prop: 'sensorDescription', type: 'text' },
+        { name: 'alarms.operator', prop: 'operatorDescription', type: 'text' },
+        { name: 'alarms.place', prop: 'placeDescription', type: 'text' },
     ],
     actions: [
         {

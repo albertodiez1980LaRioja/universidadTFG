@@ -6,13 +6,13 @@ export const actionsConfig: ITableConfig = {
     sort: true,
     paginator: true,
     columns: [
-        { name: 'Fecha', prop: 'date', type: 'date', datePipe: 'M/d/yy, H:mm:ss a' },
-        { name: 'Usuario', prop: 'userNick', type: 'text' },
-        { name: 'Salida', prop: 'out', type: 'text' },
-        { name: 'Dirección', prop: 'address', type: 'text' },
-        { name: 'Lugar', prop: 'placeName', type: 'text' },
-        { name: 'Enviado', prop: 'sended', type: 'text' },
-        { name: 'Valor', prop: 'value', type: 'text' },
+        { name: 'actions.fecha', prop: 'date', type: 'date', datePipe: 'M/d/yy, H:mm:ss a' },
+        { name: 'actions.usuario', prop: 'userNick', type: 'text' },
+        { name: 'actions.salida', prop: 'out', type: 'text', translate: true },
+        { name: 'actions.direccion', prop: 'address', type: 'text' },
+        { name: 'actions.lugar', prop: 'placeName', type: 'text' },
+        { name: 'actions.enviado', prop: 'sended', type: 'checkbox' },
+        { name: 'actions.valor', prop: 'value', type: 'checkbox' },
     ],
     /*
     actions: [

@@ -65,5 +65,31 @@
       "Tercero": "third",
       "Cuarto": "Fourt"
     }
-  }
+  },
+  "alarms": {
+    "dateInit": "Init date",
+    "finished": "Finished",
+    "sensor": "Sensor",
+    "operator": "Operator",
+    "place": "Lugar",
+    "dateInitRange": "Date init range",
+    "dateEndRange": "Date end range",
+    "user": "Operator",
+    "identifierPlace": "Place identifier",
+    "all": "All"
+  },
+  "actions": {
+    "fecha": "Date",
+    "usuario": "User",
+    "salida": "Out",
+    "direccion": "Direcction",
+    "lugar": "Place",
+    "enviado": "Sended",
+    "valor": "Value",
+    "identificador": "Place identifier"
+  },
+  "Primero": "First",
+  "Segundo": "Second",
+  "Tercero": "Third",
+  "Cuarto": "Fourt"
 }
