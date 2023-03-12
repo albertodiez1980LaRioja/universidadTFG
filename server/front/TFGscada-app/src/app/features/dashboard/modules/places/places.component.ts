@@ -32,7 +32,8 @@ export class PlacesComponent implements OnInit {
   }
 
   selected = new FormControl(0);
-  tabs = ['places.data', 'places.measurementsHistory', 'places.measurementsPlace', 'places.outputs'];
+  tabs = ['places.data', 'places.measurementsHistory',
+    'places.measurementsPlace', 'places.outputs', 'places.map'];
 
   tabSelected = 1;
   placeSelected: IPlace | undefined;

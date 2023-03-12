@@ -28,6 +28,7 @@
     "@swimlane/ngx-charts": "^20.1.2",
     "@syncfusion/ej2-angular-calendars": "^20.4.48",
     "ngx-mat-errors": "^14.0.0",
+    "ol": "^7.3.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

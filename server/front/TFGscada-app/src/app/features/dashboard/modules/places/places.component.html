@@ -28,4 +28,9 @@
             <app-outputs [place]="this.placeSelected" [allPlaces]="this.placesDate"></app-outputs>
         </ng-template>
     </mat-tab>
+    <mat-tab [label]="this.tabs[4] | translate" [disabled]="disableOutput">
+        <ng-template matTabContent>
+            <app-map></app-map>
+        </ng-template>
+    </mat-tab>
 </mat-tab-group>
