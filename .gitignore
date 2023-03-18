@@ -143,3 +143,9 @@ server/front/TFGscada-app/node_modules/
 raspberry/back/node_modules/
 server/bac/back/node_modules/
 server/front/TFGscada-app/node_modules/
+
+# executables
+
+raspberry/mantenimiento
+raspberry/principalSerie2
+raspberry/principalSerie
