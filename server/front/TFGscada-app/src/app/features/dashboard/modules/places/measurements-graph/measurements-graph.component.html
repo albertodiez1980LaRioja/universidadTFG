@@ -23,6 +23,9 @@
             <button class="button" mat-raised-button (click)="clicked()">Ver mediciones</button>
         </div>
 
+        <app-outputs class="outputs" [mode]="'component'" [place]="placeSelected"
+            [allPlaces]="this.allPlaces"></app-outputs>
+
 
     </div>
 

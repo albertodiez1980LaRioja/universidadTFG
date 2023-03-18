@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class OutputsComponent implements OnInit {
   @Input() place: IPlace | undefined;
   @Input() allPlaces: IPlace[] | undefined;
+  @Input() mode: string = 'full';
   outputs: IOutput[] = [];
   outputsLabels: string[] = [];
   color = 'primary';

@@ -1,4 +1,4 @@
-<div class="selectPlace">
+<div class="selectPlace" *ngIf="mode=='full'">
     <mat-form-field appearance="fill">
         <mat-label>{{ 'places.outputsSet.identifier' | translate }}</mat-label>
         <mat-select [(value)]="selected" (selectionChange)="fetchOutputs()">
@@ -7,7 +7,7 @@
     </mat-form-field>
 </div>
 
-<div>
+<div *ngIf="mode=='full'">
     <div class="data">
         <h1>{{ 'places.placesTable.identifier' | translate }}: {{ place?.identifier }}</h1>
         <h1>{{ 'places.placesTable.direcction' | translate }}: {{ place?.address }}</h1>
@@ -22,5 +22,22 @@
             <div class="sended">{{output.sended ? ('places.outputsSet.sended' |
                 translate):('places.outputsSet.notSended' | translate) }}</div>
         </div>
+    </div>
+</div>
+
+<div *ngIf="mode=='component'">
+    <h1 class="center">{{ 'places.outputs' | translate }}</h1>
+    <div class="container-component">
+        <div *ngFor="let output of outputs; index as i; first as isFirst" class="output-component">
+            <div class="sub-output-component">
+                <span class="label">{{ this.outputsLabels[i].toString() | translate }}</span>
+                <mat-slide-toggle class="example-margin" [color]="color" [checked]="output.value" [disabled]="disabled"
+                    (change)="change($event,i)">
+                </mat-slide-toggle>
+            </div>
+            <div class="sended">{{output.sended ? ('places.outputsSet.sended' |
+                translate):('places.outputsSet.notSended' | translate) }}</div>
+        </div>
+
     </div>
 </div>

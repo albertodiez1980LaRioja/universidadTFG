@@ -92,5 +92,10 @@
   "Primero": "Primero",
   "Segundo": "Segundo",
   "Tercero": "Tercero",
-  "Cuarto": "Cuarto"
+  "Cuarto": "Cuarto",
+  "toolTips": {
+    "view": "Ver",
+    "delete": "Eliminar",
+    "modifi": "Modificar"
+  }
 }

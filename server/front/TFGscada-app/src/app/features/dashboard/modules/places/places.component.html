@@ -18,19 +18,21 @@
         </app-table>
     </mat-tab>
     <mat-tab [label]="this.tabs[1] | translate">
-        <app-measurements-graph [inputMultiple]="true"></app-measurements-graph>
+        <app-measurements-graph [place]="this.placeSelected" [inputMultiple]="true"></app-measurements-graph>
     </mat-tab>
     <mat-tab [label]="this.tabs[2] | translate">
         <app-place-measurements [lastMeasurements]="lastMeasurements"></app-place-measurements>
     </mat-tab>
+    <!--
     <mat-tab [label]="this.tabs[3] | translate" [disabled]="disableOutput">
         <ng-template matTabContent>
             <app-outputs [place]="this.placeSelected" [allPlaces]="this.placesDate"></app-outputs>
         </ng-template>
     </mat-tab>
+    -->
     <mat-tab [label]="this.tabs[4] | translate" [disabled]="disableOutput">
         <ng-template matTabContent>
-            <app-map></app-map>
+            <app-map (placeSelected)="placeSelectedByMap($event)"></app-map>
         </ng-template>
     </mat-tab>
 </mat-tab-group>

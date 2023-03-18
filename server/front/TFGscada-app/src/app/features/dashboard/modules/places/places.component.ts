@@ -46,7 +46,7 @@ export class PlacesComponent implements OnInit {
     this.fetchPlaces();
     this.fetchUsers();
     this.selected.setValue(1);
-    this.tabSelected = 1;
+    this.tabSelected = 0;
 
   }
 
@@ -73,7 +73,6 @@ export class PlacesComponent implements OnInit {
   disableOutput = false;
 
   async tableEvent($event: any) {
-    console.log('Evento de la tabla: ', $event);
     switch ($event.action) {
       case 'Update':
         this.dialogConfig.action = 'update';
@@ -115,7 +114,6 @@ export class PlacesComponent implements OnInit {
                 }
               }
             user.idPersons = personsIds;
-            console.log('se envia', user);
             this.placesService.update((user)).subscribe({
               next: (response: any) => {
                 this.fetchPlaces();
@@ -131,7 +129,6 @@ export class PlacesComponent implements OnInit {
       case 'Delete':
         this.placesService.delete($event.row.id).subscribe({
           next: (result: any) => {
-            console.log(result);
             this.fetchPlaces();
           },
           error: (err: any) => {
@@ -142,10 +139,15 @@ export class PlacesComponent implements OnInit {
       case 'View':
         //this.disableOutput = false;
         this.placeSelected = $event.row;
-        this.tabSelected = 4;
+        this.tabSelected = 1;
         break;
 
     }
+  }
+
+  placeSelectedByMap($event: any) {
+    this.placeSelected = $event;
+    this.tabSelected = 1;
   }
 
   read_prop(obj: any, id: any) {
@@ -280,10 +282,8 @@ export class PlacesComponent implements OnInit {
             result.idPersons = personsIds;
             if (result) {
               delete result.id;
-              console.log(result);
               this.placesService.save(result).subscribe({
                 next: async (result: any) => {
-                  console.log('guardado', result);
                   this.fetchPlaces();
                 },
                 error: (err: any) => {

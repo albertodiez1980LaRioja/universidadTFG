@@ -1,4 +1,4 @@
-.data{
+.data {
   display: flex;
   flex-direction: column;
   margin: auto;
@@ -7,32 +7,69 @@
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: auto;
-    max-width: 24em;
-    min-width: 20em;
-    margin-top: 5em;
-    transform: scale(1.5);
-    margin-bottom: 3em;
-  }
-  
-  .output{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  max-width: 24em;
+  min-width: 20em;
+  margin-top: 5em;
+  transform: scale(1.5);
+  margin-bottom: 3em;
+}
+
+.container-component {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  max-width: 11em;
+  min-width: 10em;
+  margin-top: 5em;
+  transform: scale(1.5);
+  margin-bottom: 3em;
+}
+
+.center {
+  text-align: center;
+}
+
+.output {
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  margin: 0.2em;
+}
+
+.output-component {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-between;
+  margin: 0.1em;
+  padding: 0.4em;
+  border: 1px solid;
+  .sub-output-component {
     width: 100%;
     display: flex;
-    align-items: stretch; 
+    flex-direction: row;
+    align-items: stretch;
     justify-content: space-between;
-    //max-width: 12em;
-    margin: .2em;
+    margin: 0.2em;
   }
+  .sended {
+    width: 100%;
+    text-align: center;
+  }
+}
 
-      
 :host {
   .mat-slide-toggle {
     &.mat-checked {
       ::ng-deep.mat-slide-toggle-bar::after {
-        content: 'ON';
+        content: "ON";
         font-size: 45%;
         font-weight: 700;
         color: black;
@@ -43,7 +80,7 @@
     }
     &:not(.mat-checked) {
       ::ng-deep.mat-slide-toggle-bar::after {
-        content: 'OFF';
+        content: "OFF";
         font-size: 45%;
         font-weight: 700;
         color: white;
@@ -55,15 +92,15 @@
   }
 }
 
-.sended{
+.sended {
   width: 33%;
 }
 
-.label{
+.label {
   width: 33%;
 }
 
-.selectPlace{
+.selectPlace {
   display: flex;
   justify-content: center;
   margin: 2em;

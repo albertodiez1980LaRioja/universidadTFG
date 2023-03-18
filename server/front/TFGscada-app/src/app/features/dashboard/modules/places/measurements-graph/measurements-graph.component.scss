@@ -1,50 +1,56 @@
-.grap-container{
-    margin: 3em;  
+.grap-container {
+  margin: 3em;
 }
 
-.container{
-    display: flex;
-    flex-direction: row;
+.container {
+  display: flex;
+  flex-direction: row;
 }
 
 .example-radio-group {
-    display: flex;
-    flex-direction: column;
-    margin: 15px 0;
-    align-items: flex-start;
-    color: 'accent';
-  }
-  
-  .example-radio-button {
-    margin: 5px;
-  }
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+  align-items: flex-start;
+  color: "accent";
+}
 
-  .controls{
-    margin: 1em;
-    display: flex;
-    flex-direction: column;
-  }
+.example-radio-button {
+  margin: 5px;
+}
 
-  .date{
-    display: flex;
-    flex-direction: column;
-  }
+.outputs {
+  margin-bottom: 2em;
+  margin-top: 1em;
+}
 
-  .button{
-    margin-top: 1em;
-  }
+.controls {
+  overflow-y: scroll;
+  padding-right: 1em;
+  margin: 1em;
+  display: flex;
+  flex-direction: column;
+}
 
-  .spinner{
-    margin: auto;
-    margin-top: 6em;
-  }
+.date {
+  display: flex;
+  flex-direction: column;
+}
 
-  .showTime{
-    margin-top:1em;
-    margin-bottom:1em;
+.button {
+  margin-top: 1em;
+}
 
-  }
+.spinner {
+  margin: auto;
+  margin-top: 6em;
+}
 
-  ::ng-deep .chart-legend .legend-title-text {
-    visibility: hidden;
-  }
+.showTime {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+::ng-deep .chart-legend .legend-title-text {
+  visibility: hidden;
+}

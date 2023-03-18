@@ -12,14 +12,21 @@
   flex-direction: column;
   margin: 15px 0;
   align-items: flex-start;
-  color: 'accent';
+  color: "accent";
 }
 
 .example-radio-button {
   margin: 5px;
 }
 
+.outputs {
+  margin-bottom: 2em;
+  margin-top: 1em;
+}
+
 .controls {
+  overflow-y: scroll;
+  padding-right: 1em;
   margin: 1em;
   display: flex;
   flex-direction: column;

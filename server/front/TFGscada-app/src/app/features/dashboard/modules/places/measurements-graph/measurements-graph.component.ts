@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { binarios, DHT11, multi } from './data';
 import { PlacesService } from '../places.service';
 import { IPlace } from '../places-interfaces';
@@ -10,9 +10,10 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './measurements-graph.component.html',
   styleUrls: ['./measurements-graph.component.scss']
 })
-export class MeasurementsGraphComponent implements OnInit {
+export class MeasurementsGraphComponent implements OnInit, OnChanges {
 
   @Input() inputMultiple = false;
+  @Input() place: IPlace | undefined;
   multi = multi;
   DHT11 = DHT11;
   binarios = binarios;
@@ -37,6 +38,12 @@ export class MeasurementsGraphComponent implements OnInit {
   constructor(public placesService: PlacesService,
     private translate: TranslateService) {
     //Object.assign(this, { multi });
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (this.place) {
+      this.selected = this.place.id.toString();
+      this.fetchOutputs();
+    }
   }
 
   dateTickFormatting(val: any): string {
@@ -88,7 +95,6 @@ export class MeasurementsGraphComponent implements OnInit {
     if (this.realTime == 'Si')
       this.dateSelectedByUser = false;
     if (this.dateSelectedByUser) {
-      console.log(this.dateInit);
       actualDate = new Date(this.dateInit);
       initDate.setHours(actualDate.getHours() - 1);
     }
@@ -176,14 +182,25 @@ export class MeasurementsGraphComponent implements OnInit {
 
   }
 
+  placeSelected: any = undefined;
+
+
+
   fetchPlaces() {
     this.placesService.get().subscribe({
       next: (response: any) => {
         this.allPlaces = response.data;
         if (this.allPlaces.length > 0) {
-          this.selected = this.allPlaces[0].id.toString();
+          if (this.place == undefined) {
+            this.placeSelected = this.allPlaces[0];
+            this.selected = this.allPlaces[0].id.toString();
+          }
+          else {
+
+            this.placeSelected = this.place;
+            this.selected = this.place.id.toString();
+          }
         }
-        console.log(this.allPlaces);
       },
       error: (err) => {
         console.log('Error on load places', err);
@@ -198,7 +215,6 @@ export class MeasurementsGraphComponent implements OnInit {
   dateSelectedByUser = false;
 
   clicked() {
-    console.log(this.dateInit);
     this.dateSelectedByUser = true;
     this.fetchOutputs();
   }
@@ -215,7 +231,9 @@ export class MeasurementsGraphComponent implements OnInit {
     this.DHT11 = [...this.DHT11];
     this.multi = [...this.multi];
     this.loading = true;
-
+    if (this.selected != undefined) {
+      this.placeSelected = this.allPlaces.find((element) => element.id == this.selected);
+    }
   }
 
   interval$: any;
