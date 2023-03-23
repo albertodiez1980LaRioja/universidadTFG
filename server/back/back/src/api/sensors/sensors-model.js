@@ -31,7 +31,7 @@ const Sensor = sequelize.define('sensors', {
 
 Sensor.asociate = function () {
     const places = sequelize.model('places');
-    this.belongsToMany(places, { through: 's_p' });
+    //this.belongsToMany(places, { through: 's_p' });
 
     const alarms = sequelize.model('alarms');
     this.hasMany(alarms, { foreignKey: 'sensorId' });

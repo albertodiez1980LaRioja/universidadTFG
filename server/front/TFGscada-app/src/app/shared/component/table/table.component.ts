@@ -74,6 +74,8 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   ngAfterViewInit(): void {
     if (this.config.paginator) {
       this.dataSource.paginator = this.paginator;
+      // aqui hay que poner la traducción
+      this.dataSource.paginator._intl.itemsPerPageLabel = 'My translation for items per page.';
     }
     if (this.config.sort) {
       this.dataSource.sort = this.sort;

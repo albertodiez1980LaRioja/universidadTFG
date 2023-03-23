@@ -55,7 +55,7 @@ Place.asociate = function () {
     this.belongsToMany(persons, { through: 'o_p' });
 
     const sensors = sequelize.model('sensors');
-    this.belongsToMany(sensors, { through: 's_p' });
+    //this.belongsToMany(sensors, { through: 's_p' });
 
     const action = sequelize.model('actions');
     this.hasMany(action, {

@@ -21,9 +21,6 @@ const Alarm = sequelize.define('alarms', {
     date_finish: {
         type: DataTypes.DATE, allowNull: true,
     },
-
-
-
 }, {
     timestamps: false
 });
@@ -44,9 +41,6 @@ Alarm.asociate = function () {
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE'
     });
-
-
-
 
     const sensors = sequelize.model('sensors');
     this.belongsTo(sensors, {

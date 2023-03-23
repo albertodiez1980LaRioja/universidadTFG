@@ -1,0 +1,82 @@
+15
+5
+10
+10
+10
+10
+5
+5
+10
+20
+20
+20
+20
+5
+5
+10
+10
+5
+5
+10
+10
+10
+10
+15
+5
+10
+15
+15
+
+15
+5
+10
+10
+10
+10
+5
+5
+10
+40
+30
+20
+20
+5
+5
+10
+10
+5
+5
+10
+5
+10
+15
+15
+5
+10
+300
+
+
+Posibles cambios en la documentación:
+-El diagrama de Gantt hay que hacerlo desde el inicio
+-Tal vez habría que quitar cosas en la explicación entre la comunicación entre raspberry y arduino. Aunque esas cosas no están previamente explicadas. Probablemente habría que usar diagramas para explicar este funcionamiento
+-La estabilidad del sistema Arduino se podría quitar
+-El diseño de la base de datos hay que explicarla
+
+Cosas para hacer en la página:
+-El CSS de los gráficos: son un desastre por debajo del 1080p
+-Los places que puede ver un usuario según sus permisos. Es cosa del back
+-Mejorar la selección de cada place en el combo. Esta muy bien el componente del PrimeNG. habría que instalarlo
+-Optimizar la carga de las mediciones
+-Poner tooltips en las features del mapa
+-Mejorar la estética en general
+-Traducir el items per page de las tablas. Puede resultar:
+@ViewChild(MatPaginator) paginator: MatPaginator;
+
+ngOnInit() {
+  ...
+  this.paginator._intl.itemsPerPageLabel = 'My translation for items per page.';
+  ...
+}
+-Meter el último sprint de configuración de los sensores por lugar. Ya no queda mas tiempo. De todas formas ya hay bastantes cosas hechas
+
+
