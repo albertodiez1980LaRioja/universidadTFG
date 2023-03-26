@@ -25,10 +25,12 @@ export class UsersComponent implements OnInit {
   ) {
   }
 
+  isLoadingUsers = true;
+
   fetchUsers() {
+    this.isLoadingUsers = true;
     this.usersService.getUsers().subscribe({
       next: (response: any) => {
-        console.log('respuesta: ', response);
         this.usersDate = response.data;
         this.usersDate.forEach(user => {
           if (user.roles < this.roleText.length)
@@ -36,6 +38,7 @@ export class UsersComponent implements OnInit {
           else
             user.roleText = 'Desconocido';
         });
+        this.isLoadingUsers = false;
       },
       error: (err) => {
         console.log('Ha ocurrido un error: ', err);

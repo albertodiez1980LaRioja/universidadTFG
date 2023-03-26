@@ -11,5 +11,6 @@
         </button>
     </div>
 </div>
-<app-table #tableUsers [config]="usersConfig" [data]="usersDate" [isLoadingTable]="false" (action)="tableEvent($event)">
+<app-table #tableUsers [config]="usersConfig" [data]="usersDate" [isLoadingTable]="isLoadingUsers"
+    (action)="tableEvent($event)">
 </app-table>
