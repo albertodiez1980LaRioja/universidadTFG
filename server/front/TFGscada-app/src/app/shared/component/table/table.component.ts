@@ -72,10 +72,19 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnInit(): void { }
 
   ngAfterViewInit(): void {
+    this.translate.use(this.auth.getLanguage());
     if (this.config.paginator) {
       this.dataSource.paginator = this.paginator;
       // aqui hay que poner la traducción
-      this.dataSource.paginator._intl.itemsPerPageLabel = 'My translation for items per page.';
+      this.translate.get('ItemsPerPage').subscribe((res: string) => {
+        if (this.dataSource && this.dataSource.paginator) {
+          this.dataSource.paginator._intl.itemsPerPageLabel = res;
+          this.dataSource.paginator._intl.changes.next();
+        }
+        else
+          console.log('sin traducir')
+        console.log(res);
+      });
     }
     if (this.config.sort) {
       this.dataSource.sort = this.sort;
@@ -90,6 +99,16 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.translate.use(this.auth.getLanguage());
+    this.translate.get('ItemsPerPage').subscribe((res: string) => {
+      this.paginator._intl.itemsPerPageLabel = res;
+      this.translate.get('nextPageLabel').subscribe((resNextPage: string) => {
+        this.paginator._intl.nextPageLabel = resNextPage;
+        this.translate.get('previousPageLabel').subscribe((resPreviusPage: string) => {
+          this.paginator._intl.previousPageLabel = resPreviusPage;
+          this.paginator._intl.changes.next();
+        });
+      });
+    });
 
     this.displayedColumns = this.config.columns
       .filter((column) => column.type !== 'actions')

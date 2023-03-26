@@ -4,6 +4,9 @@
   "Acciones": "Acciones",
   "Si": "Si",
   "No": "No",
+  "ItemsPerPage": "Elementos por página",
+  "nextPageLabel": "Próxima página",
+  "previousPageLabel": "Página previa",
   "dashboard": {
     "Usuarios": "Usuarios",
     "Lugares": "Lugares",
