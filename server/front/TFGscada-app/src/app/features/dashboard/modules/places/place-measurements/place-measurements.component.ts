@@ -9,7 +9,7 @@ import { measurementsConfig } from './measurements.config';
   styleUrls: ['./place-measurements.component.scss']
 })
 export class PlaceMeasurementsComponent implements OnInit {
-  @Input() lastMeasurements: any;
+  lastMeasurements: any;
   doNext = true;
 
   measurementsConfig = measurementsConfig;
@@ -36,8 +36,6 @@ export class PlaceMeasurementsComponent implements OnInit {
       }, 1000);
     };
     setTimeout(funcion, 1000);
-    console.log('Measurements recibidos:', this.lastMeasurements);
-
   }
 
 

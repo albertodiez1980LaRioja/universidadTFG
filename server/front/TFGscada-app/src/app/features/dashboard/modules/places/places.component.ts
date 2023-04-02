@@ -2,14 +2,13 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { PlacesService } from './places.service';
 import { placesConfig, dialogConfig } from './places.config';
-import { IMeasurement, IOP, IPlace } from './places-interfaces';
+import { IPlace } from './places-interfaces';
 import { FormControl } from '@angular/forms';
 import { DialogComponent } from 'src/app/shared/component/dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { UsersService } from '../users/users.service';
 import { IUser } from '../users/users-interfaces';
-import { TableComponent } from 'src/app/shared/component/table/table.component';
-import { TranslateService } from '@ngx-translate/core';
+import { TableComponent } from 'src/app/shared/component/table/table.component'
 import { AuthService } from 'src/app/guards/auth.service';
 
 
@@ -22,21 +21,18 @@ export class PlacesComponent implements OnInit {
   placesConfig = placesConfig;
   dialogConfig = dialogConfig;
   placesDate: IPlace[] = [];
-  lastMeasurements: IMeasurement[] = [];
+  disableOutput = false;
+  selected = new FormControl(0);
+  tabs = ['places.data', 'places.measurementsHistory',
+    'places.measurementsPlace', 'places.outputs', 'places.map'];
+  tabSelected = 1;
+  placeSelected: IPlace | undefined;
 
   constructor(public placesService: PlacesService,
     public matTab: MatTabsModule, private dialog: MatDialog,
     public usersService: UsersService,
-    private translate: TranslateService,
     public auth: AuthService,) {
   }
-
-  selected = new FormControl(0);
-  tabs = ['places.data', 'places.measurementsHistory',
-    'places.measurementsPlace', 'places.outputs', 'places.map'];
-
-  tabSelected = 1;
-  placeSelected: IPlace | undefined;
 
   addTab(selectAfterAdding: boolean) {
     this.selected.setValue(this.tabs.length - 1);
@@ -47,10 +43,7 @@ export class PlacesComponent implements OnInit {
     this.fetchUsers();
     this.selected.setValue(1);
     this.tabSelected = 0;
-
   }
-
-
 
   async fetchPlaces() {
     this.placesService.get().subscribe({
@@ -69,62 +62,58 @@ export class PlacesComponent implements OnInit {
     });
   }
 
-  //disableOutput = true;
-  disableOutput = false;
+  updatePlace($event: any) {
+    this.dialogConfig.action = 'update';
+    this.dialogConfig.editable = true;
+    for (let i = 0; i < this.dialogConfig.columns.length; i++) {
+      this.dialogConfig.columns[i].value = $event.row[this.dialogConfig.columns[i].prop];
+    }
+    let column = this.dialogConfig.columns.filter((element) => element.prop == 'persons');
+    if (column && column.length > 0) {
+      column[0].chipsToSelect = [];
+      column[0].chipsSelecteds = [];
+      for (let i = 0; i < $event.row['persons'].length; i++) {
+        column[0].chipsSelecteds.push($event.row['persons'][i].name);
+      }
+      for (let i = 0; i < this.users.length; i++)
+        column[0].chipsToSelect?.push(this.users[i].name);
+    }
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: this.dialogConfig,
+    });
+    dialogRef.afterClosed().subscribe(async result => {
+      if (result != '') {
+        let user = result;
+        const keys = Object.keys(result);
+        if (user['pass'] == undefined || user['pass'] == '')
+          delete user['pass'];
+        let personsIds: number[] = [];
+        user.persons = [];
+        if (column[0].chipsSelecteds)
+          for (let i = 0; i < column[0].chipsSelecteds.length; i++) {
+            const id = this.users.filter((element: any) => column[0].chipsSelecteds && element.name == column[0].chipsSelecteds[i]);
+            if (id != undefined && id.length > 0) {
+              personsIds.push(id[0].id);
+              user.persons.push(id[0]);
+            }
+          }
+        user.idPersons = personsIds;
+        this.placesService.update((user)).subscribe({
+          next: (response: any) => {
+            this.fetchPlaces();
+          },
+          error: (err: any) => {
+            console.log('Error: ', err);
+          }
+        });
+      }
+    });
+  }
 
   async tableEvent($event: any) {
     switch ($event.action) {
       case 'Update':
-        this.dialogConfig.action = 'update';
-        this.dialogConfig.editable = true;
-        for (let i = 0; i < this.dialogConfig.columns.length; i++) {
-          this.dialogConfig.columns[i].value = $event.row[this.dialogConfig.columns[i].prop];
-        }
-
-        let column = this.dialogConfig.columns.filter((element) => element.prop == 'persons');
-        if (column && column.length > 0) {
-          column[0].chipsToSelect = [];
-          column[0].chipsSelecteds = [];
-          for (let i = 0; i < $event.row['persons'].length; i++) {
-            column[0].chipsSelecteds.push($event.row['persons'][i].name);
-          }
-          for (let i = 0; i < this.users.length; i++)
-            column[0].chipsToSelect?.push(this.users[i].name);
-        }
-
-        const dialogRef = this.dialog.open(DialogComponent, {
-          data: this.dialogConfig,
-        });
-
-        dialogRef.afterClosed().subscribe(async result => {
-          if (result != '') {
-            // save the row
-            let user = result;
-            const keys = Object.keys(result);
-            if (user['pass'] == undefined || user['pass'] == '')
-              delete user['pass'];
-            let personsIds: number[] = [];
-            user.persons = [];
-            if (column[0].chipsSelecteds)
-              for (let i = 0; i < column[0].chipsSelecteds.length; i++) {
-                const id = this.users.filter((element: any) => column[0].chipsSelecteds && element.name == column[0].chipsSelecteds[i]);
-                if (id != undefined && id.length > 0) {
-                  personsIds.push(id[0].id);
-                  user.persons.push(id[0]);
-                }
-              }
-            user.idPersons = personsIds;
-            this.placesService.update((user)).subscribe({
-              next: (response: any) => {
-                this.fetchPlaces();
-              },
-              error: (err: any) => {
-                console.log('Error: ', err);
-              }
-            });
-
-          }
-        });
+        this.updatePlace($event);
         break;
       case 'Delete':
         this.placesService.delete($event.row.id).subscribe({
@@ -137,11 +126,9 @@ export class PlacesComponent implements OnInit {
         });
         break;
       case 'View':
-        //this.disableOutput = false;
         this.placeSelected = $event.row;
         this.tabSelected = 1;
         break;
-
     }
   }
 

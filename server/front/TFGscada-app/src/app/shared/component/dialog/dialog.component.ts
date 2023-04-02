@@ -34,8 +34,7 @@ export class DialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // not validate password if is a update
-    console.log('dialog config', this.data);
+    // not validate password if is a updates
     let parameters: any = {};
     this.editable = this.data.editable;
     for (let i = 0; i < this.data.columns.length; i++) {
@@ -72,9 +71,6 @@ export class DialogComponent implements OnInit {
       if (this.form.status == 'VALID')
         this.dialogRef.close(this.form.value);
       else if (this.editable && this.data.action != 'search') {
-        for (let control in this.form.controls) {
-          console.log(control);
-        }
         console.log('Formulario no válido');
       }
       else if (this.data.action == 'search')

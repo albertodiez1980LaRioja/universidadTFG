@@ -1,7 +1,7 @@
 // Angular imports
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
 // Third-party libraries imports
@@ -9,7 +9,6 @@ import { Subscription } from 'rxjs';
 
 // App own modules and services imports
 import { AuthService } from '../../guards/auth.service';
-import { IUser } from '../dashboard/modules/users/users-interfaces';
 
 @Component({
   selector: 'app-auth',
@@ -30,7 +29,6 @@ export class AuthComponent implements OnInit {
   constructor(
     private router: Router,
     private auth: AuthService,
-    private route: ActivatedRoute
   ) { }
 
   async ngOnInit() {
@@ -44,14 +42,11 @@ export class AuthComponent implements OnInit {
 
   authenticateUser(): void {
     const values = this.loginForm.value;
-    //this.router.navigateByUrl(this.returnUrl);
-    console.log('Se hace el authenticaate user');
     this.authenticateUser$ = this.auth
       .authenticateUser(values.username, values.password)
       .subscribe({
         next: (response: any) => {
           if (response.message != 'User not found') {
-            console.log('Autenticado', response.usuario);
             localStorage.setItem('user', JSON.stringify(response.usuario));
             localStorage.setItem('token', response.token);
             this.auth.user = response.usuario;

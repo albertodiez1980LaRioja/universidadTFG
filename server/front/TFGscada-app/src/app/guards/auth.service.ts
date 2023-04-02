@@ -2,23 +2,12 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClient } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
-
-// Third-party libraries imports
-import { Observable } from 'rxjs';
 
 // App own modules and services imports
 import { IUser } from '../features/dashboard/modules/users/users-interfaces';
 import { rotuteToBack } from '../shared/route';
-//import { IResponse } from '@shared/interfaces/api.interfaces';
 
-// Module inner imports
-//import { ApiService } from './api.service';
 
-interface TokenUser {
-    token: string;
-    user: IUser;
-}
 @Injectable({
     providedIn: 'root',
 })
@@ -37,17 +26,14 @@ export class AuthService {
     constructor(
         private jwtHelper: JwtHelperService,
         private http: HttpClient
-        //private api: ApiService<TokenUser>
     ) { }
 
     isAuthenticated(): boolean {
         const user = localStorage.getItem('user');
         if (user != undefined) {
-            //console.log('usuario', user);
             return true;
         }
         return false;
-        //return Object.keys(this._user).length > 0;
     }
 
     hasValidToken(): boolean {
