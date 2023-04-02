@@ -60,8 +60,9 @@ Posibles cambios en la documentación:
 -El diagrama de Gantt hay que hacerlo desde el inicio
 -Tal vez habría que quitar cosas en la explicación entre la comunicación entre raspberry y arduino. Aunque esas cosas no están previamente explicadas. Probablemente habría que usar diagramas para explicar este funcionamiento
 -La estabilidad del sistema Arduino se podría quitar
--El diseño de la base de datos hay que explicarla
 -Hacer el diagrama final de los módulos y componentes de Angular
+-Hay que hacer un anexo para las siglas
+-Estaría bien hacer un presupuesto
 
 Cosas para hacer en la página:
 -El CSS de los gráficos: son un desastre por debajo del 1080p
