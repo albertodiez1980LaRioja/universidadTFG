@@ -95,16 +95,13 @@ export class UsersComponent implements OnInit {
           let table = this.tableUsers as unknown as TableComponent;
           table.dataSource.filterPredicate = (data: IUser, filter: string) => {
             let keys = Object.keys(data);
-            console.log(keys, result);
             for (let i = 0; i < keys.length; i++) {
               let value = this.read_prop(result, keys[i]);
               if (value != undefined && value != '' && keys[i] != 'id' && !(keys[i] == 'roles' && value == -1)) {
-                console.log(value, this.read_prop(data, keys[i]));
                 if (!this.read_prop(data, keys[i]).toString().toLowerCase().includes(value.toString().toLowerCase()))
                   return false;
               }
             }
-            console.log(data, filter, keys);
             if (data.dni == user.dni)
               return true;
             return true;
@@ -142,8 +139,7 @@ export class UsersComponent implements OnInit {
         }
         this.usersService.saveUser(user).subscribe({
           next: async (result: any) => {
-            console.log(result);
-            this.fetchUsers();
+            setTimeout(() => { this.fetchUsers(); }, 500);
           },
           error: (err: any) => {
             console.log(err);
@@ -176,18 +172,21 @@ export class UsersComponent implements OnInit {
                 user['roles'] = this.roleText.indexOf(result[keys[i]]);
               }
             }
-            await this.usersService.updateUser(user).toPromise().then((result: any) => {
-              console.log(result);
+            this.usersService.updateUser(user).subscribe({
+              next: () => {
+                setTimeout(() => { this.fetchUsers(); }, 500);
+              },
+              error: (err) => {
+                console.log('Error on update user: ', err);
+              }
             });
-            this.fetchUsers();
           }
         });
         break;
       case 'Delete':
         this.usersService.deleteUser($event.row.id).subscribe({
-          next: (result: any) => {
-            console.log(result);
-            this.fetchUsers();
+          next: () => {
+            setTimeout(() => { this.fetchUsers(); }, 500);
           },
           error: (err: any) => {
             console.log(err);
