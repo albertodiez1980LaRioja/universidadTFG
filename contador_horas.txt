@@ -74,5 +74,5 @@ Cosas para hacer en la página:
 -Mejorar la estética en general
 -Meter guardas por roles. Para administrar o no los usuarios. Esto es de front
 -Meter el último sprint de configuración de los sensores por lugar. Ya no queda mas tiempo. De todas formas ya hay bastantes cosas hechas
--Hacer validaciones del formulario. Se nota una barbaridad en los usuarios
+-Hacer validaciones del formulario. Quedan la de los places y tal vez alguno mas
 
