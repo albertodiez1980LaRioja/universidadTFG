@@ -31,5 +31,5 @@ export interface IDialogColumn {
     chipsToSelect?: string[];
     auxCtrl?: FormControl;
     filteredElements?: Observable<string[]>;
-
+    validators?: any;
 }
