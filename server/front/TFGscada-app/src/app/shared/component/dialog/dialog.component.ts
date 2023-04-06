@@ -2,11 +2,12 @@ import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core'
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { IDialogColumn, IDialogConfig } from './dialog.interfaces';
 import { MatDialogRef } from '@angular/material/dialog';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { CustomvalidationService } from './validators.service';
 
 @Component({
   selector: 'app-dialog',
@@ -21,7 +22,8 @@ export class DialogComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: IDialogConfig,
     private dialogRef: MatDialogRef<DialogComponent>,
-    private fb: FormBuilder,) {
+    private fb: FormBuilder,
+    private customValidator: CustomvalidationService) {
 
     for (let i = 0; i < data.columns.length; i++)
       if (data.columns[i].type == 'chip')
@@ -46,11 +48,15 @@ export class DialogComponent implements OnInit {
         if (this.data.action.toLowerCase() == 'insert' || this.data.action.toLowerCase() == 'update') {
           this.columnsShow.push(this.data.columns[i]);
           if (this.data.action.toLowerCase() == 'update' && this.data.columns[i].type == 'password')
-            parameters[numColumn] = '';
+            parameters[numColumn] = ['', this.customValidator.patternValidatorPassword()];
           else if (this.data.columns[i].type == 'chip')
             parameters[numColumn] = '';
-          else
-            parameters[numColumn] = [value, Validators.required];
+          else {
+            if (this.data.columns[i].validators == undefined)
+              parameters[numColumn] = [value, Validators.required];
+            else
+              this.customValidator.assingValidator(parameters, numColumn, value, this.data.columns[i].validators);
+          }
         }
         else {
           if (this.data.columns[i].canSearch === undefined || this.data.columns[i].canSearch == true) {
