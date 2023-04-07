@@ -3,6 +3,7 @@
   flex-direction: row;
   justify-content: space-evenly;
   margin-bottom: 1em;
+  flex-wrap: wrap;
 }
 
 ::ng-deep .mat-form-field-type-mat-date-range-input .mat-form-field-infix {

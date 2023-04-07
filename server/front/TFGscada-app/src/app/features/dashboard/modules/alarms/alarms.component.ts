@@ -57,7 +57,7 @@ export class AlarmsComponent implements OnInit {
   fetchData() {
     const init = new Date();
     let end = new Date(init);
-    end.setMonth(end.getMonth() - 1);
+    end.setMonth(end.getMonth() - 12);
     forkJoin([this.alarmsService.get(init, end, 1000),
     this.sensorsService.get(),
     this.usersService.getUsers(),
