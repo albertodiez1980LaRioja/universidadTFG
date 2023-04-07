@@ -1,5 +1,5 @@
 .grap-container {
-  margin: 3em;
+  margin: 1em;
 }
 
 .container {
@@ -30,6 +30,7 @@
   margin: 1em;
   display: flex;
   flex-direction: column;
+  min-width: 20em;
 }
 
 .date {

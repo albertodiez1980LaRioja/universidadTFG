@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, HostListener, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { binarios, DHT11, multi } from './data';
 import { PlacesService } from '../places.service';
 import { IPlace } from '../places-interfaces';
@@ -31,6 +31,7 @@ export class MeasurementsGraphComponent implements OnInit, OnChanges {
   yAxisLabel: string = 'Valor';
   timeline: boolean = true;
 
+
   colorScheme = {
     domain: ['#5AA454', '#E44D25', '#CFC0BB', '#7aa3e5', '#a8385d', '#aae3f5']
   };
@@ -39,6 +40,14 @@ export class MeasurementsGraphComponent implements OnInit, OnChanges {
     private translate: TranslateService) {
     //Object.assign(this, { multi });
   }
+
+  rest = 350;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.view[0] = window.innerWidth - this.rest;
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (this.place) {
       this.selected = this.place.id.toString();
@@ -239,9 +248,10 @@ export class MeasurementsGraphComponent implements OnInit, OnChanges {
   interval$: any;
 
   ngOnInit() {
-
+    this.view[0] = window.innerWidth - this.rest;
     if (this.inputMultiple) {
       this.fetchPlaces();
+
     }
     this.interval$ = setInterval(() => {
       this.fetchData();
