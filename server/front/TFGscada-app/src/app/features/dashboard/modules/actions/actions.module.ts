@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ActionsRoutingModule } from './actions-routing.module';
 import { ActionsComponent } from './actions.component';
 import { TableModule } from 'src/app/shared/component/table/table.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -28,7 +28,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     MatToolbarModule, MatInputModule, MatPaginatorModule, MatTooltipModule,
     MatChipsModule, MatTableModule, MatCheckboxModule, MatProgressSpinnerModule,
     MatSortModule, FormsModule, MatDialogModule, TableModule, MatSelectModule,
-    NgxChartsModule, MatRadioModule,
+    NgxChartsModule, MatRadioModule, MatDatepickerModule, MatNativeDateModule,
+    ReactiveFormsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

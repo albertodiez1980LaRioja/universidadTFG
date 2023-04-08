@@ -1,5 +1,1 @@
-.select {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly
-}
+.select{display:flex;flex-direction:row;justify-content:space-evenly;flex-wrap:wrap}::ng-deep .mat-form-field-type-mat-date-range-input .mat-form-field-infix{width:19em !important;display:flex;align-items:center}

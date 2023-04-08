@@ -19,6 +19,9 @@ import { DatePipe } from '@angular/common';
   templateUrl: './alarms.component.html',
   styleUrls: ['./alarms.component.scss']
 })
+
+
+
 export class AlarmsComponent implements OnInit {
   rangeInit = new FormGroup({
     start: new FormControl(new Date()),
@@ -41,26 +44,43 @@ export class AlarmsComponent implements OnInit {
   selectedUser: any;
   selectedPlace: any;
   selectedSensor: any;
+  subscription$: any = undefined;
+  isLoading = true;
 
   constructor(private alarmsService: AlarmsService,
     private sensorsService: SensorsService,
     private usersService: UsersService,
     private placesService: PlacesService,
-    private datePipe: DatePipe) { }
+    private datePipe: DatePipe) {
+    this.subscription$ = undefined;
+  }
 
   ngOnInit(): void {
+    this.isLoadingTable = true;
+    this.isLoading = false;
     this.clear();
     this.fetchData();
+    this.changeFilter();
     this.datePipe.transform(new Date(), 'dd-MM-yy');
   }
 
   fetchData() {
     let init = new Date();
     let end = new Date(init);
-    end.setMonth(init.getMonth() - 12);
+    init.setMonth(init.getMonth() - 12);
 
-
-    forkJoin([this.alarmsService.get(init, end, 1000),
+    if (this.rangeInit.controls.start.value && this.rangeInit.controls.end.value) {
+      init = new Date(this.rangeInit.controls.start.value);
+      this.setDateInit(init);
+      end = new Date(this.rangeInit.controls.end.value);
+      this.setDateEnd(end);
+    }
+    if (this.isLoading) {
+      console.log('Todavía leyendo');
+      return;
+    }
+    this.isLoading = true;
+    forkJoin([this.alarmsService.get(end, init, 1000),
     this.sensorsService.get(),
     this.usersService.getUsers(),
     this.placesService.get()]).subscribe({
@@ -99,19 +119,21 @@ export class AlarmsComponent implements OnInit {
               alarm.color = '#FAA0A0'; // red
           }
         });
+        if (this.isLoadingTable)
+          this.alarmsView = [...this.alarms];
+        if (this.subscription$ == undefined)
+          this.subscription$ = setInterval(this.changeFilter.bind(this), 5000);
         this.isLoadingTable = false;
-        this.changeFilter();
-        setTimeout(this.fetchData.bind(this), 5000);
+        this.isLoading = false;
       },
       error: (err) => {
         console.log('Error on multiple:', err);
-        setTimeout(this.fetchData.bind(this), 5000);
+        //setTimeout(this.fetchData.bind(this), 5000);
       }
     });
   }
 
   tableEvent($event: any) {
-    console.log('evento', $event);
     if ($event.action == 'Acusar') {
       this.alarmsService.update($event.row.id, { operatorId: 1 }).subscribe({
         next: (result) => {
@@ -138,17 +160,24 @@ export class AlarmsComponent implements OnInit {
     date.setMilliseconds(0);
   }
 
+  lastEndDate = new Date();
+  lastInitDate = new Date();
 
   changeFilter() {
-    console.log(this.alarmsView);
     this.alarmsView = [...this.alarms];
     if (this.rangeInit.controls.start.value && this.rangeInit.controls.end.value) {
-      const begin = new Date(this.rangeInit.controls.start.value);
-      this.setDateInit(begin);
-      const end = new Date(this.rangeInit.controls.end.value);
-      this.setDateEnd(end);
-      this.alarmsView = this.alarmsView.filter(alarm => alarm.date_time >= begin
-        && alarm.date_time <= end);
+      if (this.lastInitDate != this.rangeInit.controls.start.value ||
+        this.lastEndDate != this.rangeInit.controls.end.value) {
+        this.lastInitDate = this.rangeInit.controls.start.value;
+        this.lastEndDate = this.rangeInit.controls.end.value;
+        const begin = new Date(this.rangeInit.controls.start.value);
+        this.setDateInit(begin);
+        const end = new Date(this.rangeInit.controls.end.value);
+        this.setDateEnd(end);
+        this.alarmsView.forEach((element) => element.date_time = new Date(element.date_time));
+        this.alarmsView = this.alarmsView.filter(alarm => alarm.date_time >= begin
+          && alarm.date_time <= end);
+      }
     }
     if (this.rangeEnd.controls.start.value && this.rangeEnd.controls.end.value) {
       const begin = new Date(this.rangeEnd.controls.start.value);
@@ -167,22 +196,23 @@ export class AlarmsComponent implements OnInit {
     if (this.selectedSensor && this.selectedSensor != '' && this.selectedSensor != 'TODOS') {
       this.alarmsView = this.alarmsView.filter((alarm) => alarm.sensor?.id == this.selectedSensor);
     }
+    this.fetchData();
   }
 
   clear() {
+    this.isLoadingTable = true;
     let init = new Date();
     let end = new Date(init);
     init.setMonth(init.getMonth() - 12);
     this.rangeInit.controls.start.setValue(init);
     this.rangeInit.controls.end.setValue(end);
-    //this.rangeInit.controls.start.setValue(undefined);
-    //this.rangeInit.controls.end.setValue(undefined);
     this.rangeEnd.controls.start.setValue(undefined);
     this.rangeEnd.controls.end.setValue(undefined);
     this.selectedSensor = 'TODOS';
     this.selectedPlace = 'TODOS';
     this.selectedUser = 'TODOS';
     this.changeFilter();
+    this.fetchData();
   }
 
 }

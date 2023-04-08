@@ -1,4 +1,14 @@
 <div class="select">
+    <mat-form-field class="example-form-field" appearance="fill">
+        <mat-label>{{ 'alarms.dateInitRange' | translate }}</mat-label>
+        <mat-date-range-input [formGroup]="rangeInit" [rangePicker]="campaignOnePicker">
+            <input matStartDate placeholder=" Start date" formControlName="start" (dateChange)="changeFilter()">
+            <input matEndDate placeholder="End date" formControlName="end" (dateChange)="changeFilter()">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
+        <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+    </mat-form-field>
+
     <mat-form-field appearance="fill">
         <mat-label>{{ 'actions.usuario' | translate }}</mat-label>
         <mat-select [(value)]="selectedUser" (selectionChange)="changeFilter()">
@@ -22,6 +32,10 @@
             <mat-option *ngFor="let place of this.placesDate" value="{{place.id}}">{{place.identifier}}</mat-option>
         </mat-select>
     </mat-form-field>
+
+    <button mat-fab color="primary" aria-label="Clear" (click)="clear()">
+        <mat-icon>undo</mat-icon>
+    </button>
 
 </div>
 
