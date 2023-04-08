@@ -7,6 +7,7 @@
   "ItemsPerPage": "Items per page",
   "nextPageLabel": "Next page",
   "previousPageLabel": "Previus page",
+  "noResultsFound": "No results found",
   "dashboard": {
     "Usuarios": "Users",
     "Lugares": "Places",

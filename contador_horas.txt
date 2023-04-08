@@ -72,6 +72,7 @@ Cosas para hacer en la página:
 -Poner tooltips en las features del mapa
 -Mejorar la estética en general, examinar la página en pantallas pequeñas
 -Meter guardas por roles. Para administrar o no los usuarios. Esto es de front
+-Los colores de las alarmas
 -Meter el último sprint de configuración de los sensores por lugar. Ya no queda mas tiempo. De todas formas ya hay bastantes cosas hechas
 -Hacer validaciones del formulario. Quedan la de los places y tal vez alguno mas
 

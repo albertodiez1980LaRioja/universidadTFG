@@ -21,8 +21,8 @@ import { DatePipe } from '@angular/common';
 })
 export class AlarmsComponent implements OnInit {
   rangeInit = new FormGroup({
-    start: new FormControl(undefined),
-    end: new FormControl(undefined),
+    start: new FormControl(new Date()),
+    end: new FormControl(new Date()),
   });
   rangeEnd = new FormGroup({
     start: new FormControl(undefined),
@@ -55,9 +55,11 @@ export class AlarmsComponent implements OnInit {
   }
 
   fetchData() {
-    const init = new Date();
+    let init = new Date();
     let end = new Date(init);
-    end.setMonth(end.getMonth() - 12);
+    end.setMonth(init.getMonth() - 12);
+
+
     forkJoin([this.alarmsService.get(init, end, 1000),
     this.sensorsService.get(),
     this.usersService.getUsers(),
@@ -84,7 +86,10 @@ export class AlarmsComponent implements OnInit {
             alarm.placeDescription = alarm.place.identifier;
           if (alarm.date_finish) {
             alarm.date_finish = new Date(alarm.date_finish);
-            alarm.color = '#90EE90'; // green
+            if (alarm.operator)
+              alarm.color = '#90EE90'; // green
+            else
+              alarm.color = '#FFFAA0'; // yellow
           }
           else {
             alarm.date_finish = undefined;
@@ -135,7 +140,7 @@ export class AlarmsComponent implements OnInit {
 
 
   changeFilter() {
-    console.log(this.rangeInit.controls.start.value);
+    console.log(this.alarmsView);
     this.alarmsView = [...this.alarms];
     if (this.rangeInit.controls.start.value && this.rangeInit.controls.end.value) {
       const begin = new Date(this.rangeInit.controls.start.value);
@@ -165,8 +170,13 @@ export class AlarmsComponent implements OnInit {
   }
 
   clear() {
-    this.rangeInit.controls.start.setValue(undefined);
-    this.rangeInit.controls.end.setValue(undefined);
+    let init = new Date();
+    let end = new Date(init);
+    init.setMonth(init.getMonth() - 12);
+    this.rangeInit.controls.start.setValue(init);
+    this.rangeInit.controls.end.setValue(end);
+    //this.rangeInit.controls.start.setValue(undefined);
+    //this.rangeInit.controls.end.setValue(undefined);
     this.rangeEnd.controls.start.setValue(undefined);
     this.rangeEnd.controls.end.setValue(undefined);
     this.selectedSensor = 'TODOS';

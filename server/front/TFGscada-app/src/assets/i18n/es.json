@@ -7,6 +7,7 @@
   "ItemsPerPage": "Elementos por página",
   "nextPageLabel": "Próxima página",
   "previousPageLabel": "Página previa",
+  "noResultsFound": "No se han encontrado resultados",
   "dashboard": {
     "Usuarios": "Usuarios",
     "Lugares": "Lugares",
