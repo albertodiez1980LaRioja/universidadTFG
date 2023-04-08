@@ -76,7 +76,7 @@ export class AlarmsComponent implements OnInit {
       this.setDateEnd(end);
     }
     if (this.isLoading) {
-      console.log('Todavía leyendo');
+      //console.log('Todavía leyendo');
       return;
     }
     this.isLoading = true;

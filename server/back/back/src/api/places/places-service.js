@@ -53,9 +53,19 @@ class PlaceService extends BaseService {
     }
 
     get = async function (req, res) {
-        let ret = await this.repository.get(req, res, sequelize.model('persons'));
+        let ret = [];
+        ret = await this.repository.get(req, res, sequelize.model('persons'));
         for (let i = 0; i < ret.length; i++) {
             delete ret[i].dataValues.pass;
+        }
+        if (req.user.usuario.roles != 0) {
+            let indexsAux = await O_P.findAll({ where: { personId: req.user.usuario.id } });
+            let indexs = [];
+            indexsAux.forEach((element) => indexs.push(element.placeId));
+            for (let i = 0; i < ret.length; i++) {
+                if (!indexs.includes(ret[i].id))
+                    ret.splice(i, 1);
+            }
         }
         return ret;
     }

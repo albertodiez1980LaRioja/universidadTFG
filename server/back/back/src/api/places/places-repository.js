@@ -5,7 +5,6 @@ class PlaceRepository extends BaseRepository {
         try {
             const object = { where: { identifier: user_name.identifier } };
             const user = await this.model.findOne(object);
-            //console.log('el place', user);
             return user.dataValues;
         } catch (err) {
             console.log('Error on get place', err);

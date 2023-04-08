@@ -6,7 +6,8 @@ export const measurementsConfig: ITableConfig = {
     sort: true,
     paginator: true,
     columns: [
-        { name: 'places.placesTable.identifier', prop: 'placeId', type: 'text' },
+        //{ name: 'places.placesTable.identifier', prop: 'placeId', type: 'text' },
+        { name: 'places.placesTable.identifier', prop: 'identifier', type: 'text' },
         { name: 'place_measurements.time', prop: 'date_time', type: 'date', datePipe: 'M/d/yy, H:mm:ss a' },
         { name: 'place_measurements.vibracion', prop: 'vibration', type: 'text' },
         { name: 'place_measurements.obstaculos', prop: 'obstacle', type: 'text' },

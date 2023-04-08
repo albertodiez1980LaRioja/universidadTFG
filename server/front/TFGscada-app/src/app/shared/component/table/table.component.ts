@@ -83,7 +83,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
         }
         else
           console.log('sin traducir')
-        console.log(res);
       });
     }
     if (this.config.sort) {

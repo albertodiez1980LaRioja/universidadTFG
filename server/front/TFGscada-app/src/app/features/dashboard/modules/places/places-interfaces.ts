@@ -21,6 +21,7 @@ export interface IOP {
 
 export interface IMeasurement {
     id: number;
+    identifier: string;
     date_time: Date;
     binary_values: number;
     has_persons: number;
