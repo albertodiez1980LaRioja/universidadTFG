@@ -23,7 +23,7 @@ class ActionService extends BaseService {
     get = async function (req, res) {
         let ret = [];
         ret = await this.repository.get(req, res);
-        if (req.user.usuario.roles != 0) {
+        if (req.user.usuario.roles == 2) {
             let indexsAux = await O_P.findAll({ where: { personId: req.user.usuario.id } });
             let indexs = [];
             indexsAux.forEach((element) => indexs.push(element.placeId));

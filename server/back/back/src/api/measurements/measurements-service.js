@@ -8,7 +8,7 @@ class MeasurementService extends BaseService {
 
     getMultiple = async function (req, res) {
         const ret = await this.repository.getMultiple(req, res);
-        if (req.user.usuario.roles != 0) {
+        if (req.user.usuario.roles == 2) {
             let indexsAux = await O_P.findAll({ where: { personId: req.user.usuario.id } });
             let indexs = [];
             indexsAux.forEach((element) => indexs.push(element.placeId));

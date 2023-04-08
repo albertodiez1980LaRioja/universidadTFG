@@ -58,7 +58,7 @@ class PlaceService extends BaseService {
         for (let i = 0; i < ret.length; i++) {
             delete ret[i].dataValues.pass;
         }
-        if (req.user.usuario.roles != 0) {
+        if (req.user.usuario.roles == 2) {
             let indexsAux = await O_P.findAll({ where: { personId: req.user.usuario.id } });
             let indexs = [];
             indexsAux.forEach((element) => indexs.push(element.placeId));

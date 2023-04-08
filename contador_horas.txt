@@ -65,13 +65,10 @@ Posibles cambios en la documentación:
 -Estaría bien hacer un presupuesto
 
 Cosas para hacer en la página:
--Los places que puede ver un usuario según sus permisos. Es cosa del back
--Los permisos de los roles en la página
 -Mejorar la selección de cada place en el combo. Esta muy bien el componente del PrimeNG. habría que instalarlo
 -Optimizar la carga de las mediciones
 -Poner tooltips en las features del mapa
 -Mejorar la estética en general, examinar la página en pantallas pequeñas
--Meter guardas por roles. Para administrar o no los usuarios. Esto es de front
 -Meter el último sprint de configuración de los sensores por lugar. Ya no queda mas tiempo. De todas formas ya hay bastantes cosas hechas
 -Hacer validaciones del formulario. Quedan la de los places y tal vez alguno mas
 

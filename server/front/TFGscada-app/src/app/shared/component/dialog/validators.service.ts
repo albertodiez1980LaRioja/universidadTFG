@@ -18,9 +18,40 @@ export class CustomvalidationService {
             parameters[numColumn] = [value, [Validators.required, this.validateDNI()]];
         else if (validatorText == 'validateDirecction')
             parameters[numColumn] = [value, [Validators.required, this.validateDirecction()]];
+        else if (validatorText == 'validateLatitude')
+            parameters[numColumn] = [value, [Validators.required, this.latitudeValidator()]];
+        else if (validatorText == 'validateLongitude')
+            parameters[numColumn] = [value, [Validators.required, this.longitudeValidator()]];
     }
 
     // validators of the form:
+
+    latitudeValidator(): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            if (!control.value) {
+                return null;
+            }
+            let n = Number(control.value);
+            let valid = false;
+            if (n >= -90 && n <= 90)
+                valid = true;
+            return valid ? null : { forbiddenName: { value: control.value } };
+        };
+    }
+
+    longitudeValidator(): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            if (!control.value) {
+                return null;
+            }
+            let n = Number(control.value);
+            let valid = false;
+            if (n >= -180 && n <= 180)
+                valid = true;
+            return valid ? null : { forbiddenName: { value: control.value } };
+        };
+    }
+
 
     patternValidatorPassword(): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {
@@ -77,12 +108,12 @@ export class CustomvalidationService {
             if (!control.value) {
                 return null;
             }
-            if (control.value.length > 16)
+            if (control.value.length > 20)
                 return { value: 'Demasiadas letras' };
             if (control.value.length < 3)
                 return { value: 'Demasiadas pocas letras' };
             const regex = new RegExp('(?=.*[a-z])(?=.*[A-Z]).{3,}$');
-            let valid = regex.test(control.value);
+            let valid = regex.test(control.value.replace(/\s/g, ''));
             if (valid) {
                 for (let c of control.value)
                     if (c == '0' || c == '9' || (c > '0' && c < '9'))
@@ -102,7 +133,7 @@ export class CustomvalidationService {
             if (control.value.length < 3)
                 return { value: 'Demasiadas pocas letras' };
             const regex = new RegExp('(?=.*[a-z])(?=.*[A-Z]).{3,}$');
-            let valid = regex.test(control.value);
+            let valid = regex.test(control.value.replace(/\s/g, ''));
             return valid ? null : { forbiddenName: { value: control.value } };
         };
     }
