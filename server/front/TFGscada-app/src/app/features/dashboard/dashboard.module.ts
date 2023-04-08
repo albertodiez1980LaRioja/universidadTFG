@@ -11,6 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltip } from '@angular/material/tooltip';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UsersGuard } from 'src/app/guards/users.guard';
 
 
 
@@ -19,7 +20,10 @@ const routes: Routes = [
     path: '',
     component: DashboardComponent,
     children: [
-      { path: 'users', loadChildren: () => import('./modules/users/users.module').then(m => m.UsersModule) },
+      {
+        path: 'users', loadChildren: () => import('./modules/users/users.module').then(m => m.UsersModule),
+        canActivate: [UsersGuard],
+      },
       { path: 'places', loadChildren: () => import('./modules/places/places.module').then(m => m.PlacesModule) },
       { path: 'alarms', loadChildren: () => import('./modules/alarms/alarms.module').then(m => m.AlarmsModule) },
       { path: 'actions', loadChildren: () => import('./modules/actions/actions.module').then(m => m.ActionsModule) },

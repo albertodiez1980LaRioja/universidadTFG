@@ -10,7 +10,7 @@ import { AuthService } from './auth.service';
 @Injectable({
     providedIn: 'root',
 })
-export class DashboardGuard implements CanActivate {
+export class UsersGuard implements CanActivate {
     constructor(private auth: AuthService, private router: Router) { }
 
     canActivate(
@@ -18,6 +18,8 @@ export class DashboardGuard implements CanActivate {
         state: RouterStateSnapshot
     ): boolean {
         if (this.auth.isAuthenticated()) {
+            if (this.auth.user.roles != 0) // not pass if is not admin
+                return false;
             return true;
         } else {
             this.router.navigate(['auth'], {

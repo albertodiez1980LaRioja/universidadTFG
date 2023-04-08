@@ -17,7 +17,7 @@ export class DashboardComponent implements OnInit {
     { icon: 'store', text: 'Lugares', link: './places' },
     { icon: 'access_alarms', text: 'Alarmas', link: './alarms' },
     { icon: 'flash_on', text: 'Acciones', link: './actions' },
-  ];//sideNavItems;
+  ];
   languages: { id: string, show: string }[] = [{ id: 'es', show: 'español' }, { id: 'en', show: 'english' }];
 
   show = true;
@@ -25,15 +25,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(public auth: AuthService, private router: Router,
     private translate: TranslateService) {
-    this.translate.use(this.languages[0].id);
-    console.log(this.router.url);
-    if (this.router.url == '/dashboard/places')
-      this.msg = this.sideNavItems[1].text;
-    else if (this.router.url == '/dashboard/alarms')
-      this.msg = this.sideNavItems[2].text;
-    else if (this.router.url == '/dashboard/actions')
-      this.msg = this.sideNavItems[3].text;
-    this.msg = 'dashboard.' + this.msg;
+
 
     /*this.sideNavItems = sideNavItems.filter((item) =>
       this.auth.user.role === 'admin' && this.auth.user.tenantId === 'admin'
@@ -43,7 +35,6 @@ export class DashboardComponent implements OnInit {
   }
 
   async ngOnInit() {
-
     let userJson = localStorage.getItem('user');
     let token = localStorage.getItem('token');
     if (userJson != undefined && token != undefined) {
@@ -62,13 +53,24 @@ export class DashboardComponent implements OnInit {
     else {
       this.logOut();
     }
-
+    this.msg = this.sideNavItems[0].text;
+    this.translate.use(this.languages[0].id);
+    if (this.router.url == '/dashboard/places')
+      this.msg = this.sideNavItems[1].text;
+    else if (this.router.url == '/dashboard/alarms')
+      this.msg = this.sideNavItems[2].text;
+    else if (this.router.url == '/dashboard/actions')
+      this.msg = this.sideNavItems[3].text;
+    this.msg = 'dashboard.' + this.msg;
+    if (this.auth.user.roles != 0) {
+      if (this.sideNavItems[0].text == 'Usuarios')
+        this.sideNavItems.splice(0, 1);
+    }
   }
 
   toggle(): void {
     this.drawer.toggle();
     this.show = !this.show;
-    console.log(this.sideNavItems);
   }
 
   logOut(): void {
@@ -86,11 +88,10 @@ export class DashboardComponent implements OnInit {
 
   reloadComponent(self: boolean, urlToNavigateTo?: string) {
     //skipLocationChange:true means dont update the url to / when navigating
-    console.log("Current route I am on:", this.router.url);
     const url = self ? this.router.url : urlToNavigateTo;
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate([`/${url}`]).then(() => {
-        console.log(`After navigation I am on:${this.router.url}`)
+        //console.log(`After navigation I am on:${this.router.url}`)
       })
     })
   }

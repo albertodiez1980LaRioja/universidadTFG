@@ -33,11 +33,6 @@ const routes: Routes = [
       { path: '**', redirectTo: 'dashboard' },
     ],
   },
-  { path: 'users', loadChildren: () => import('./features/dashboard/modules/users/users.module').then(m => m.UsersModule) },
-  { path: 'places', loadChildren: () => import('./features/dashboard/modules/places/places.module').then(m => m.PlacesModule) },
-  { path: 'alarms', loadChildren: () => import('./features/dashboard/modules/alarms/alarms.module').then(m => m.AlarmsModule) },
-  { path: 'actions', loadChildren: () => import('./features/dashboard/modules/actions/actions.module').then(m => m.ActionsModule) },
-
 ];
 
 @NgModule({

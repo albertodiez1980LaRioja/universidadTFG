@@ -100,14 +100,16 @@ export class TableComponent implements OnInit, AfterViewInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.translate.use(this.auth.getLanguage());
     this.translate.get('ItemsPerPage').subscribe((res: string) => {
-      this.paginator._intl.itemsPerPageLabel = res;
-      this.translate.get('nextPageLabel').subscribe((resNextPage: string) => {
-        this.paginator._intl.nextPageLabel = resNextPage;
-        this.translate.get('previousPageLabel').subscribe((resPreviusPage: string) => {
-          this.paginator._intl.previousPageLabel = resPreviusPage;
-          this.paginator._intl.changes.next();
+      if (this.paginator._intl) {
+        this.paginator._intl.itemsPerPageLabel = res;
+        this.translate.get('nextPageLabel').subscribe((resNextPage: string) => {
+          this.paginator._intl.nextPageLabel = resNextPage;
+          this.translate.get('previousPageLabel').subscribe((resPreviusPage: string) => {
+            this.paginator._intl.previousPageLabel = resPreviusPage;
+            this.paginator._intl.changes.next();
+          });
         });
-      });
+      }
     });
 
     this.displayedColumns = this.config.columns

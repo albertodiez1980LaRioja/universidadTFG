@@ -21,7 +21,6 @@ export class AlarmsService {
     const aux = this.apiUrl + '?LIMIT=' +
       limit.toString() + '&date_timeORDERDESC=0&date_timeFINISH=' +
       dateInit.toISOString() + '&date_timeBEGIN=' + date_finish.toISOString();
-    console.log('url: ', aux);
     return this.http.get<HttpResponse<any>>(aux);
   }
 
