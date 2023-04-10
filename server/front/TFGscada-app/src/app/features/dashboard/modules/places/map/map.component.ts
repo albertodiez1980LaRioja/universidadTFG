@@ -5,7 +5,7 @@ import View from 'ol/View';
 import { OSM } from 'ol/source';
 import TileLayer from 'ol/layer/Tile';
 import { fromLonLat } from 'ol/proj';
-import { Feature } from 'ol';
+import { Feature, Overlay } from 'ol';
 import { Point } from 'ol/geom';
 import Style from 'ol/style/Style';
 import Icon from 'ol/style/Icon';
@@ -13,6 +13,7 @@ import VectorSource from 'ol/source/Vector';
 import VectorLayer from 'ol/layer/Vector';
 import { IPlace } from '../places-interfaces';
 import { PlacesService } from '../places.service';
+import Control from 'ol/control/Control';
 
 
 @Component({
@@ -23,6 +24,8 @@ import { PlacesService } from '../places.service';
 export class MapComponent implements OnInit {
   public map!: Map;
   placesDate: IPlace[] = [];
+  toolTip: any;
+
   constructor(public placesService: PlacesService,) { }
 
   @ViewChild('map2') mapElement!: ElementRef;
@@ -34,11 +37,9 @@ export class MapComponent implements OnInit {
   }
 
   getCenter(LastZoom: number = 1, viewport: number[] = []): { latitude: number, longitude: number, zoom: number } {
-    console.log(this.placesDate);
     if (this.placesDate.length == 0)
       return { latitude: 0, longitude: 0, zoom: 14 };
     let aux = fromLonLat([this.placesDate[0].longitude, this.placesDate[0].latitude])
-    //aux = fromLonLat([-2.4173725601108815, 42.43105735715603])
     let maxX = aux[0];
     let maxY = aux[1];
     let minX = aux[0];
@@ -133,7 +134,13 @@ export class MapComponent implements OnInit {
         return;
       }
     });
-
+    this.toolTip = document.createElement('div');
+    this.overlay = new Overlay({
+      element: this.toolTip,
+      offset: [-15, 35],
+      positioning: 'bottom-center'
+    });
+    this.map.addOverlay(this.overlay);
     // change mouse cursor when over marker
     this.map.on('pointermove', (e) => {
       const pixel = this.map.getEventPixel(e.originalEvent);
@@ -141,8 +148,30 @@ export class MapComponent implements OnInit {
       if (this.mapElement) {
         this.mapElement.nativeElement.style.cursor = hit ? 'pointer' : '';
       }
+      if (hit) {
+        let feature = this.map.forEachFeatureAtPixel(pixel, function (feature) {
+          return feature;
+        });
+        if (feature) {
+          let coordinates = [...(feature as any).values_.geometry.flatCoordinates];
+          coordinates[0] = coordinates[0] + 100;
+          this.overlay.setPosition(/*e.coordinate*/coordinates);
+          this.toolTip.innerHTML = '<span>' + (feature as any).values_.place.identifier + '</span>'
+          this.toolTip.style.padding = '0.3em';
+          this.toolTip.style.backgroundColor = 'white';
+          this.toolTip.style.borderRadius = '5px';
+          if (this.toolTip.style.visibility == 'hidden')
+            this.toolTip.style.visibility = 'visible';
+        }
+      }
+      else
+        this.toolTip.style.visibility = 'hidden';
+
     });
   }
+
+  overlay: any;
+
 
   async fetchPlaces() {
     this.placesService.get().subscribe({
@@ -163,3 +192,4 @@ export class MapComponent implements OnInit {
   }
 
 }
+

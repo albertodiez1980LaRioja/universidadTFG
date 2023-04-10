@@ -43,7 +43,6 @@ export class PlaceMeasurementsComponent implements OnInit {
     this.placesService.getLastMeasurements(undefined).subscribe({
       next: (response: any) => {
         this.lastMeasurements = response.data;
-        console.log(this.lastMeasurements);
         this.lastMeasurements.forEach((element: any) => {
           if (element.binary_values & 1)
             element.vibration = 'Si';

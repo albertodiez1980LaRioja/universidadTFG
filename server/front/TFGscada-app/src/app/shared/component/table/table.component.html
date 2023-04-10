@@ -90,7 +90,7 @@
                         </th>
                         <td mat-cell class="cell" *matCellDef="let row">
                             <p *ngIf="row[column.prop]; else noDate">
-                                {{ row[column.prop] | date: column.datePipe:'+0000' }}
+                                {{ row[column.prop] | date: column.datePipe }}
                             </p>
                             <ng-template #noDate>-</ng-template>
                         </td>
