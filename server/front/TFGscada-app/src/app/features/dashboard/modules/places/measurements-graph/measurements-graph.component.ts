@@ -41,7 +41,7 @@ export class MeasurementsGraphComponent implements OnInit, OnChanges {
     //Object.assign(this, { multi });
   }
 
-  rest = 350;
+  rest = 400;
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
@@ -260,15 +260,15 @@ export class MeasurementsGraphComponent implements OnInit, OnChanges {
   }
 
   onSelect(data: any): void {
-    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
+    //console.log('Item clicked', JSON.parse(JSON.stringify(data)));
   }
 
   onActivate(data: any): void {
-    console.log('Activate', JSON.parse(JSON.stringify(data)));
+    //console.log('Activate', JSON.parse(JSON.stringify(data)));
   }
 
   onDeactivate(data: any): void {
-    console.log('Deactivate', JSON.parse(JSON.stringify(data)));
+    //console.log('Deactivate', JSON.parse(JSON.stringify(data)));
   }
 
   ngOnDestroy() {

@@ -60,15 +60,23 @@ Posibles cambios en la documentación:
 -El diagrama de Gantt hay que hacerlo desde el inicio
 -Tal vez habría que quitar cosas en la explicación entre la comunicación entre raspberry y arduino. Aunque esas cosas no están previamente explicadas. Probablemente habría que usar diagramas para explicar este funcionamiento
 -La estabilidad del sistema Arduino se podría quitar
--Hacer el diagrama final de los módulos y componentes de Angular
--Hay que hacer un anexo para las siglas
+-Hay que hacer un anexo para las siglas y tecnicismos. También una referencia a las licencias
 -Estaría bien hacer un presupuesto
+-Hay que hacer un collage para hacer una imagen para el proyecto. Habrá páginas para generar esto, pero estaría bien usar el logo oficial de cada tecnología
 
 Cosas para hacer en la página:
 -Mejorar la selección de cada place en el combo. Esta muy bien el componente del PrimeNG. habría que instalarlo
--Optimizar la carga de las mediciones
--Poner tooltips en las features del mapa
+-Optimizar la carga de las mediciones, habrá que meter algún índice
 -Mejorar la estética en general, examinar la página en pantallas pequeñas
 -Meter el último sprint de configuración de los sensores por lugar. Ya no queda mas tiempo. De todas formas ya hay bastantes cosas hechas
--Hacer validaciones del formulario. Quedan la de los places y tal vez alguno mas
+
+Lista de siglas:
+HTML, PHP, JavaScript, framework, microservicios, backEnd, frontEnd, Node.js, Java, MIT, tipado, Express, Sequelize, ORM, software, hardware, stock,
+topología, CRUD, filtro, USB, WIFI, digital, analógico, bit, kiloBytes, RAM, KB, compilación, C,  C++, reseteo, bps, GPIO, TX/RX, Voltio, patilla, checksum, String, valores booleanos, instancia, singleton, output (hasta la página 32 incluida), USB, CPU, tensión, persistir, booleano, licencia BSD,servidor, Sequelize, microllamadas, Express, Middleware, token, SGBD, URL, SCSS, TypeScript, CSS, SQL, JSON, formulario, ventana emergente, sesión, hash, contraseña, HTTPS, token, cookies, dashboard, MIT, scroll, prueba de estress 
+
+
+
+
+
+
 
