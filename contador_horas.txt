@@ -61,8 +61,9 @@ Posibles cambios en la documentación:
 -Tal vez habría que quitar cosas en la explicación entre la comunicación entre raspberry y arduino. Aunque esas cosas no están previamente explicadas. Probablemente habría que usar diagramas para explicar este funcionamiento
 -La estabilidad del sistema Arduino se podría quitar
 -Hay que hacer un anexo para las siglas y tecnicismos. También una referencia a las licencias
--Estaría bien hacer un presupuesto
+-Estaría bien hacer un presupuesto, en el presupuesto debería de ser hasta la puesta en producción. O bien la elaboración del prototipo
 -Hay que hacer un collage para hacer una imagen para el proyecto. Habrá páginas para generar esto, pero estaría bien usar el logo oficial de cada tecnología
+-¿requisitos funcionales y no funcionales
 
 Cosas para hacer en la página:
 -Mejorar la selección de cada place en el combo. Esta muy bien el componente del PrimeNG. habría que instalarlo
@@ -71,8 +72,7 @@ Cosas para hacer en la página:
 -Meter el último sprint de configuración de los sensores por lugar. Ya no queda mas tiempo. De todas formas ya hay bastantes cosas hechas
 
 Lista de siglas:
-HTML, PHP, JavaScript, framework, microservicios, backEnd, frontEnd, Node.js, Java, MIT, tipado, Express, Sequelize, ORM, software, hardware, stock,
-topología, CRUD, filtro, USB, WIFI, digital, analógico, bit, kiloBytes, RAM, KB, compilación, C,  C++, reseteo, bps, GPIO, TX/RX, Voltio, patilla, checksum, String, valores booleanos, instancia, singleton, output (hasta la página 32 incluida), USB, CPU, tensión, persistir, booleano, licencia BSD,servidor, Sequelize, microllamadas, Express, Middleware, token, SGBD, URL, SCSS, TypeScript, CSS, SQL, JSON, formulario, ventana emergente, sesión, hash, contraseña, HTTPS, token, cookies, dashboard, MIT, scroll, prueba de estress 
+'HTML', 'PHP', 'JavaScript', 'Framework', 'Microservicios', 'BackEnd', 'FrontEnd', 'Node.js', 'Java', 'MIT', 'Tipado', 'Express', 'Sequelize', 'ORM', 'Software', 'Hardware', 'Stock','Topología', 'CRUD', 'Filtro', 'USB', 'WIFI', 'Digital', 'Analógico', 'Bit', 'KiloBytes', 'RAM', 'KB', 'Compilación', 'C',  'C++', 'Reseteo', 'Bps', 'GPIO', 'TX/RX', 'Voltio', 'Patilla', 'Checksum', 'String', 'Valores booleanos', 'Instancia', 'Singleton', 'Output', 'USB', 'CPU', 'Tensión', 'Persistir', 'Booleano', 'Licencia BSD,Servidor', 'Sequelize', 'Microllamadas', 'Express', 'Middleware', 'Token', 'SGBD', 'URL', 'SCSS', 'TypeScript', 'CSS', 'SQL', 'JSON', 'Formulario', 'Ventana emergente', 'Sesión', 'Hash','Contraseña', 'HTTPS', 'Token', 'Cookies', 'Dashboard', 'MIT', 'Scroll', 'Prueba de estress'
 
 
 
