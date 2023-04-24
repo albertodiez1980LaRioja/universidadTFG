@@ -1,48 +1,31 @@
 <div class="container">
+  <div class="center-collage">
+    <img src="/assets/collage.png" class="collage" />
+  </div>
   <div class="main">
-    <div class="center">
-      <img src="/assets/sidenav-logo.png" />
-    </div>
+
     <form [formGroup]="loginForm">
       <mat-form-field appearance="outline">
-        <input
-          matInput
-          formControlName="username"
-          type="text"
-          placeholder="Nombre de usuario"
-        />
-        
+        <input matInput formControlName="username" type="text" placeholder="Nombre de usuario" />
+
         <mat-error>
           {{ loginForm.get('username')?.getError('error') }}
         </mat-error>
-        
+
       </mat-form-field>
       <mat-form-field appearance="outline">
-        <input
-          matInput
-          formControlName="password"
-          [type]="hidePassword ? 'password' : 'text'"
-          placeholder="Contraseña"
-        />
-        <mat-icon
-          matSuffix
-          class="pointer"
-          (click)="hidePassword = !hidePassword"
-          >{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon
-        >
-        
+        <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'"
+          placeholder="Contraseña" />
+        <mat-icon matSuffix class="pointer" (click)="hidePassword = !hidePassword">{{ hidePassword ? 'visibility_off' :
+          'visibility' }}</mat-icon>
+
         <mat-error>{{
           loginForm.get('password')?.getError('error')
-        }}</mat-error>
-        
+          }}</mat-error>
+
       </mat-form-field>
-      <button
-        mat-raised-button
-        color="primary"
-        class="login-button"
-        [disabled]="loginForm.invalid"
-        (click)="authenticateUser()"
-      >
+      <button mat-raised-button color="primary" class="login-button" [disabled]="loginForm.invalid"
+        (click)="authenticateUser()">
         Acceder
       </button>
     </form>

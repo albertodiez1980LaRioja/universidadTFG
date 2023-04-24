@@ -64,8 +64,10 @@ Posibles cambios en la documentación:
 -Estaría bien hacer un presupuesto, en el presupuesto debería de ser hasta la puesta en producción. O bien la elaboración del prototipo
 -Hay que hacer un collage para hacer una imagen para el proyecto. Habrá páginas para generar esto, pero estaría bien usar el logo oficial de cada tecnología
 -¿requisitos funcionales y no funcionales
+-Titulo e índice del proyecto
 
 Cosas para hacer en la página:
+-Hacer un logo, palabras para el logo: HTML,CSS,JavaScript,TypeScript, Angular, node.js, sequelize, postgress, raspberry, c++
 -Mejorar la selección de cada place en el combo. Esta muy bien el componente del PrimeNG. habría que instalarlo
 -Optimizar la carga de las mediciones, habrá que meter algún índice
 -Mejorar la estética en general, examinar la página en pantallas pequeñas
