@@ -66,11 +66,9 @@ let AlarmGestor = class {
                                 .catch((err) => console.log('Error on create alarm: ', err));
                         }
                     }
-                    else {
-                        if (activeAlarm != undefined) { // set the alarm finish
-                            activeAlarm.set({ date_finish: measurement.date_time });
-                            activeAlarm.save().then().catch((err) => console.log('Error on save alarm', err));
-                        }
+                    else if (activeAlarm != undefined) {
+                        activeAlarm.set({ date_finish: measurement.date_time });
+                        activeAlarm.save().then().catch((err) => console.log('Error on save alarm', err));
                     }
                 });
             });
