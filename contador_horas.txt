@@ -79,7 +79,10 @@ Lista de siglas:
 
 
 Correción de la profesora:
-
-
+- Hacer una conclusión (o una bibliografía)
+- Hacer una esquema de los endpoints
+- Quitar la clasificación de las metodologías
+- Rehacer el diagrama de Gannt
+- Outputs.component.ts línea 35 cambiar
 
 

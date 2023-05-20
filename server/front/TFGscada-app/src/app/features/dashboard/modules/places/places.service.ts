@@ -48,10 +48,6 @@ export class PlacesService {
     return this.http.post<HttpResponse<IPlace>>(this.apiUrl, place);
   }
 
-  saveOP(op: IOP): Observable<HttpResponse<IPlace>> {
-    return this.http.post<HttpResponse<IPlace>>(this.apiUrlOP, op);
-  }
-
   delete(placeId: IPlace): Observable<HttpResponse<IPlace>> {
     return this.http.delete<HttpResponse<IPlace>>(this.apiUrl + '/' + placeId.toString());
   }

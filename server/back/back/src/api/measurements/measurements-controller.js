@@ -12,10 +12,12 @@ class MeasurementController extends BaseController {
         this.router = RouterPlace;
         this.router.get('/:latitude,:longitude,:date_time', this.getOneEntity.bind(this));
         this.router.get('', this.get.bind(this));
+        // get the measurements of the places of the user that make the call
         this.router.get('/multiple', this.multipleGet.bind(this));
         this.router.patch('/:latitude,:longitude,:date_time', this.update.bind(this));
         this.router.delete('/:latitude,:longitude,:date_time', this.delete.bind(this));
         this.router.post('', this.create.bind(this));
+        // add multiple measurements, call by Raspberry on her place
         this.router.post('/multiple', this.multiple.bind(this));
     }
 

@@ -32,7 +32,7 @@ export class OutputsComponent implements OnInit {
     let userJson: IUser = JSON.parse(localStorage.getItem('user') as string) as IUser;
     this.outputsService.getOutputs().subscribe({
       next: (result: any) => {
-        let idPlace = 1;
+        let idPlace = 1; // to change
         if (this.place != undefined)
           idPlace = this.place.id;
         else if (this.allPlaces != undefined && this.allPlaces.length > 0) {

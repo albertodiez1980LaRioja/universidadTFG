@@ -18,7 +18,6 @@ export class ActionsService {
 
 
   apiUrl = 'http://' + rotuteToBack + '/api/places';
-  apiUrlOP = 'http://' + rotuteToBack + '/api/o_p';
 
   apiUrlGetActions = 'http://' + rotuteToBack + '/api/actions';
 
