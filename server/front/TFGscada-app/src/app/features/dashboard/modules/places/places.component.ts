@@ -78,6 +78,11 @@ export class PlacesComponent implements OnInit {
       for (let i = 0; i < this.users.length; i++)
         column[0].chipsToSelect?.push(this.users[i].name);
     }
+    let column2 = this.dialogConfig.columns.filter((element) => element.prop == 'actualizationTime');
+    if (column2.length)
+      column2[0].value = column2[0].value.toString();
+    else
+      console.log('Error, not found actualizationTime');
     const dialogRef = this.dialog.open(DialogComponent, {
       data: this.dialogConfig,
     });
@@ -100,7 +105,7 @@ export class PlacesComponent implements OnInit {
         user.idPersons = personsIds;
         this.placesService.update((user)).subscribe({
           next: (response: any) => {
-            this.fetchPlaces();
+            setTimeout(this.fetchPlaces.bind(this), 400);
           },
           error: (err: any) => {
             console.log('Error: ', err);
