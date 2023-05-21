@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="TFG Gantt Project" company="" webLink="http://" view-date="2022-10-17" view-index="0" gantt-divider-location="711" resource-divider-location="300" version="3.2.3247" locale="es_ES">
+<?xml version="1.0" encoding="UTF-8"?><project name="TFG Gantt Project" company="" webLink="http://" view-date="2022-10-17" view-index="0" gantt-divider-location="770" resource-divider-location="300" version="3.2.3247" locale="es_ES">
     <description/>
     <view zooming-state="default:7" id="gantt-chart">
-        <field id="tpd3" name="Nombre" width="405" order="0"/>
-        <field id="tpd4" name="Fecha de inicio" width="152" order="1"/>
-        <field id="tpd5" name="Fecha de fin" width="153" order="2"/>
+        <field id="tpd3" name="Nombre" width="563" order="0"/>
+        <field id="tpd4" name="Fecha de inicio" width="104" order="1"/>
+        <field id="tpd5" name="Fecha de fin" width="102" order="2"/>
         <option id="filter.completedTasks" value="false"/>
     </view>
     <view id="resource-table">
@@ -34,34 +34,34 @@
             <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
             <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
         </taskproperties>
-        <task id="0" name="Planificación inicial" color="#8cb6ce" meeting="false" start="2022-10-18" duration="10" complete="0" thirdDate="2022-10-31" thirdDate-constraint="0" expand="true">
+        <task id="0" name="Planificación inicial. Investigación y formación" color="#8cb6ce" meeting="false" start="2022-10-17" duration="10" complete="0" thirdDate="2022-10-31" thirdDate-constraint="0" expand="true">
             <depend id="1" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="1" name="Lectura de datos con Arduino y los sensores" color="#8cb6ce" meeting="false" start="2022-11-01" duration="10" complete="0" thirdDate="2022-10-31" thirdDate-constraint="0" expand="true">
+        <task id="1" name="Lectura de datos con Arduino y los sensores. Comunicar Arduino con Raspberry Pi" color="#8cb6ce" meeting="false" start="2022-10-31" duration="10" complete="0" thirdDate="2022-10-31" thirdDate-constraint="0" expand="true">
             <depend id="3" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="3" name="Conexión entre Arduino y Raspberry para persistir los datos" color="#8cb6ce" meeting="false" start="2022-11-15" duration="10" complete="0" thirdDate="2022-11-15" thirdDate-constraint="0" expand="true">
+        <task id="3" name="Diseño y creación de las bases de datos. Inicio del comienzo del backend" color="#8cb6ce" meeting="false" start="2022-11-14" duration="10" complete="0" thirdDate="2022-11-15" thirdDate-constraint="0" expand="true">
             <depend id="4" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="4" name="Inicio de la web. Realizar login y administración de usuarios" color="#8cb6ce" meeting="false" start="2022-11-29" duration="10" complete="0" thirdDate="2022-11-29" thirdDate-constraint="0" expand="true">
+        <task id="4" name="Terminar el inicio del backend. Implementar presentación de tablas en el frontend" color="#8cb6ce" meeting="false" start="2022-11-28" duration="10" complete="0" thirdDate="2022-11-29" thirdDate-constraint="0" expand="true">
             <depend id="5" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="5" name="Visualización de los datos en la web" color="#8cb6ce" meeting="false" start="2022-12-13" duration="10" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true">
+        <task id="5" name="Inicio del frontend. Inicio del desarrollo de formularios emergentes" color="#8cb6ce" meeting="false" start="2022-12-12" duration="10" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true">
             <depend id="6" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="6" name="Interaztuar con maquinaria remota desde la web" color="#8cb6ce" meeting="false" start="2022-12-27" duration="10" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true">
+        <task id="6" name="Terminar los formularios. Micro servicios y sus llamadas. Gestión de usuarios" color="#8cb6ce" meeting="false" start="2022-12-26" duration="10" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true">
             <depend id="8" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="8" name="Mostrar el historial de eventos y datos con sus filtros" color="#8cb6ce" meeting="false" start="2023-01-10" duration="10" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true">
+        <task id="8" name="Interfaz para salidas. Rangos de parámetros en microservicios. Gráficos en el frontend" color="#8cb6ce" meeting="false" start="2023-01-09" duration="10" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true">
             <depend id="9" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="9" name="Mejorar la experiencia de usuario y apariencia de la web" color="#8cb6ce" meeting="false" start="2023-01-24" duration="10" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true">
+        <task id="9" name="Simulación de lugares ficticios. Historial de accines y alarmas" color="#8cb6ce" meeting="false" start="2023-01-23" duration="10" complete="0" thirdDate="2022-10-03" thirdDate-constraint="0" expand="true">
             <depend id="10" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="10" name="Realizar documentación final" color="#8cb6ce" meeting="false" start="2023-02-07" duration="10" complete="0" thirdDate="2022-09-26" thirdDate-constraint="0" expand="true">
+        <task id="10" name="Internacionalización. Comprobación de permisos. Mapa GIS" color="#8cb6ce" meeting="false" start="2023-02-06" duration="10" complete="0" thirdDate="2022-09-26" thirdDate-constraint="0" expand="true">
             <depend id="11" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="11" name="Preparación de la presentación" color="#8cb6ce" meeting="false" start="2023-02-21" duration="10" complete="0" thirdDate="2022-09-26" thirdDate-constraint="0" expand="true"/>
+        <task id="11" name="Personalización de rangos para alarmas y sensores por el usuario" color="#8cb6ce" meeting="false" start="2023-02-20" duration="10" complete="0" thirdDate="2022-09-26" thirdDate-constraint="0" expand="true"/>
     </tasks>
     <resources/>
     <allocations/>

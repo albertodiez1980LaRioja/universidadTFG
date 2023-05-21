@@ -123,7 +123,7 @@ export class PlacesComponent implements OnInit {
       case 'Delete':
         this.placesService.delete($event.row.id).subscribe({
           next: (result: any) => {
-            this.fetchPlaces();
+            setTimeout(this.fetchPlaces.bind(this), 400);
           },
           error: (err: any) => {
             console.log(err);
