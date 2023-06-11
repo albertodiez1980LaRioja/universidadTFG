@@ -86,3 +86,6 @@ otros
 - Outputs.component.ts línea 35 cambiar
 
 
+Preguntas para la otra semana
+ - Las metodologías de programación
+ - Que es lo que falta para completar
