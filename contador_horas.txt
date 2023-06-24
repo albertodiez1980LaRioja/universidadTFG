@@ -89,3 +89,7 @@ otros
 Preguntas para la otra semana
  - Las metodologías de programación
  - Que es lo que falta para completar
+ 
+Desarrollo del vídeo de explicación
+ - Explicación de cada elemento: sensores, relés, Arduino, Raspberry, Servidor, cliente local: 6 cosas.
+ - Explicación de la página web: login, usuarios, 

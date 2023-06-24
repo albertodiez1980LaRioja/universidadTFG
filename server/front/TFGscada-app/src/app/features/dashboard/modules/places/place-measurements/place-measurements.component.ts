@@ -44,6 +44,8 @@ export class PlaceMeasurementsComponent implements OnInit {
       next: (response: any) => {
         this.lastMeasurements = response.data;
         this.lastMeasurements.forEach((element: any) => {
+          element.has_oil = 1023 - element.has_oil;
+          element.has_rain = 1023 - element.has_rain;
           if (element.binary_values & 1)
             element.vibration = 'Si';
           else
