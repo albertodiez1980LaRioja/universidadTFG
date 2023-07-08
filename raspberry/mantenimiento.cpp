@@ -73,4 +73,4 @@ int main()
 }
 
 // to compile
-// gcc -Wall -o mantenimiento mantenimiento.cpp HTTPcalls/PostMeasurement.cpp BDconnection/BDconnection.cpp -I/usr/include/postgresql -lpq -lcurl -ljson-c
+// gcc -Wall -o mantenimiento mantenimiento.cpp HTTPcalls/PostMeasurement.cpp HTTPcalls/GetActualizationTime.cpp HTTPcalls/GetLastAction.cpp HTTPcalls/HTTPcall.cpp BDconnection/BDconnection.cpp -I/usr/include/postgresql -lpq -lcurl -ljson-c
