@@ -183,7 +183,6 @@ int main(void)
     connectionBBDD.exitConnection();
 
     // to compile serial
-    // gcc -Wall -o principalSerie2 principalSerie2.cpp HTTPcalls/PostMeasurement.cpp HTTPcalls/GetActualizationTime.cpp HTTPcalls/GetLastAction.cpp HTTPcalls/HTTPcall.cpp BDconnection/BDconnection.cpp ArduinoConnection/ArduinoCall.cpp ArduinoConnection/ArduinoConnection.cpp ArduinoConnection/CallOutputs.cpp ArduinoConnection/CallSensors.cpp  -I/usr/include/postgresql -lpq -lcurl -ljson-c
     // g++ -Wall -o principalSerie2 principalSerie2.cpp HTTPcalls/PostMeasurement.cpp HTTPcalls/GetActualizationTime.cpp HTTPcalls/GetLastAction.cpp HTTPcalls/HTTPcall.cpp BDconnection/BDconnection.cpp ArduinoConnection/ArduinoCall.cpp ArduinoConnection/ArduinoConnection.cpp ArduinoConnection/CallOutputs.cpp ArduinoConnection/CallSensors.cpp  -I/usr/include/postgresql -lpq -lcurl -ljson-c
 
     // link para VPN
