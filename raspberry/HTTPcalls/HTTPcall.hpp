@@ -17,12 +17,17 @@ class HTTPcall
 protected:
     CURL *curl;
     char *url;
+    static bool success;
 
 public:
     static CURLM *multi_handle;
     static char *token;
     HTTPcall(char *identifier, char *pass, char *url);
     char *getToken();
+    bool getSuccess()
+    {
+        return HTTPcall::success;
+    }
     static bool allCallsCompleted()
     {
         int still_running = 0;

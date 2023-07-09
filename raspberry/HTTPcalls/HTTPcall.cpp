@@ -21,6 +21,8 @@ loadToken(void *buffer, size_t size, size_t nmemb, void *userp)
     return size * nmemb;
 }
 
+bool HTTPcall::success = false;
+
 HTTPcall::HTTPcall(char *identifier, char *pass, char *url)
 {
     // this->curl = curl_easy_init(); // need to inizialice each time
