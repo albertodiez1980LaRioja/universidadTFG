@@ -4,8 +4,8 @@ import config from '../../config/config';
 
 // la cadena de conexion
 export const sequelize = new Sequelize(
-    config.sequelize.user,
     config.sequelize.db,
+    config.sequelize.user,
     config.sequelize.pass, {
     host: config.sequelize.host,
     dialect: config.sequelize.dialect,
