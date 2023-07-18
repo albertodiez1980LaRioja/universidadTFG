@@ -59,15 +59,19 @@ let AlarmGestor = class {
                     if (value.value >= range.range_low && value.value <= range.range_high) {
                         // buscar la posible alarma que este ya creada
                         if (activeAlarm == undefined) {  // create the alarm
+                            let date = new Date(measurement.date_time);
+                            date.setHours(date.getHours() + new Date().getTimezoneOffset() / 60);
                             Alarm.create({
-                                date_time: measurement.date_time, sensorId: range.idSensor,
+                                date_time: date, sensorId: range.idSensor,
                                 operatorId: null, date_finish: null, placeId: measurement.placeId
                             }).then()
                                 .catch((err) => console.log('Error on create alarm: ', err));
                         }
                     }
                     else if (activeAlarm != undefined) {
-                        activeAlarm.set({ date_finish: measurement.date_time });
+                        let date = new Date(measurement.date_time);
+                        date.setHours(date.getHours() + new Date().getTimezoneOffset() / 60);
+                        activeAlarm.set({ date_finish: date });
                         activeAlarm.save().then().catch((err) => console.log('Error on save alarm', err));
                     }
                 });
