@@ -2,17 +2,23 @@
 EXPRESS_PORT=3000
 
 # JWT
-SECRET=
-API_SECURED=false
-ROUTES_WHITELIST=/api/users/authenticate,/api-docs,/robots.txt
+SECRET=2222
+API_SECURED=true
+TOKEN_CADUCITY='48h'
+ROUTES_WHITELIST='/api/persons/authenticate,/api/places/authenticate'
 
 # PostgreSQL
 # dialect and schema are optional. If undefined, they equal 'postgres' and 'elliot', respectively.
 # If alter is true, force and drop schema are always ignored to prevent app crashing
 SEQUELIZE_DIALECT=postgres
-SEQUELIZE_DB=
+SEQUELIZE_DB=postgres
 SEQUELIZE_USER=postgres
-SEQUELIZE_PASS=
-SEQUELIZE_HOST=
+SEQUELIZE_PASS=password
+SEQUELIZE_HOST=localhost
 SEQUELIZE_PORT=5432
-SEQUELIZE_SCHEMA=
+SEQUELIZE_SCHEMA=public
+SEQUELIZE_CREATE_DATABASE=false
+LIST_LIMIT=10000
+
+# Program configuration
+SIMULATE_PLACES=true
