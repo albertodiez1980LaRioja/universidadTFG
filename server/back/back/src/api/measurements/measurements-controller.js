@@ -22,6 +22,15 @@ class MeasurementController extends BaseController {
     }
 
     multipleGet = async function (req, res) {
+        const placeId = req.query.placeId;
+        if (placeId !== undefined
+            && (typeof placeId !== 'string' || !/^\d+$/.test(placeId)
+                || !Number.isSafeInteger(Number(placeId)) || Number(placeId) <= 0)) {
+            return res.status(400).json({ message: 'placeId must be a positive integer' });
+        }
+        if (placeId !== undefined) {
+            req.query.placeId = Number(placeId);
+        }
         const data = await this.service.getMultiple(req, res);
         res.status(200).json({
             message: 'OK ',

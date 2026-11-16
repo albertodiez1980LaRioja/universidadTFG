@@ -24,9 +24,20 @@ class MeasurementRepository extends BaseRepository {
     }
 
     getMultiple = async function (req, res) {
-        if (req.query.placeId == undefined)
-            return sequelize.query('select * from public.measurements join public.places on public.measurements."placeId" = public.places.id where ("placeId",date_time) in (select "placeId",max(date_time) from public.measurements m2 group by "placeId")', { type: QueryTypes.SELECT });
-        return sequelize.query('select * from public.measurements join public.places on public.measurements."placeId" = public.places.id where ("placeId",date_time) in (select "placeId",max(date_time) from public.measurements m2 where "placeId"=' + req.query.placeId + ' group by "placeId")', { type: QueryTypes.SELECT });
+        const placeFilter = req.query.placeId === undefined
+            ? ''
+            : ' WHERE "placeId" = $placeId';
+        const query = 'SELECT * FROM public.measurements ' +
+            'JOIN public.places ON public.measurements."placeId" = public.places.id ' +
+            'WHERE ("placeId", date_time) IN (' +
+            'SELECT "placeId", MAX(date_time) FROM public.measurements m2' +
+            placeFilter +
+            ' GROUP BY "placeId")';
+        const options = { type: QueryTypes.SELECT };
+        if (req.query.placeId !== undefined) {
+            options.bind = { placeId: Number(req.query.placeId) };
+        }
+        return sequelize.query(query, options);
     }
 
     existsMeasurement = async function (measurement) {

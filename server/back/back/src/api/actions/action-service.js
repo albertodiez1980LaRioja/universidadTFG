@@ -6,17 +6,18 @@ import O_P from "../o_p/o_p-model";
 class ActionService extends BaseService {
     getByPlace = async function (req, res, isPlace) {
         let returned = undefined;
-        try {
+        //try {
+            console.log('getByPlace', req.params.id_place);
             returned = await this.repository.getLastActionByPlace(req.params.id_place);
             // set returned if it is by place
             if (isPlace)
                 this.repository.setSended(returned);
-        } catch (err) {
-            res.status(500).json({
-                message: 'Something goes wrong: ' + err,
-                data: {}
-            });
-        }
+        //} catch (err) {
+            //res.status(500).json({
+            //    message: 'Something goes wrong: ' + err,
+            //    data: {}
+            //});
+        //}
         return returned;
     }
 

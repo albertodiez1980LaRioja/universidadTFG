@@ -36,6 +36,14 @@ class ActionController extends BaseController {
                 if (req.params.id_place == undefined) {
                     req.params.id_place = 1;
                 }
+                const idPlace = req.params.id_place;
+                const validIdPlace = (typeof idPlace === 'number' && Number.isSafeInteger(idPlace))
+                    || (typeof idPlace === 'string' && /^\d+$/.test(idPlace)
+                        && Number.isSafeInteger(Number(idPlace)));
+                if (!validIdPlace || Number(idPlace) <= 0) {
+                    return res.status(400).json({ message: 'id_place must be a positive integer' });
+                }
+                req.params.id_place = Number(idPlace);
                 let ret = await this.service.getByPlace(req, res, isPlace);
                 res.json({ data: ret });
             }

@@ -24,10 +24,15 @@ class ActionRepository extends BaseRepository {
             FROM public.actions where "placeId"=1 
             group by "outputId")
         */
-        let ret = await sequelize.query(' select * from PUBLIC.actions where (date,"outputId") in ( ' +
-            'SELECT max("date"), "outputId"' +
-            'FROM public.actions where "placeId"= ' + idPlace.toString() +
-            'group by "outputId") order by "outputId"', { type: QueryTypes.SELECT });
+        const ret = await sequelize.query(
+            'SELECT * FROM public.actions WHERE (date, "outputId") IN (' +
+            'SELECT MAX(date), "outputId" FROM public.actions WHERE "placeId" = $placeId ' +
+            'GROUP BY "outputId") ORDER BY "outputId"',
+            {
+                bind: { placeId: Number(idPlace) },
+                type: QueryTypes.SELECT
+            }
+        );
         //console.log(ret);
         return ret;
         /*return this.model.findAll({
