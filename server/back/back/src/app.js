@@ -22,102 +22,65 @@ let AlarmGestor = require('./api/alarms/alarms-generate');
 // initialization
 var app = express();
 
-
-sequelize.authenticate().then(() => sequelize);
-
 for (let table in sequelize.models) {
     const model = sequelize.model(table);
     if (model.asociate != undefined) {
         model.asociate();
     }
 }
-if (config.createDatabase != 'false') {
-    // sync all tables
-    sequelize.sync({ force: true }).then(() => {
-        // add the sensors data
-        console.log('add sensor data', SensorService);
-        SensorService.create({
-            id: 1, name: 'HC-SR501', description: 'Detector de personas por infrarrojos',
-            range_low: 0, range_hight: 1024
-        });
-        SensorService.create({
-            id: 2, name: 'Sensor de vibración', description: "Sensor de vibración",
-            range_low: 0, range_hight: 1
-        });
-        SensorService.create({
-            id: 3, name: 'Sensor de sonido', description: 'Sensor de sonido',
-            range_low: 0, range_hight: 1024
-        });
-        SensorService.create({
-            id: 4, name: 'Sensor de obstaculos', description: 'Detector de un obstaculo delante del sensor',
-            range_low: 0, range_hight: 1
-        });
-        SensorService.create({
-            id: 5, name: 'Sensor de gas MQ2', description: 'Detector de gas inflamable',
-            range_low: 0, range_hight: 1024
-        });
-        SensorService.create({
-            id: 6, name: 'Sensor de lluvia', description: 'Sensor de lluvia',
-            range_low: 0, range_hight: 1024
-        });
-        SensorService.create({
-            id: 7, name: 'Sensor de aceite', description: 'Sensor de aceite',
-            range_low: 0, range_hight: 1024
-        });
-        SensorService.create({
-            id: 8, name: 'DHT11_temperatura', description: 'Detector de temperatura',
-            range_low: 0, range_hight: 100
-        });
-        SensorService.create({
-            id: 9, name: 'DHT11_humedad', description: 'Detector de humedad ambiente',
-            range_low: 0, range_hight: 100
-        });
-        SensorService.create({
-            id: 10, name: 'Sensibilidad lumínica', description: 'Detector de sensibilidad lumínica',
-            range_low: 0, range_hight: 1
-        });
-        SensorService.create({
-            id: 11, name: 'Sensor de incendios', description: 'Sensor de incencios',
-            range_low: 0, range_hight: 1
-        });
 
-        OutputService.create({ name: 'Primero' });
-        OutputService.create({ name: 'Segundo' });
-        OutputService.create({ name: 'Tercero' });
-        OutputService.create({ name: 'Cuarto' });
+async function seedInitialData() {
+    const sensors = [
+        { id: 1, name: 'HC-SR501', description: 'Detector de personas por infrarrojos', range_low: 0, range_hight: 1024 },
+        { id: 2, name: 'Sensor de vibración', description: 'Sensor de vibración', range_low: 0, range_hight: 1 },
+        { id: 3, name: 'Sensor de sonido', description: 'Sensor de sonido', range_low: 0, range_hight: 1024 },
+        { id: 4, name: 'Sensor de obstaculos', description: 'Detector de un obstaculo delante del sensor', range_low: 0, range_hight: 1 },
+        { id: 5, name: 'Sensor de gas MQ2', description: 'Detector de gas inflamable', range_low: 0, range_hight: 1024 },
+        { id: 6, name: 'Sensor de lluvia', description: 'Sensor de lluvia', range_low: 0, range_hight: 1024 },
+        { id: 7, name: 'Sensor de aceite', description: 'Sensor de aceite', range_low: 0, range_hight: 1024 },
+        { id: 8, name: 'DHT11_temperatura', description: 'Detector de temperatura', range_low: 0, range_hight: 100 },
+        { id: 9, name: 'DHT11_humedad', description: 'Detector de humedad ambiente', range_low: 0, range_hight: 100 },
+        { id: 10, name: 'Sensibilidad lumínica', description: 'Detector de sensibilidad lumínica', range_low: 0, range_hight: 1 },
+        { id: 11, name: 'Sensor de incendios', description: 'Sensor de incencios', range_low: 0, range_hight: 1 }
+    ];
+    const outputs = [
+        { id: 1, name: 'Primero' },
+        { id: 2, name: 'Segundo' },
+        { id: 3, name: 'Tercero' },
+        { id: 4, name: 'Cuarto' }
+    ];
+    const rangeAlarms = [
+        { id: 1, idSensor: 5, name: 'Gas detectado', description: 'Se ha detectado un nivel alto de gas inflamable', range_low: 300, range_high: 1024 },
+        { id: 2, idSensor: 8, name: 'Temperatura excesiva', description: 'La temperatura es demasiado alta', range_low: 50, range_high: 200 },
+        { id: 3, idSensor: 11, name: 'Fuego detectado', description: 'Se ha detectado fuego en el sensor de fuego', range_low: 1, range_high: 1 },
+        { id: 4, idSensor: 4, name: 'Obstaculo detectado', description: 'Se ha detectado un obstaculo en el sensor', range_low: 1, range_high: 1 }
+    ];
 
-        RangeAlarmModel.create({
-            idSensor: 5, name: 'Gas detectado',
-            description: 'Se ha detectado un nivel alto de gas inflamable',
-            range_low: 300, range_high: 1024
-        });
-        RangeAlarmModel.create({
-            idSensor: 8, name: 'Temperatura excesiva',
-            description: 'La temperatura es demasiado alta',
-            range_low: 50, range_high: 200
-        });
-        RangeAlarmModel.create({
-            idSensor: 11, name: 'Fuego detectado',
-            description: 'Se ha detectado fuego en el sensor de fuego',
-            range_low: 1, range_high: 1
-        });
-        RangeAlarmModel.create({
-            idSensor: 4, name: 'Obstaculo detectado',
-            description: 'Se ha detectado un obstaculo en el sensor',
-            range_low: 1, range_high: 1
-        });
+    for (const sensor of sensors) {
+        await SensorService.findOrCreate({ where: { id: sensor.id }, defaults: sensor });
     }
-    );
-}
-else
-    sequelize.sync({ force: false }); // sync all tables
-
-if (config.simulate_places) {
-    console.log('Se van a simular lugares', SimulatePlaces);
-    new SimulatePlaces().createInterval();
+    for (const output of outputs) {
+        await OutputService.findOrCreate({ where: { id: output.id }, defaults: output });
+    }
+    for (const rangeAlarm of rangeAlarms) {
+        await RangeAlarmModel.findOrCreate({ where: { id: rangeAlarm.id }, defaults: rangeAlarm });
+    }
 }
 
-new AlarmGestor().createInterval();
+export async function initializeDatabase() {
+    await sequelize.authenticate();
+    // Default sync creates missing tables but does not drop or alter existing ones.
+    await sequelize.sync();
+    if (config.seedInitialData === 'true') {
+        await seedInitialData();
+    }
+
+    if (config.simulate_places) {
+        console.log('Se van a simular lugares', SimulatePlaces);
+        new SimulatePlaces().createInterval();
+    }
+    new AlarmGestor().createInterval();
+}
 
 app.disable('etag');
 

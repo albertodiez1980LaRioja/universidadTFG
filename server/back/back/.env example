@@ -18,7 +18,8 @@ SEQUELIZE_PASS=password
 SEQUELIZE_HOST=localhost
 SEQUELIZE_PORT=5432
 SEQUELIZE_SCHEMA=public
-SEQUELIZE_CREATE_DATABASE=false
+# Optional: add missing example sensors, outputs, and alarms without overwriting existing records.
+SEQUELIZE_SEED_INITIAL_DATA=false
 LIST_LIMIT=10000
 
 # Program configuration
