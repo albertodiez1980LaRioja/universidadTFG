@@ -3,6 +3,25 @@
 // Set env variables
 require('dotenv').config();
 
+const requiredEnv = [
+    'EXPRESS_PORT',
+    'SECRET',
+    'TOKEN_CADUCITY',
+    'ROUTES_WHITELIST',
+    'SEQUELIZE_DB',
+    'SEQUELIZE_USER',
+    'SEQUELIZE_PASS',
+    'SEQUELIZE_HOST'
+];
+const missingEnv = requiredEnv.filter((name) =>
+    process.env[name] === undefined
+    || (name !== 'SEQUELIZE_PASS' && process.env[name].trim() === '')
+);
+
+if (missingEnv.length > 0) {
+    throw new Error(`Missing required environment variables: ${missingEnv.join(', ')}`);
+}
+
 const config = {
     expressPort: process.env.EXPRESS_PORT,
     listLimit: process.env.LIST_LIMIT || undefined,
@@ -22,7 +41,5 @@ const config = {
     },
     simulate_places: process.env.SIMULATE_PLACES
 };
-
-console.log('Configuration loaded:', config);
 
 module.exports = config;

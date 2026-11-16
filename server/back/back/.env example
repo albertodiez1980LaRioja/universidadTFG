@@ -2,7 +2,8 @@
 EXPRESS_PORT=3000
 
 # JWT
-SECRET=2222
+# Replace with a unique, randomly generated secret before running the server.
+SECRET=replace-with-a-long-random-secret
 API_SECURED=true
 TOKEN_CADUCITY='48h'
 ROUTES_WHITELIST='/api/persons/authenticate,/api/places/authenticate'

@@ -21,11 +21,15 @@ class BaseController {
     }
 
     async update(req, res) {
-        const result = await this.service.update(req, res);
-        res.json({
-            message: 'Update sucess', data: result
-        });
-        return result;
+        try {
+            const result = await this.service.update(req, res);
+            res.json({
+                message: 'Update sucess', data: result
+            });
+            return result;
+        } catch (err) {
+            return res.status(500).json({ message: 'Something goes wrong: ' + err });
+        }
     }
 
     async delete(req, res) {
@@ -48,4 +52,3 @@ class BaseController {
 }
 
 exports.BaseController = (service) => new BaseController(service);
-

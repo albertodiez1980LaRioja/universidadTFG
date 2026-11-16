@@ -85,16 +85,14 @@ class BaseRepository {
             if (transaction != undefined)
                 objeto.transaction = transaction;
             const filas = await this.model.findAll(objeto);
-            if (filas.length > 0) {
-                filas.forEach(async row => {
-                    await row.update(campos);
-                });
+            for (const row of filas) {
+                await row.update(campos);
             }
             return filas;
         } catch (err) {
             if (transaction != undefined)
                 await transaction.rollback();
-            res.status(500).json({ message: 'Something goes wrong: ' + err });
+            throw err;
         }
     }
 
